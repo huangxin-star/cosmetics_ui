@@ -1,5 +1,5 @@
 # cosmetics_ui
-
+# hx config
 ## Project setup
 ```
 npm install
