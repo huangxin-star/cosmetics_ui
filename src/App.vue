@@ -10,7 +10,7 @@
 export default {
   name: 'app',
   beforeDestroy(){
-     this.$http.post("qqqqqqq")
+     this.$http.post("asasasasasas")
       // window.onbeforeunload = function (e) {
       //   var storage = window.localStorage;
       //   storage.clear()
