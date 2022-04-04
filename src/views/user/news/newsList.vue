@@ -7,9 +7,20 @@
           class="el-menu-vertical-demo"
           router
         >
-          <router-link to="/homeuser/news/detail?type=1">
-            发布新商品
-          </router-link>
+          <el-menu-item index="/homeuser/news/content?type=1">
+            <i class="el-icon-setting"></i>
+            <span slot="title">新闻动态</span>
+          </el-menu-item>
+          <el-menu-item index="/homeuser/news/content?type=2">
+            <i class="el-icon-setting"></i>
+            <span slot="title">作品展示</span>
+          </el-menu-item>
+<!--          <router-link to="/homeuser/news/content?type=1">-->
+<!--            新闻动态-->
+<!--          </router-link>-->
+<!--          <router-link to="/homeuser/news/content?type=2">-->
+<!--            作品展示-->
+<!--          </router-link>-->
         </el-menu>
       </el-aside>
       <el-main>
@@ -36,17 +47,17 @@
           </div>
         </div> -->
         <router-view></router-view>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="queryInfo.currentPage"
-          :page-size="queryInfo.pageSize"
-          class="pagination-container"
-          background
-          layout=" prev, pager, next, jumper"
-          :total="queryInfo.total"
-        >
-        </el-pagination>
+<!--        <el-pagination-->
+<!--          @size-change="handleSizeChange"-->
+<!--          @current-change="handleCurrentChange"-->
+<!--          :current-page="queryInfo.currentPage"-->
+<!--          :page-size="queryInfo.pageSize"-->
+<!--          class="pagination-container"-->
+<!--          background-->
+<!--          layout=" prev, pager, next, jumper"-->
+<!--          :total="queryInfo.total"-->
+<!--        >-->
+<!--        </el-pagination>-->
       </el-main>
     </el-container>
     <tail style="margin-top: 25px"></tail>
@@ -134,16 +145,16 @@ export default {
       //   sensitiveWord:this.queryInfo.sensitiveWord
       // }
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.queryInfo.pageSize = val;
-      this.getList();
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.queryInfo.currentPage = val;
-      this.getList();
-    },
+    // handleSizeChange(val) {
+    //   console.log(`每页 ${val} 条`);
+    //   this.queryInfo.pageSize = val;
+    //   this.getList();
+    // },
+    // handleCurrentChange(val) {
+    //   console.log(`当前页: ${val}`);
+    //   this.queryInfo.currentPage = val;
+    //   this.getList();
+    // },
   },
 };
 </script>

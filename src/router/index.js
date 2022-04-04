@@ -40,16 +40,22 @@ const routes = [
         path: "/homeuser/news",
         name:'newsList',
         component: () => import('../views/user/news/newsList.vue'),
+        redirect: "/homeuser/news/content",
         children:[
         {
-        path:"/homeuser/news/detail",
-        name:'newsDetailPage',
-        component: () => import('../views/user/news/newsDetailPage.vue')
+        path:"/homeuser/news/content",
+        name:'newsContent',
+        component: () => import('../views/user/news/newsContent.vue')
         },
+        {
+          path:"/homeuser/news/detail",
+          name:'newsDetailPage',
+          component: () => import('../views/user/news/newsDetailPage.vue')
+        }
       ]
 
       },
-     
+
       { path: "/homeuser/store", name: 'store', component: () => import('../views/user/store.vue') },
       { path: "/homeuser/wares", name: 'wares', component: () => import('../views/user/wares.vue') },
       { path: "/homeuser/alone", name: 'alone', component: () => import('../views/user/alone.vue') },
@@ -96,6 +102,7 @@ const routes = [
 
       { path: "/adminhome/newsList", name: 'newsList', component: () => import('../views/admin/news/newsList.vue') },
       { path: "/adminhome/newsdetail", name: 'newsdetail', component: () => import('../views/admin/news/newsdetail.vue') },
+
 
       { path: "/adminhome/coursedetail", name: 'coursedetail', component: () => import('../views/admin/course/coursedetail.vue') },
       { path: "/adminhome/courseList", name: 'courseList', component: () => import('../views/admin/course/courseList.vue') },

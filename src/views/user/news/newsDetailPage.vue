@@ -1,8 +1,6 @@
 <template>
   <div>
-    <ui>
-      <li></li>
-    </ui>
+    <h1>111</h1>
     <tail style="margin-top: 25px"></tail>
   </div>
 </template>

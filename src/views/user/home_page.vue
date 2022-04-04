@@ -18,7 +18,7 @@
           <router-link to="/homeuser/wish">心愿</router-link>
         </div>
         <div>
-          <router-link to="/homeuser/news">新闻中心</router-link>
+          <router-link to="/homeuser/news?type=1">新闻中心</router-link>
         </div>
       </div>
       <div class="to_ssk">
