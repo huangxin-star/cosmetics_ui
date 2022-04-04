@@ -40,13 +40,16 @@ const routes = [
         path: "/homeuser/news",
         name:'newsList',
         component: () => import('../views/user/news/newsList.vue'),
-
-      },
-      {
+        children:[
+        {
         path:"/homeuser/news/detail",
         name:'newsDetailPage',
         component: () => import('../views/user/news/newsDetailPage.vue')
+        },
+      ]
+
       },
+     
       { path: "/homeuser/store", name: 'store', component: () => import('../views/user/store.vue') },
       { path: "/homeuser/wares", name: 'wares', component: () => import('../views/user/wares.vue') },
       { path: "/homeuser/alone", name: 'alone', component: () => import('../views/user/alone.vue') },
@@ -80,7 +83,6 @@ const routes = [
     component: adminhome,
     redirect: "/adminhome/home",
     children: [
-
       { path: "/adminhome/home", name: 'home', component: () => import('../components/admin/home.vue') },
       { path: "/adminhome/one_one", name: 'one_one', component: () => import('../views/admin/one/one_one.vue') },
       { path: "/adminhome/one_two", name: 'one_two', component: () => import('../views/admin/one/one_two.vue') },
@@ -103,7 +105,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode:'history'
 })
 // router.beforeEach((to, from, next) => {
 //   // console.log(to);

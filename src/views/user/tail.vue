@@ -1,53 +1,8 @@
 <template>
   <div class="wei">
-    <div>
-      <img src="../../assets/img/log.png" alt />
-      <div class="author">作者：漫画忧作</div>
-      <div class="time">{{newdate}}</div>
-      <p class="text-center">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-      </p>
-    </div>
-
-    <div class="busin">
-      <h2>Contact</h2>
-      <div>
-        qq：
-        <span style="font-size:20px">××××</span>
-      </div>
-      <div>
-        wx：
-        <span style="font-size:20px">××××</span>
-      </div>
-      <div>
-        微博：
-        <span style="font-size:20px">×××××</span>
-      </div>
-      <div>电话：13634263699</div>
-    </div>
-    <div class="busin">
-      <h2>Business</h2>
-      <div>The ordinary</div>
-      <div>ELEMIS</div>
-      <div>NIOD</div>
-      <div>Eucerin</div>
-    </div>
-    <div>
-      <h2>Newsletter</h2>
-      <ul class="list-inline">
-        <li>Subscribe to our newsletter</li>
-        <li>
-          <input type="text" placeholder="Email" />
-        </li>
-        <li style="width: 275px;">
-          Copyright ©
-          <span style="font-size: 14px;color: #333333;">漫画忧作</span>.Company name All rights reserved.
-        </li>
-      </ul>
-    </div>
+    <img src="" alt="" style="display: block" />
+    <p id="title">社区老年大学网站</p>
+    <p>2022，18软件工程,地址：宁波大学科学技术学院 联系电话：1238971247</p>
   </div>
 </template>
 
@@ -56,34 +11,29 @@ export default {
   name: "tail",
   data() {
     return {
-      newdate: ""
+      newdate: "",
     };
   },
   created() {
     let time = new Date();
     this.newdate =
       time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-  }
+  },
 };
 </script>
 
 <style scoped>
 .wei {
-  position:relative;
-  z-index:3;
-  margin-top: 100px;
-  width: 75%;
-  /* padding-left:12%;
-  padding-right: 12%; */
-  height: 200px;
-  margin: 100px auto;
-  border-top: 1px solid #e6e6e6;
-  padding-top: 25px;
   display: flex;
-  /* justify-content: space-around; */
-  justify-content: space-between;
-  color: #686868;
-  background-color: #ffffff;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #8ac8f7;
+  color: #003399;
+}
+.wei #title {
+  font-family: "微软雅黑";
+  font-size: 16px;
 }
 .wei > div > img {
   width: 78%;
@@ -132,7 +82,7 @@ h2 {
   color: #333333;
   font-weight: 500;
   margin-top: 15px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .list-inline {
   padding-left: 0;

@@ -1,8 +1,10 @@
 <template>
-<div>
-  <h1>title</h1>
-  <tail style="margin-top: 25px;"></tail>
-</div>
+  <div>
+    <ui>
+      <li></li>
+    </ui>
+    <tail style="margin-top: 25px"></tail>
+  </div>
 </template>
 
 <script>
@@ -13,9 +15,16 @@ export default {
   components: {
     Tail,
   },
-}
+  data() {
+    return {
+      isShow: false,
+    };
+  },
+  created() {
+    console.log(this.$route.query.type);
+  },
+};
 </script>
 
 <style scoped>
-
 </style>
