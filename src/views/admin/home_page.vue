@@ -55,30 +55,30 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-user"></i>
-              <span>客户</span>
+              <span>用户管理</span>
             </template>
             <el-menu-item index="/adminhome/one_one">用户管理</el-menu-item>
-            <el-menu-item index="/adminhome/one_two">商家管理</el-menu-item>
+            <el-menu-item index="/adminhome/one_two">管理员管理</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="two">
-            <template slot="title">
-              <i class="el-icon-goods"></i>
-              <span>护肤品</span>
-            </template>
-            <el-menu-item index="/adminhome/two_one">发布新商品</el-menu-item>
-            <el-menu-item index="/adminhome/two_two">商品列表</el-menu-item>
-            <el-menu-item index="/adminhome/two_three">类别管理</el-menu-item>
-          </el-submenu>
+<!--          <el-submenu index="two">-->
+<!--            <template slot="title">-->
+<!--              <i class="el-icon-goods"></i>-->
+<!--              <span>护肤品</span>-->
+<!--            </template>-->
+<!--            <el-menu-item index="/adminhome/two_one">发布新商品</el-menu-item>-->
+<!--            <el-menu-item index="/adminhome/two_two">商品列表</el-menu-item>-->
+<!--            <el-menu-item index="/adminhome/two_three">类别管理</el-menu-item>-->
+<!--          </el-submenu>-->
 
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-user"></i>
-              <span>订单</span>
-            </template>
-            <el-menu-item index="/adminhome/three_one">订单管理</el-menu-item>
-            <!-- <el-menu-item index="3-2">商家管理</el-menu-item> -->
-          </el-submenu>
+<!--          <el-submenu index="3">-->
+<!--            <template slot="title">-->
+<!--              <i class="el-icon-user"></i>-->
+<!--              <span>订单</span>-->
+<!--            </template>-->
+<!--            <el-menu-item index="/adminhome/three_one">订单管理</el-menu-item>-->
+<!--            &lt;!&ndash; <el-menu-item index="3-2">商家管理</el-menu-item> &ndash;&gt;-->
+<!--          </el-submenu>-->
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-goods"></i>
@@ -95,12 +95,12 @@
             <el-menu-item index="/adminhome/coursedetail">新增课程</el-menu-item>
             <el-menu-item index="/adminhome/courseList">课程列表</el-menu-item>
             <el-menu-item index="/adminhome/selection">选课管理</el-menu-item>
-            <el-menu-item index="/adminhome/two_three">教室管理</el-menu-item>
+            <el-menu-item index="/adminhome/classroom">教室管理</el-menu-item>
           </el-submenu>
-          <el-menu-item index="present_page">
-            <i class="el-icon-present"></i>
-            <span slot="title">心愿单</span>
-          </el-menu-item>
+<!--          <el-menu-item index="present_page">-->
+<!--            <i class="el-icon-present"></i>-->
+<!--            <span slot="title">心愿单</span>-->
+<!--          </el-menu-item>-->
           <el-menu-item index="personal_page">
             <i class="el-icon-s-custom"></i>
             <span slot="title">个人中心</span>

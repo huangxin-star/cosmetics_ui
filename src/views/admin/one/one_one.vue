@@ -25,44 +25,45 @@
           <img :src="scope.row.imghead" style="width:50px;border-radius: 50%;" />
         </template>
       </el-table-column>
-      <el-table-column prop="username" label="昵称" align="center" />
-      <el-table-column prop="pname" label="真实姓名" align="center" />
+      <el-table-column prop="username" label="账号" align="center" />
+      <el-table-column prop="pname" label="姓名" align="center" />
       <el-table-column prop="pgender" label="性别" align="center" />
 
-      <el-table-column prop="pregion" label="地区" align="center" />
+      <el-table-column prop="pregion" label="地址" align="center" />
       <el-table-column label="生日" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.pbirth }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mailbox" label="邮箱" align="center" width="100" />
-      <el-table-column label="状态" align="center">
-        <template slot-scope="scope">
-          <div v-if="scope.row.state==0">下线</div>
-          <div v-if="scope.row.state==1">上线中</div>
-          <div v-if="scope.row.state==2">禁用中</div>
-        </template>
-      </el-table-column>
+      <el-table-column prop="mailbox" label="电话" align="center" width="100" />
+      <el-table-column prop="mailbox" label="紧急电话" align="center" width="100" />
+<!--      <el-table-column label="状态" align="center">-->
+<!--        <template slot-scope="scope">-->
+<!--          <div v-if="scope.row.state==0">下线</div>-->
+<!--          <div v-if="scope.row.state==1">上线中</div>-->
+<!--          <div v-if="scope.row.state==2">禁用中</div>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
+<!--          <el-button-->
+<!--            v-if="scope.row.state==0"-->
+<!--            size="mini"-->
+<!--            @click="openModel(scope.row.id,scope.$index)"-->
+<!--          >禁用</el-button>-->
+<!--          <el-popconfirm-->
+<!--            title="确定要强制下线吗？"-->
+<!--            style="margin-left: 1rem"-->
+<!--            @confirm="Offline(scope.row.id,scope.$index)"-->
+<!--          >-->
+<!--            <el-button v-if="scope.row.state==1" size="mini" type="danger" slot="reference">强制下线</el-button>-->
+<!--          </el-popconfirm>-->
           <el-button
-            v-if="scope.row.state==0"
-            size="mini"
-            @click="openModel(scope.row.id,scope.$index)"
-          >禁用</el-button>
-          <el-popconfirm
-            title="确定要强制下线吗？"
-            style="margin-left: 1rem"
-            @confirm="Offline(scope.row.id,scope.$index)"
-          >
-            <el-button v-if="scope.row.state==1" size="mini" type="danger" slot="reference">强制下线</el-button>
-          </el-popconfirm>
-          <el-button
-            v-if="scope.row.state==2"
             size="mini"
             @click="Model(scope.row.id,scope.$index)"
-          >解禁</el-button>
+            type="primary"
+          >修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -90,7 +91,7 @@ export default {
       current: 1,
       size: 5,
       count: 0,
-      tableData: []
+      tableData: [{username:'中云涛'}]
     };
   },
   methods: {

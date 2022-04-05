@@ -36,6 +36,7 @@ const routes = [
     redirect: "/homeuser/home",
     children: [
       { path: "/homeuser/home", component: homeuser },
+      { path: "/homeuser/course", name: 'coursecenter', component: () => import('../views/user/course/coursecenter.vue') },
       {
         path: "/homeuser/news",
         name:'newsList',
@@ -107,6 +108,7 @@ const routes = [
       { path: "/adminhome/coursedetail", name: 'coursedetail', component: () => import('../views/admin/course/coursedetail.vue') },
       { path: "/adminhome/courseList", name: 'courseList', component: () => import('../views/admin/course/courseList.vue') },
       { path: "/adminhome/selection", name: 'selection', component: () => import('../views/admin/course/selection.vue') },
+      { path: "/adminhome/classroom", name: 'classroom', component: () => import('../views/admin/course/classroom.vue') },
     ]
   }
 ]

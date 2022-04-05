@@ -15,6 +15,14 @@
             <i class="el-icon-setting"></i>
             <span slot="title">作品展示</span>
           </el-menu-item>
+          <el-menu-item index="/homeuser/news/content?type=2">
+            <i class="el-icon-setting"></i>
+            <span slot="title">通知公告</span>
+          </el-menu-item>
+          <el-menu-item index="/homeuser/news/content?type=2">
+            <i class="el-icon-setting"></i>
+            <span slot="title">学习资料</span>
+          </el-menu-item>
 <!--          <router-link to="/homeuser/news/content?type=1">-->
 <!--            新闻动态-->
 <!--          </router-link>-->
