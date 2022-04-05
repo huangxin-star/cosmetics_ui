@@ -1,17 +1,14 @@
 <template>
   <div>
-    <h1>{{type}}</h1>
+    <h1>{{ this.type }}</h1>
     <div
-        class="main-box"
-        v-for="item in newsList"
-        :key="item.id"
-        v-loading="loading"
+      class="main-box"
+      v-for="item in newsList"
+      :key="item.id"
+      v-loading="loading"
     >
       <div class="left-img">
-        <img
-            src="../../../assets/newsImg/nathan-mcbride-229637.jpg"
-            alt=""
-        />
+        <img src="../../../assets/newsImg/nathan-mcbride-229637.jpg" alt="" />
       </div>
       <div class="right-box">
         <div class="title">
@@ -23,28 +20,27 @@
         </div>
       </div>
     </div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="queryInfo.currentPage"
-              :page-size="queryInfo.pageSize"
-              class="pagination-container"
-              background
-              layout=" prev, pager, next, jumper"
-              :total="queryInfo.total"
-            >
-            </el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="queryInfo.currentPage"
+      :page-size="queryInfo.pageSize"
+      class="pagination-container"
+      background
+      layout=" prev, pager, next, jumper"
+      :total="queryInfo.total"
+    >
+    </el-pagination>
   </div>
-
 </template>
 
 <script>
 export default {
   name: "newsContent",
-  data(){
-    return{
+  data() {
+    return {
       loading: false,
-      type:'',
+      type: "",
       queryInfo: {
         currentPage: 1,
         pageSize: 4,
@@ -54,46 +50,46 @@ export default {
       newsList: [
         {
           title:
-              "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-              "              ullamco.",
+            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
+            "              ullamco.",
           context:
-              "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
           path: "/homeuser/news/detail",
         },
         {
           title:
-              "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-              "              ullamco.",
+            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
+            "              ullamco.",
           context:
-              "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
         },
         {
           title:
-              "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-              "              ullamco.",
+            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
+            "              ullamco.",
           context:
-              "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
         },
         {
           title:
-              "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-              "              ullamco.",
+            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
+            "              ullamco.",
           context:
-              "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-              "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
+            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
         },
-      ]
-    }
+      ],
+    };
   },
   created() {
-    console.log(this.type=this.$route.query.type);
+    console.log(this.$route.query.type);
   },
   methods: {
     getList() {
@@ -114,7 +110,7 @@ export default {
       this.getList();
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -131,10 +127,10 @@ export default {
   display: flex;
   flex-direction: column;
 
-a:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
+  a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 .right-box .title {
@@ -154,9 +150,9 @@ a:hover {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
 
-a:hover {
-  color: #f5bc04;
-}
+  a:hover {
+    color: #f5bc04;
+  }
 }
 
 .right-box .content {
