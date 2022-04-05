@@ -7,28 +7,13 @@
           class="el-menu-vertical-demo"
           router
         >
-          <el-menu-item index="/homeuser/news/content?type=1">
-            <i class="el-icon-setting"></i>
-            <span slot="title">新闻动态</span>
-          </el-menu-item>
-          <el-menu-item index="/homeuser/news/content?type=2">
-            <i class="el-icon-setting"></i>
-            <span slot="title">作品展示</span>
-          </el-menu-item>
-          <el-menu-item index="/homeuser/news/content?type=2">
-            <i class="el-icon-setting"></i>
-            <span slot="title">通知公告</span>
-          </el-menu-item>
-          <el-menu-item index="/homeuser/news/content?type=2">
-            <i class="el-icon-setting"></i>
-            <span slot="title">学习资料</span>
-          </el-menu-item>
-<!--          <router-link to="/homeuser/news/content?type=1">-->
-<!--            新闻动态-->
-<!--          </router-link>-->
-<!--          <router-link to="/homeuser/news/content?type=2">-->
-<!--            作品展示-->
-<!--          </router-link>-->
+          <el-menu-item
+            :index="item.path"
+            v-for="item in leftMenu"
+            :key="item.id"
+          >
+            <i :class="item.icon"></i>{{ item.title }}</el-menu-item
+          >
         </el-menu>
       </el-aside>
       <el-main>
@@ -131,10 +116,13 @@ export default {
       leftMenu: [
         {
           title: "新闻动态",
-          path: "/homeuser/news/detail",
+          path: "/homeuser/news/detail?type=1",
+          icon: "el-icon-goods",
         },
         {
           title: "作品展示",
+          path: "/homeuser/news/detail?type=2",
+          icon: "el-icon-present",
         },
         {
           title: "通知公告",
