@@ -1,7 +1,7 @@
 <template>
   <div class="outside">
     <el-form ref="elForm" :model="formData" :rules="rules" class="form" size="medium" label-width="100px" >
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="课程名" prop="cname">
             <el-input v-model="formData.cname" placeholder="请输入课程名" clearable :style="{width: '100%'}">
@@ -15,15 +15,17 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="学制" prop="system">
-            <el-cascader v-model="formData.system" :options="systemOptions" :props="systemProps"
-                         :style="{width: '100%'}" placeholder="请选择学制" clearable></el-cascader>
+            <el-select v-model="formData.system" placeholder="请选择学制" clearable :style="{width: '100%'}">
+              <el-option v-for="(item, index) in systemOptions" :key="index" :label="item.label"
+                         :value="item.value" :disabled="item.disabled"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="任课教师" prop="tname">
             <el-select v-model="formData.tname" placeholder="请选择任课教师" clearable :style="{width: '100%'}">
@@ -41,7 +43,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="上课时间" prop="school_time">
             <el-select v-model="formData.school_time" placeholder="请选择上课时间" clearable
@@ -60,7 +62,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="开课人数" prop="min_number">
             <el-input v-model="formData.min_number" placeholder="请输入开课人数" clearable :style="{width: '100%'}">
@@ -74,7 +76,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="课程描述" prop="cdescription">
             <el-input v-model="formData.cdescription" type="textarea" placeholder="请输入课程描述"
@@ -88,7 +90,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row gutter="15">
+      <el-row >
         <el-col :span="12">
           <el-form-item label="上传图片" prop="field115" required>
             <el-upload ref="field115" :file-list="field115fileList" :action="field115Action"
@@ -113,18 +115,18 @@ export default {
   data() {
     return {
       formData: {
-        cname: undefined,
-        fees: undefined,
-        system: [],
-        tname: undefined,
-        room_name: undefined,
-        school_time: undefined,
-        status: undefined,
+        cname: '',
+        fees: '',
+        system: '',
+        tname: '',
+        room_name: '',
+        school_time: '',
+        status: '',
         min_number: 5,
         max_number: 20,
-        cdescription: undefined,
-        examined_content: undefined,
-        field115: null,
+        cdescription: '',
+        examined_content: '',
+        field115: '',
       },
       rules: {
         cname: [{
@@ -139,8 +141,7 @@ export default {
         }],
         system: [{
           required: true,
-          type: 'array',
-          message: '请至少选择一个system',
+          message: '请至少选择一个学制',
           trigger: 'change'
         }],
         tname: [{
@@ -189,29 +190,27 @@ export default {
       systemOptions: [{
         "label": "一学年",
         "value": 1,
-        "id": 100,
-        "children": [{
-          "label": "一学年",
-          "value": 0,
-          "id": 105
-        }]
+        // "children": [{
+        //   "label": "一学年",
+        //   "value": 0,
+        //   "id": 105
+        // }]
       }, {
         "label": "三学年",
         "value": 2,
-        "id": 101,
-        "children": [{
-          "label": "初级",
-          "value": 2,
-          "id": 102
-        }, {
-          "label": "中级",
-          "value": 3,
-          "id": 103
-        }, {
-          "label": "高级",
-          "value": 4,
-          "id": 104
-        }]
+        // "children": [{
+        //   "label": "初级",
+        //   "value": 2,
+        //   "id": 102
+        // }, {
+        //   "label": "中级",
+        //   "value": 3,
+        //   "id": 103
+        // }, {
+        //   "label": "高级",
+        //   "value": 4,
+        //   "id": 104
+        // }]
       }],
       tnameOptions: [{
         "label": "选项一",
@@ -271,9 +270,6 @@ export default {
         "label": "已开课",
         "value": 4
       }],
-      systemProps: {
-        "multiple": false
-      },
     }
   },
   computed: {},
@@ -282,6 +278,7 @@ export default {
   mounted() {},
   methods: {
     submitForm() {
+      console.log(this.formData)
       this.$refs['elForm'].validate(valid => {
         if (!valid) return
         // TODO 提交表单

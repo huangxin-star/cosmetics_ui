@@ -40,17 +40,17 @@
           </div>
         </div> -->
         <router-view></router-view>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="queryInfo.currentPage"
-          :page-size="queryInfo.pageSize"
-          class="pagination-container"
-          background
-          layout=" prev, pager, next, jumper"
-          :total="queryInfo.total"
-        >
-        </el-pagination>
+<!--        <el-pagination-->
+<!--          @size-change="handleSizeChange"-->
+<!--          @current-change="handleCurrentChange"-->
+<!--          :current-page="queryInfo.currentPage"-->
+<!--          :page-size="queryInfo.pageSize"-->
+<!--          class="pagination-container"-->
+<!--          background-->
+<!--          layout=" prev, pager, next, jumper"-->
+<!--          :total="queryInfo.total"-->
+<!--        >-->
+<!--        </el-pagination>-->
       </el-main>
     </el-container>
     <tail style="margin-top: 25px"></tail>
@@ -59,7 +59,6 @@
 
 <script>
 import tail from "../tail.vue";
-import { getGoodsList } from "../../../assets/js/api";
 export default {
   name: "newsList",
   components: {
@@ -142,16 +141,16 @@ export default {
       //   sensitiveWord:this.queryInfo.sensitiveWord
       // }
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.queryInfo.pageSize = val;
-      this.getList();
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.queryInfo.currentPage = val;
-      this.getList();
-    },
+    // handleSizeChange(val) {
+    //   console.log(`每页 ${val} 条`);
+    //   this.queryInfo.pageSize = val;
+    //   this.getList();
+    // },
+    // handleCurrentChange(val) {
+    //   console.log(`当前页: ${val}`);
+    //   this.queryInfo.currentPage = val;
+    //   this.getList();
+    // },
   },
 };
 </script>

@@ -1,12 +1,13 @@
 <template>
   <div class="outside">
-    <div class="title">选课管理</div>
+    <div class="title">教室管理</div>
     <div class="operation-container">
+      <el-button size="small" type="primary" icon="el-icon-plus" @click="openModel(null)">新增</el-button>
       <div style="margin-left: auto;">
         <el-input
             style="width: 200px;display: inline-block;"
             size="small"
-            placeholder="请输入类别"
+            placeholder="请输入教室名字"
             prefix-icon="el-icon-search"
             v-model="input1"
         ></el-input>
@@ -22,12 +23,14 @@
 
     <el-table border :data="tableData" style="width: 100%">
       <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
-      <el-table-column prop="title" label="学生姓名" align="center" width="80" />
-      <el-table-column prop="title" label="课程名" align="center" width="80" />
-      <el-table-column prop="grade" label="成绩" align="center" width="80" />
-      <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
-      <el-table-column prop="status" label="选课状态" align="center" width="80" />
-      <el-table-column label="选课日期" style="width: 30%" align="center">
+      <el-table-column label="教室" align="center" style="width: 30%">
+        <template slot-scope="scope">
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ scope.row.roomName }}</el-tag>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建日期" style="width: 30%" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.time }}</span>
@@ -35,15 +38,14 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openModel(scope.row)">修改成绩</el-button>
-          <el-button size="mini" @click="openModel(scope.row)">选课失败</el-button>
-<!--          <el-popconfirm-->
-<!--              title="确定删除吗？"-->
-<!--              style="margin-left: 1rem"-->
-<!--              @confirm="deleteCategory(scope.row.id)"-->
-<!--          >-->
-<!--            <el-button size="mini" type="danger" slot="reference">删除</el-button>-->
-<!--          </el-popconfirm>-->
+          <el-button size="mini" @click="openModel(scope.row)">编辑</el-button>
+          <el-popconfirm
+              title="确定删除吗？"
+              style="margin-left: 1rem"
+              @confirm="deleteCategory(scope.row.id)"
+          >
+            <el-button size="mini" type="danger" slot="reference">删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -76,7 +78,7 @@
 
 <script>
 export default {
-  name: "selection",
+  name: "classroom",
   data() {
     return {
       input1: "",
@@ -86,11 +88,8 @@ export default {
       addOrEdit: false,
       tableData: [{
         time: '2016-05-02',
-        title: '王小虎',
-        type:"学习资料",
-        status:"选课中",
-        content: '上海市普陀区金沙江路 1518 弄安德鲁杰克森放假撒了点开发螺丝钉咖啡碱撒大',
-        grade:'60'
+        roomName: '615',
+
       }],
       tagForm: {
         id: null,
@@ -153,6 +152,18 @@ export default {
             this.count = res.data.count;
           });
     },
+    openModel(tag) {
+      if (tag != null) {
+        this.tagForm = tag;
+        this.$refs.tagTitle.innerHTML = "修改标签";
+      } else {
+        this.tagForm.id = -1;
+        this.tagForm.type = "";
+        this.tagForm.time = "";
+        this.$refs.tagTitle.innerHTML = "添加类别";
+      }
+      this.addOrEdit = true;
+    },
     addOrEditTag() {
       if (this.tagForm.type.trim() == "") {
         this.$message.error("请输入类别！！！");
@@ -185,6 +196,7 @@ export default {
     this.listCategories();
   }
 };
+
 </script>
 
 <style scoped>
