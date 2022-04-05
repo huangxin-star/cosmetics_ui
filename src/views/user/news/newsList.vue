@@ -7,9 +7,13 @@
           class="el-menu-vertical-demo"
           router
         >
-          <router-link to="/homeuser/news/detail?type=1">
-            发布新商品
-          </router-link>
+          <el-menu-item
+            :index="item.path"
+            v-for="item in leftMenu"
+            :key="item.id"
+          >
+            <i :class="item.icon"></i>{{ item.title }}</el-menu-item
+          >
         </el-menu>
       </el-aside>
       <el-main>
@@ -55,6 +59,7 @@
 
 <script>
 import tail from "../tail.vue";
+import { getGoodsList } from "../../../assets/js/api";
 export default {
   name: "newsList",
   components: {
@@ -112,10 +117,13 @@ export default {
       leftMenu: [
         {
           title: "新闻动态",
-          path: "/homeuser/news/detail",
+          path: "/homeuser/news/detail?type=1",
+          icon: "el-icon-goods",
         },
         {
           title: "作品展示",
+          path: "/homeuser/news/detail?type=2",
+          icon: "el-icon-present",
         },
         {
           title: "通知公告",
