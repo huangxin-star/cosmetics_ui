@@ -2,6 +2,7 @@
   <div class="outside">
     <div class="title">用户管理</div>
     <div class="operation-container">
+      <el-button size="small" type="primary" icon="el-icon-plus" @click="handleadd">新增</el-button>
       <div style="margin-left: auto;">
         <el-input
           style="width: 200px;display: inline-block;"
@@ -61,12 +62,87 @@
 <!--          </el-popconfirm>-->
           <el-button
             size="mini"
-            @click="Model(scope.row.id,scope.$index)"
+            @click="update(scope.row.id,scope.$index)"
             type="primary"
           >修改</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 添加或修改用户配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
+              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="用户名称" prop="nickName">
+              <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="手机号码" prop="phonenumber">
+              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="紧急电话" prop="phonenumber">
+              <el-input v-model="form.email" placeholder="请输入紧急联系电话" maxlength="50" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="用户性别">
+              <el-select v-model="form.sex" placeholder="请选择性别">
+                <el-option
+                    v-for="item in sexoptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="状态">-->
+<!--              <el-radio-group v-model="form.status">-->
+<!--                <el-radio-->
+<!--                    v-for="dict in dict.type.sys_normal_disable"-->
+<!--                    :key="dict.value"-->
+<!--                    :label="dict.value"-->
+<!--                >{{dict.label}}</el-radio>-->
+<!--              </el-radio-group>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="地址">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
 
     <el-pagination
       class="pagination-container"
@@ -91,10 +167,85 @@ export default {
       current: 1,
       size: 5,
       count: 0,
-      tableData: [{username:'中云涛'}]
+      tableData: [{username:'中云涛'}],
+      sexoptions:[{
+        value: '0',
+        label: '男'
+      }, {
+        value: '1',
+        label: '女'
+      }],
+      // 弹出层标题
+      title: "",
+      // 部门树选项
+      deptOptions: undefined,
+      // 是否显示弹出层
+      open: false,
+      // 部门名称
+      deptName: undefined,
+      // 默认密码
+      initPassword: undefined,
+      // 日期范围
+      dateRange: [],
+      // 岗位选项
+      postOptions: [],
+      // 角色选项
+      roleOptions: [],
+      // 表单参数
+      form :{
+        userId: undefined,
+        deptId: undefined,
+        userName: undefined,
+        nickName: undefined,
+        password: undefined,
+        phonenumber: undefined,
+        email: undefined,
+        sex: undefined,
+        status: "0",
+        remark: undefined,
+        postIds: [],
+        roleIds: []
+      },
+      // 表单校验
+      rules: {
+        userName: [
+          { required: true, message: "用户名称不能为空", trigger: "blur" },
+          { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间', trigger: 'blur' }
+        ],
+        nickName: [
+          { required: true, message: "用户姓名不能为空", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "用户密码不能为空", trigger: "blur" },
+          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+        ],
+        email: [
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"]
+          }
+        ],
+        phonenumber: [
+          {
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            message: "请输入正确的手机号码",
+            trigger: "blur"
+          }
+        ]
+      },
     };
   },
   methods: {
+    handleadd() {//新增
+      this.open = true
+      this.title = '新增'
+    },
+    update() {
+
+      this.open = true
+      this.title = '修改'
+    },
     getList() {
       this.$http
         .get("admin/getUserDataTable", {
@@ -124,30 +275,6 @@ export default {
         }
       });
     },
-    Model(id, i) {
-      this.$http.get("admin/isUserStateTo", { params: { id } }).then(res => {
-        if (res.data == "ok") {
-          this.tableData[i].state = 0;
-          this.$message.success({
-            message: "解禁成功！！！",
-            duration: 1500
-          });
-        }
-      });
-    },
-    Offline(i,index) {
-      console.log(i);
-      this.tableData[index].state=0
-      localStorage.removeItem("user");
-      this.$http.get("admin/userOffline",{params:{id:i}}).then(res=>{
-        if(res.data=="ok"){
-          this.$message.success({
-              message: "强制下线成功！！！",
-              duration: 1500
-            });
-        }
-      })
-    },
     search() {
       if (this.input1 == "") {
         this.$message.info({
@@ -166,7 +293,50 @@ export default {
             alert("找不到“" + this.input1 + "”名字的用户！！！");
           }
         });
-    }
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+        userId: undefined,
+        deptId: undefined,
+        userName: undefined,
+        nickName: undefined,
+        password: undefined,
+        phonenumber: undefined,
+        email: undefined,
+        sex: undefined,
+        status: "0",
+        remark: undefined,
+        postIds: [],
+        roleIds: []
+      };
+      this.$refs["form"].resetFields();
+    },
+    /** 提交按钮 */
+    submitForm: function() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          // if (this.form.userId != undefined) {
+          //   updateUser(this.form).then(response => {
+          //     this.$modal.msgSuccess("修改成功");
+          //     this.open = false;
+          //     this.getList();
+          //   });
+          // } else {
+          //   addUser(this.form).then(response => {
+          //     this.$modal.msgSuccess("新增成功");
+          //     this.open = false;
+          //     this.getList();
+          //   });
+          // }
+        }
+      });
+    },
   },
   created() {
     this.$parent.$parent.$parent.$parent.titledata = "客户管理 / 用户管理";

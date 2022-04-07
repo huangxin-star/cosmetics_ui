@@ -274,7 +274,10 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.$parent.$parent.$parent.$parent.titledata = "课程管理 / 新增课程";
+
+  },
   mounted() {},
   methods: {
     submitForm() {

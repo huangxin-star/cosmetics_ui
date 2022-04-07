@@ -43,7 +43,7 @@
         </div>
         <div class="toxiang">
           <el-dropdown>
-            <span class="el-dropdown-link">{{toxiangdata}}</span>
+            <span class="el-dropdown-link">大师傅{{toxiangdata}}</span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 @click.native="personal "

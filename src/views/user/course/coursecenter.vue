@@ -143,31 +143,22 @@
             </div>
           </div>
         </div>
-<!--        <div class="custom-pagination align-item-center">-->
-<!--          <nav aria-label="Page navigation example">-->
-<!--            <ul class="pagination">-->
-<!--              <li class="page-item">-->
-<!--                <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">«</span>-->
-<!--                  <span class="sr-only">Previous</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li class="page-item"><a class="page-link" href="#">1</a>-->
-<!--              </li>-->
-<!--              <li class="page-item active"><a class="page-link" href="#">2</a>-->
-<!--              </li>-->
-<!--              <li class="page-item"><a class="page-link" href="#">3</a>-->
-<!--              </li>-->
-<!--              <li class="page-item">-->
-<!--                <a class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">»</span>-->
-<!--                  <span class="sr-only">Next</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </nav>-->
-<!--        </div>-->
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="queryInfo.currentPage"
+            :page-size="queryInfo.pageSize"
+            class="pagination-container"
+            background
+            layout=" prev, pager, next, jumper"
+            :total="queryInfo.total"
+        >
+        </el-pagination>
       </div>
     </div>
+
   </div>
+
   <tail style="margin-top: 25px"></tail>
 </div>
 </template>
@@ -179,6 +170,28 @@ export default {
   components: {
     tail,
   },
+  data() {
+    return {
+      queryInfo: {
+        currentPage: 1,
+        pageSize: 4,
+        total: 0,
+        sensitiveWord: "",
+      },
+    }
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.queryInfo.pageSize = val;
+
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.queryInfo.currentPage = val;
+
+    },
+  }
 
 }
 </script>
@@ -207,9 +220,9 @@ export default {
 .col-xl-3{
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  flex: 0 0 25%;
+  padding-right: 22px;
+  padding-left: 22px;
+  flex: 0 0 30%;
 }
 .sa-causes-single {
   box-shadow: 0 0 0 1px rgb(67 41 163 / 8%), 0 1px 5px 0 rgb(67 41 163 / 8%);
@@ -219,5 +232,10 @@ export default {
 }
 .entry-thumb img{
   width: 100%;
+}
+.pagination-container {
+  float: right;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 </style>
