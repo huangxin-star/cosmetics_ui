@@ -28,25 +28,25 @@
       <el-table-column label="编号" type="index" width="60" align="center"></el-table-column>
       <el-table-column label="图片" align="center" width="80">
         <template slot-scope="scope">
-          <img :src="scope.row.picture" style="width:50px" />
+          <img :src="scope.row.iamge" style="width:50px" />
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="课程名称" align="center" width="80" />
-      <el-table-column prop="title" label="费用" align="center" width="80" />
-      <el-table-column prop="title" label="学制" align="center" width="80" />
-      <el-table-column prop="title" label="任课教师" align="center" width="80" />
-      <el-table-column prop="title" label="上课教室" align="center" width="80" />
-      <el-table-column prop="title" label="上课时间" align="center" width="80" />
-      <el-table-column prop="title" label="课程描述" align="center" width="80" />
-      <el-table-column prop="type" label="考核内容" align="center" width="80" />
+      <el-table-column prop="cname" label="课程名称" align="center" width="80" />
+      <el-table-column prop="fees" label="费用" align="center" width="80" />
+<!--      <el-table-column prop="title" label="学制" align="center" width="80" />-->
+      <el-table-column prop="sname" label="任课教师" align="center" width="80" />
+      <el-table-column prop="locationid" label="上课教室" align="center" width="80" />
+      <el-table-column prop="school_time" label="上课时间" align="center" width="80" />
+      <el-table-column prop="cdescription" label="课程描述" align="center" width="80" />
+      <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
       <el-table-column prop="title" label="选课人数" align="center" width="80" />
 <!--      <el-table-column label="内容" align="center" style="width:20%">-->
 <!--        <template slot-scope="scope">-->
 <!--          <div class="describe">{{scope.row.content}}</div>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column prop="status" label="课程状态" align="center" width="120" />
-      <el-table-column prop="time" label="时间" align="center" width="100" />
+      <el-table-column prop="cstatus" label="课程状态" align="center" width="120" />
+      <el-table-column prop="ctime" label="时间" align="center" width="100" />
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
           <el-button size="mini" @click="modifyNews(scope.row)">修改</el-button>
@@ -112,15 +112,16 @@ export default {
   methods: {
     getTableData() { //列表
       this.$http
-          .get("admin/searchPerList", {
+          .get("admin/getPagingCourse", {
             params: { input: this.input1, current: this.current, size: this.size }
           })
           .then(res => {
+            console.log(res)
             if (res.data != "err") {
               this.tableData = res.data.list;
               this.count = res.data.count;
             } else {
-              alert("找不到“" + this.input1 + "”名字的商品！！！");
+              this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
             }
           });
     },

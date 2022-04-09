@@ -32,32 +32,53 @@
         :data="tableData"
         style="width: 100%;cursor: pointer;"
         @selection-change="handleSelectionChange"
+        v-loading="nesLoading"
     >
       <el-table-column
           type="selection"
           width="55"
           align="center"
       />
-      <el-table-column label="图片" align="center" width="80">
+      <el-table-column label="图片" align="center" width="80" >
         <template slot-scope="scope">
           <img :src="scope.row.newsimg" style="width:50px" />
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题" align="center" width="180" />
+      <el-table-column label="类别" >
+        <template slot-scope="scope">
+          <span v-if="scope.row.ntype==1">新闻动态</span>
+          <span v-if="scope.row.ntype==2">作品展示</span>
+          <span v-if="scope.row.ntype==3">通知公告</span>
+          <span v-if="scope.row.ntype==4">学习资料</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="ntype" label="类别" align="center" width="80" />
       <el-table-column label="内容" align="center" style="width:20%">
         <template slot-scope="scope">
           <div class="describe" v-html="scope.row.content"></div>
         </template>
       </el-table-column>
-      <el-table-column prop="video" label="视频" align="center" width="60" />
-      <el-table-column prop="nstatus" label="状态" align="center" width="120" />
-      <el-table-column prop="ntime" label="时间" align="center" width="100" />
+<!--      <el-table-column prop="video" label="视频" align="center" width="60" />-->
+      <el-table-column label="状态" >
+        <template slot-scope="scope">
+          <span v-if="scope.row.nstatus==0">未发布</span>
+          <span v-if="scope.row.nstatus==1">已发布</span>
+          <span v-if="scope.row.nstatus==2">已撤回</span>
+        </template>
+      </el-table-column>
+<!--      <el-table-column prop="nstatus" label="状态" align="center" width="120" />-->
+      <el-table-column label="创建时间" >
+        <template slot-scope="scope">
+          <span>{{new Date(+new Date(Number(scope.row.ntime)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ")}}</span>
+        </template>
+      </el-table-column>
+<!--      <el-table-column prop="ntime" label="时间" align="center" width="100" />-->
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
-          <el-button size="mini" @click="modifyNews(scope.row)">修改</el-button>
-          <el-button size="mini" type="primary" @click="releaseNews(scope.row)">发布</el-button>
-          <el-button size="mini" type="primary" @click="withdraw(scope.row)">撤回</el-button>
+          <el-button size="mini" v-if="scope.row.nstatus==0||scope.row.nstatus==2" @click="modifyNews(scope.row)">修改</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.nstatus==0" @click="releaseNews(scope.row)">发布</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.nstatus==1" @click="withdraw(scope.row)">撤回</el-button>
           <el-button size="mini" type="danger" @click="deleteNews(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -103,28 +124,27 @@ export default {
       stock: 0,
       row: [],
       isnews: false,
-      ids:[]
+      ids:[],
+      nesLoading:false
     };
   },
   methods: {
     getTableData() { //列表
+      this.nesLoading = true
       this.$http
           .get("admin/getPagingNews", {
             params: { input: this.input1, current: this.current, size: this.size }
           })
           .then(res => {
             console.log(res)
-            if (res.status ==200) {
+            if (res.data != "err") {
               this.tableData = res.data.list;
-              for (let item of this.tableData) {
-                if (item.ntime) {
-                  item.ntime = new Date(+new Date(Number(item.ntime)) + 8 * 3600 * 1000).toJSON().substr(0, 19)
-                      .replace("T", " ")
-                }
-                // if (item.ntype)
-              }
               this.count = res.data.count;
+
+            }else {
+              this.$message.warning('找不到该新闻')
             }
+            this.nesLoading = false
           }).catch((err) => {
         console.error(err)
       });

@@ -7,7 +7,7 @@
         <el-input
           style="width: 200px;display: inline-block;"
           size="small"
-          placeholder="请输入昵称"
+          placeholder="请输入姓名"
           prefix-icon="el-icon-search"
           v-model="input1"
         ></el-input>
@@ -249,9 +249,11 @@ export default {
         })
         .then(res => {
           console.log(res)
-          if (res.status ==200) {
+          if (res.data !='err') {
             this.tableData = res.data.list;
             this.count = res.data.count;
+          }else {
+            this.$message.warning('找不到该用户')
           }
 
         }).catch((err) => {
