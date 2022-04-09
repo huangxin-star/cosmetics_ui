@@ -16,7 +16,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
           <div class="user">
-            <span>用户：{{userdata.username}}</span>
+<!--            <span>用户：{{userdata.username}}</span>-->
           </div>
         </div>
         <div class="personal_left_bottm">

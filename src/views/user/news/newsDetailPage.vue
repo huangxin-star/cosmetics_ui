@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>111</h1>
+    <h1></h1>
     <tail style="margin-top: 25px"></tail>
   </div>
 </template>
@@ -16,10 +16,11 @@ export default {
   data() {
     return {
       isShow: false,
+      type:''
     };
   },
   created() {
-    console.log(this.$route.query.type);
+
   },
 };
 </script>

@@ -58,7 +58,7 @@
               <span>用户管理</span>
             </template>
             <el-menu-item index="/adminhome/one_one">用户管理</el-menu-item>
-            <el-menu-item index="/adminhome/one_two">管理员管理</el-menu-item>
+            <el-menu-item index="/adminhome/one_two">教师管理</el-menu-item>
           </el-submenu>
 
 <!--          <el-submenu index="two">-->

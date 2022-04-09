@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ this.type }}</h1>
+    <h1>{{type }}</h1>
     <div
       class="main-box"
       v-for="item in newsList"
@@ -89,6 +89,7 @@ export default {
     };
   },
   created() {
+    this.type = this.$route.query.type
     console.log(this.$route.query.type);
   },
   methods: {
@@ -113,7 +114,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .main-box {
   display: flex;
 }
