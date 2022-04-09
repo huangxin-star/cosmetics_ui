@@ -26,14 +26,13 @@
       <el-table-column label="教室" align="center" style="width: 30%">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.roomName }}</el-tag>
+            <el-tag size="medium">{{ scope.row.room_name }}</el-tag>
           </div>
         </template>
       </el-table-column>
       <el-table-column label="创建日期" style="width: 30%" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.time }}</span>
+          <span style="margin-left: 10px">{{ scope.row.ctime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
@@ -99,37 +98,42 @@ export default {
     };
   },
   methods: {
-    search() {
-      if (this.input1 == "") {
-        this.$message.info({
-          message: "请输入内容 ！！！",
-          duration: 1500
-        });
-        return;
-      }
-      this.current = 1;
+    getTableData() { //列表
+      this.nesLoading = true
       this.$http
-          .get("admin/SearchCategory", { params: { input: this.input1 } })
+          .get("admin/getPagingClassRoom", {
+            params: { input: this.input1, current: this.current, size: this.size }
+          })
           .then(res => {
+            console.log(res)
             if (res.data != "err") {
-              this.tableData = res.data;
-            } else {
-              alert("找不到“" + this.input1 + "”类别的数据！！！");
+              this.tableData = res.data.list;
+              this.count = res.data.count;
+
+            }else {
+              this.$message.warning('找不到该新闻')
             }
-          });
+            this.nesLoading = false
+          }).catch((err) => {
+        console.error(err)
+      });
+    },
+    search() {
+      this.current = 1;
+      this.getTableData();
     },
     sizeChange(size) {
       this.size = size;
-      this.listCategories();
+      this.getTableData();
     },
     currentChange(current) {
       this.current = current;
-      this.listCategories();
+      this.getTableData();
     },
     deleteCategory(id) {
       this.$http.get("admin/deCategory", { params: { id } }).then(res => {
         if (res.data == "ok") {
-          this.listCategories();
+          this.getTableData();
           this.$message.info({
             message: "类别删除成功 ！！！",
             duration: 1500
@@ -141,16 +145,6 @@ export default {
           });
         }
       });
-    },
-    listCategories() {
-      this.$http
-          .get("admin/category", {
-            params: { current: this.current, size: this.size }
-          })
-          .then(res => {
-            this.tableData = res.data.list;
-            this.count = res.data.count;
-          });
     },
     openModel(tag) {
       if (tag != null) {
@@ -187,13 +181,13 @@ export default {
               });
             }
           });
-      this.listCategories();
+      this.getTableData();
       this.addOrEdit = false;
     }
   },
   created() {
-    this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 类别管理";
-    this.listCategories();
+    this.$parent.$parent.$parent.$parent.titledata = "课程管理 / 教室管理";
+    this.getTableData();
   }
 };
 

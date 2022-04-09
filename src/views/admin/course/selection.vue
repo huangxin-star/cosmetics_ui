@@ -22,15 +22,16 @@
 
     <el-table border :data="tableData" style="width: 100%">
       <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
-      <el-table-column prop="title" label="学生姓名" align="center" width="80" />
-      <el-table-column prop="title" label="课程名" align="center" width="80" />
+      <el-table-column prop="sname" label="学生姓名" align="center" width="80" />
+      <el-table-column prop="cname" label="课程名" align="center" width="80" />
       <el-table-column prop="grade" label="成绩" align="center" width="80" />
       <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
-      <el-table-column prop="status" label="选课状态" align="center" width="80" />
+      <el-table-column prop="gstatus" label="选课状态" align="center" width="80" />
+      <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
       <el-table-column label="选课日期" style="width: 30%" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.time }}</span>
+          <span style="margin-left: 10px">{{ scope.row.gtime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
@@ -96,7 +97,8 @@ export default {
         id: null,
         type: "",
         time: ""
-      }
+      },
+      nesLoading:false
     };
   },
   methods: {
