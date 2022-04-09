@@ -26,11 +26,11 @@
 <!--        </el-row>-->
         <el-row>
           <el-col :span="10">
-            <el-form-item label="新闻类别" prop="category">
-              <el-select v-model="ruleForm.type" placeholder="请选择商品类别">
+            <el-form-item label="新闻类别" prop="ntype" @change="change1">
+              <el-select v-model="ruleForm.ntype" placeholder="请选择新闻类别">
                 <el-option
-                    v-for="(item, index) in category"
-                    :key="index"
+                    v-for="item in category"
+                    :key="item.value"
                     :label="item.label"
                     :value="item.value"
                 ></el-option>
@@ -44,12 +44,12 @@
           <el-upload
               v-loading.fullscreen="loading"
               class="avatar-uploader"
-              action="http://localhost:9000/admin/productImg"
+              action="http://localhost:9000/admin/productNewImg"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
           >
-            <img v-if="ruleForm.picture" :src="ruleForm.picture" class="avatar" />
+            <img v-if="ruleForm.newsimg" :src="ruleForm.newsimg" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -64,7 +64,7 @@
 <!--          <el-input type="textarea" v-model="ruleForm.introduce"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即发布</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">增加</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -86,11 +86,12 @@ export default {
       value:1,
       ruleForm: {
         title: "", //标题
-        type: '', //类别
+        ntype: '', //类别0未发布
 
-        picture: "",
+        newsimg: "",
         content:'',
-        introduce: ""
+        nstatus: "0",
+        ntime:new Date().getTime()
       },
       company: [],
       category: [{
@@ -106,13 +107,13 @@ export default {
         }, {
           value: 4,
           label: '学习资料'
-        },],
+        }],
       rules: {
         title: [
           { required: true, message: "请输入标题", trigger: "blur" },
           { min: 3, message: "请输入3个字符以上的名称", trigger: "blur" }
         ],
-        category: [
+        ntype: [
           { required: true, message: "请选择类别", trigger: "change" }
         ],
         content: [
@@ -122,7 +123,6 @@ export default {
         //   { required: true, message: "请填写商品介绍", trigger: "blur" },
         // ],
       },
-      content: '',
       editorOption: { // 富文本框参数设置
         modules: {
           ImageExtend: {
@@ -146,12 +146,15 @@ export default {
     };
   },
   methods: {
+    change1(val) {
+      console.log(val)
+    },
     submitForm(ruleForm) {
       console.log(this.ruleForm)
       this.$refs[ruleForm].validate(valid => {
         if (valid) {
 
-          this.$http.post("admin/setProduct", this.ruleForm).then(res => {
+          this.$http.post("admin/setNews", this.ruleForm).then(res => {
             if (res.data == "img") {
               this.$message.info({
                 message: "请上传图片 谢谢！！！",
@@ -160,12 +163,12 @@ export default {
               return;
             }else{
               this.$message.success({
-                message: "发布新商品成功！！！",
+                message: "新增新闻成功！！！",
                 duration: 1500
               });
             }
             this.resetForm('ruleForm')
-            this.ruleForm.picture=false
+            this.ruleForm.newsimg=false
           });
         } else {
           console.log("error submit!!");
@@ -178,7 +181,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.loading=false
-      this.ruleForm.picture = URL.createObjectURL(file.raw);
+      this.ruleForm.newsimg = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";

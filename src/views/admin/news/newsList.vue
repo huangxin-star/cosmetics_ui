@@ -3,6 +3,13 @@
     <div class="title">新闻列表</div>
     <div class="operation-container">
       <el-button size="small" type="primary" icon="el-icon-plus" @click="toDetail">新增</el-button>
+      <el-button
+          icon="el-icon-delete"
+          plain
+          size="small"
+          type="primary"
+          @click="releaseNews"
+      >发布</el-button>
       <div style="margin-left: auto;">
         <el-input
             style="width: 200px;display: inline-block;"
@@ -24,23 +31,28 @@
         border
         :data="tableData"
         style="width: 100%;cursor: pointer;"
+        @selection-change="handleSelectionChange"
     >
-      <el-table-column label="编号" type="index" width="60" align="center"></el-table-column>
+      <el-table-column
+          type="selection"
+          width="55"
+          align="center"
+      />
       <el-table-column label="图片" align="center" width="80">
         <template slot-scope="scope">
-          <img :src="scope.row.picture" style="width:50px" />
+          <img :src="scope.row.newsimg" style="width:50px" />
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题" align="center" width="180" />
-      <el-table-column prop="type" label="类别" align="center" width="80" />
+      <el-table-column prop="ntype" label="类别" align="center" width="80" />
       <el-table-column label="内容" align="center" style="width:20%">
         <template slot-scope="scope">
-          <div class="describe">{{scope.row.content}}</div>
+          <div class="describe" v-html="scope.row.content"></div>
         </template>
       </el-table-column>
       <el-table-column prop="video" label="视频" align="center" width="60" />
-      <el-table-column prop="status" label="状态" align="center" width="120" />
-      <el-table-column prop="time" label="时间" align="center" width="100" />
+      <el-table-column prop="nstatus" label="状态" align="center" width="120" />
+      <el-table-column prop="ntime" label="时间" align="center" width="100" />
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
           <el-button size="mini" @click="modifyNews(scope.row)">修改</el-button>
@@ -86,38 +98,40 @@ export default {
       size: 5,
       count: 0,
       addOrEdit: false,
-      tableData: [{
-      time: '2016-05-02',
-      title: '王小虎',
-      type:"学习资料",
-      status:"未发布",
-      content: '上海市普陀区金沙江路 1518 弄安德鲁杰克森放假撒了点开发螺丝钉咖啡碱撒大',
-      video:''
-    }],
+      tableData: [],
       price: 0,
       stock: 0,
       row: [],
-      isnews: false
+      isnews: false,
+      ids:[]
     };
   },
   methods: {
     getTableData() { //列表
       this.$http
-          .get("admin/searchPerList", {
+          .get("admin/getPagingNews", {
             params: { input: this.input1, current: this.current, size: this.size }
           })
           .then(res => {
-            if (res.data != "err") {
+            console.log(res)
+            if (res.status ==200) {
               this.tableData = res.data.list;
+              for (let item of this.tableData) {
+                if (item.ntime) {
+                  item.ntime = new Date(+new Date(Number(item.ntime)) + 8 * 3600 * 1000).toJSON().substr(0, 19)
+                      .replace("T", " ")
+                }
+                // if (item.ntype)
+              }
               this.count = res.data.count;
-            } else {
-              alert("找不到“" + this.input1 + "”名字的商品！！！");
             }
-          });
+          }).catch((err) => {
+        console.error(err)
+      });
     },
     //修改
-    modifyNews() {
-
+    modifyNews(row) {
+      console.log(row)
     },
     //发布
     releaseNews(row){
@@ -169,6 +183,9 @@ export default {
       this.current = 1;
       this.getTableData();
     },
+    handleSelectionChange(selection) {
+      this.ids = selection.map((item) => item.ID)
+    }
   },
   created() {
     this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 商品列表";

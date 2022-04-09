@@ -21,24 +21,24 @@
       </div>
     </div>
     <el-table border :data="tableData" style="width: 100%">
-      <el-table-column label="头像" width="100" align="center">
-        <template slot-scope="scope">
-          <img :src="scope.row.imghead" style="width:50px;border-radius: 50%;" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="username" label="账号" align="center" />
-      <el-table-column prop="pname" label="姓名" align="center" />
-      <el-table-column prop="pgender" label="性别" align="center" />
+<!--      <el-table-column label="头像" width="100" align="center">-->
+<!--        <template slot-scope="scope">-->
+<!--          <img :src="scope.row.imghead" style="width:50px;border-radius: 50%;" />-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column prop="account" label="账号" align="center" />
+      <el-table-column prop="sname" label="姓名" align="center" />
+      <el-table-column prop="sex" label="性别" align="center" />
 
-      <el-table-column prop="pregion" label="地址" align="center" />
+      <el-table-column prop="address" label="地址" align="center" />
       <el-table-column label="生日" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.pbirth }}</span>
+          <span style="margin-left: 10px">{{ scope.row.birthday }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mailbox" label="电话" align="center" width="100" />
-      <el-table-column prop="mailbox" label="紧急电话" align="center" width="100" />
+      <el-table-column prop="stel" label="电话" align="center" width="100" />
+      <el-table-column prop="emergency_call" label="紧急电话" align="center" width="100" />
 <!--      <el-table-column label="状态" align="center">-->
 <!--        <template slot-scope="scope">-->
 <!--          <div v-if="scope.row.state==0">下线</div>-->
@@ -74,7 +74,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item  label="用户名称" prop="userName">
+            <el-form-item  label="用户账号" prop="userName">
               <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
             </el-form-item>
           </el-col>
@@ -167,7 +167,7 @@ export default {
       current: 1,
       size: 5,
       count: 0,
-      tableData: [{username:'中云涛'}],
+      tableData: [],
       sexoptions:[{
         value: '0',
         label: '男'
@@ -193,8 +193,6 @@ export default {
       roleOptions: [],
       // 表单参数
       form :{
-        userId: undefined,
-        deptId: undefined,
         userName: undefined,
         nickName: undefined,
         password: undefined,
@@ -203,8 +201,6 @@ export default {
         sex: undefined,
         status: "0",
         remark: undefined,
-        postIds: [],
-        roleIds: []
       },
       // 表单校验
       rules: {
@@ -246,15 +242,21 @@ export default {
       this.open = true
       this.title = '修改'
     },
-    getList() {
+    getList() {//列表
       this.$http
-        .get("admin/getUserDataTable", {
-          params: { current: this.current, size: this.size }
+        .get("admin/getPagingUser", {
+          params: { current: this.current, size: this.size ,input:this.input1}
         })
         .then(res => {
-          this.tableData = res.data.list;
-          this.count = res.data.count;
-        });
+          console.log(res)
+          if (res.status ==200) {
+            this.tableData = res.data.list;
+            this.count = res.data.count;
+          }
+
+        }).catch((err) => {
+          console.error(err)
+      });
     },
     sizeChange(size) {
       this.size = size;
@@ -276,23 +278,8 @@ export default {
       });
     },
     search() {
-      if (this.input1 == "") {
-        this.$message.info({
-          message: "请输入内容 ！！！",
-          duration: 1500
-        });
-        return;
-      }
-      this.current = 1;
-      this.$http
-        .get("admin/searchUserList", { params: { input: this.input1 } })
-        .then(res => {
-          if (res.data != "err") {
-            this.tableData = res.data;
-          } else {
-            alert("找不到“" + this.input1 + "”名字的用户！！！");
-          }
-        });
+      this.current = 1
+      this.getList()
     },
     // 取消按钮
     cancel() {
@@ -339,7 +326,7 @@ export default {
     },
   },
   created() {
-    this.$parent.$parent.$parent.$parent.titledata = "客户管理 / 用户管理";
+    this.$parent.$parent.$parent.$parent.titledata = "用户管理 / 用户管理";
     this.getList();
   }
 };
