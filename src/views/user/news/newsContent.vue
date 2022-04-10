@@ -130,8 +130,8 @@ export default {
 }
 .main-box .left-img {
   padding-bottom: 2rem;
-  height: 100%;
-  width: 100%;
+  height: 300px;
+  width: 400px;
 }
 
 .right-box {
@@ -173,12 +173,14 @@ export default {
 
 .left-img {
   padding-right: 20px;
+  width: 400px;
+  height: 300px;
 }
 
 .left-img img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 300px;
 }
 .pagination-container {
   float: right;

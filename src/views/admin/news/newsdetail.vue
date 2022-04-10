@@ -14,7 +14,7 @@
         </el-form-item>
         <el-row>
           <el-col :span="10">
-            <el-form-item label="新闻类别" prop="ntype" @change="change1">
+            <el-form-item label="新闻类别" prop="ntype">
               <el-select v-model="ruleForm.ntype" placeholder="请选择新闻类别">
                 <el-option
                     v-for="item in category"
@@ -48,9 +48,6 @@
             </div>
           </template>
         </el-form-item>
-<!--        <el-form-item label="新闻内容" prop="introduce">-->
-<!--          <el-input type="textarea" v-model="ruleForm.introduce"></el-input>-->
-<!--        </el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">增加</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -133,9 +130,6 @@ export default {
     };
   },
   methods: {
-    change1(val) {
-      console.log(val)
-    },
     submitForm(ruleForm) {
       console.log(this.ruleForm)
       this.$refs[ruleForm].validate(valid => {
@@ -171,17 +165,16 @@ export default {
       this.ruleForm.newsimg = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+      let isRightSize = file.size / 1024 / 1024 < 2
+      if (!isRightSize) {
+        this.$message.error('文件大小超过 2MB')
       }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+      let isAccept = new RegExp('image/*').test(file.type)
+      if (!isAccept) {
+        this.$message.error('应该选择image/*类型的文件')
       }
       this.loading=true
-      return isJPG && isLt2M;
+      return isRightSize && isAccept
     }
   },
   created() {

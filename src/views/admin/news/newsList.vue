@@ -81,12 +81,59 @@
         :page-sizes="[5]"
         layout="total, sizes, prev, pager, next, jumper"
     />
-    <el-dialog :visible.sync="addOrEdit" width="600px" style="padding:20px;">
+<!--    修改-->
+    <el-dialog :visible.sync="addOrEdit" width="60%" style="padding:20px;">
       <div style="font-weight: 600;" slot="title">修改新闻</div>
-      <el-form label-width="80px" size="medium">
-        <el-form-item label="价格">
-          <el-input style="width: 220px" v-model="price" />
+      <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="100px"
+          class="demo-ruleForm"
+      >
+        <el-form-item label="标题" prop="title">
+          <el-input style="width:400px" v-model="ruleForm.title"></el-input>
         </el-form-item>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label="新闻类别" prop="ntype">
+              <el-select v-model="ruleForm.ntype" placeholder="请选择新闻类别">
+                <el-option
+                    v-for="item in category"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+
+        <el-form-item label="新闻图片">
+          <el-upload
+              v-loading.fullscreen="loading"
+              class="avatar-uploader"
+              action="http://localhost:9000/admin/productNewImg"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="ruleForm.newsimg" :src="ruleForm.newsimg" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="新闻内容" prop="content">
+          <template>
+            <div class="quill-wrap">
+              <quill-editor ref="myQuillEditor" v-model="ruleForm.content" :options="editorOption" />
+            </div>
+          </template>
+        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <el-button type="primary" @click="submitForm('ruleForm')">增加</el-button>-->
+<!--          <el-button @click="resetForm('ruleForm')">重置</el-button>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer">
         <el-button @click="addOrEdit = false">取 消</el-button>
@@ -97,8 +144,13 @@
 </template>
 
 <script>
+import 'quill/dist/quill.snow.css'
+import { quillEditor, Quill } from 'vue-quill-editor'
+import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
+Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   name: "newsList",
+  components: { quillEditor },
   data() {
     return {
       input1: "",
@@ -112,7 +164,67 @@ export default {
       row: [],
       isnews: false,
       ids:[],
-      nesLoading:false
+      nesLoading:false,
+      loading:false,
+      ruleForm: {
+        title: "", //标题
+        ntype: '', //类别0未发布
+
+        newsimg: "",
+        content:'',
+        nstatus: "未发布",
+        ntime:new Date().getTime()
+      },
+      company: [],
+      category: [{
+        value: 1,
+        label: '新闻动态'
+      }, {
+        value: 2,
+        label: '作品展示'
+      },
+        {
+          value: 3,
+          label: '通知公告'
+        }, {
+          value: 4,
+          label: '学习资料'
+        }],
+      rules: {
+        title: [
+          { required: true, message: "请输入标题", trigger: "blur" },
+          { min: 3, message: "请输入3个字符以上的名称", trigger: "blur" }
+        ],
+        ntype: [
+          { required: true, message: "请选择类别", trigger: "change" }
+        ],
+        content: [
+          { required: true, message: "请输入内容", trigger: "blur" }
+        ],
+        // introduce: [
+        //   { required: true, message: "请填写商品介绍", trigger: "blur" },
+        // ],
+      },
+      editorOption: { // 富文本框参数设置
+        modules: {
+          ImageExtend: {
+            loading: true,
+            name: 'img',
+            action: 'http://127.0.0.1:9000/admin/productImg',
+            response: (res) => {
+              return `http://127.0.0.1:9000/public/uploadfile/${res.data.filename}`
+            }
+          },
+          toolbar: {
+            container: container,
+            handlers: {
+              'image': function () {
+                QuillWatch.emit(this.quill.id)
+              }
+            }
+          }
+        }
+      }
     };
   },
   methods: {
@@ -138,8 +250,8 @@ export default {
     },
     //修改
     modifyNews(row) {
-      console.log(row)
-
+      this.addOrEdit = true
+      this.ruleForm = Object.assign({}, row)
     },
     //发布
     releaseNews(row){
@@ -189,15 +301,8 @@ export default {
     toDetail() {
       this.$router.push({ path: "/adminhome/newsdetail" });
     },
-    openModel(row) {
-      this.price = row.price;
-      this.addOrEdit = true;
-      this.row = row;
-    },
-
-    addOrEditTag() {
-      this.row.price = this.price;
-      this.$http.post("admin/upPrice", this.row).then(res => {
+    addOrEditTag() { //确认修改
+      this.$http.post("admin/upNews", this.ruleForm).then(res => {
         if (res.data == "ok") {
           this.$message.success({
             message: "修改成功 ！！！",
@@ -205,6 +310,9 @@ export default {
           });
           this.addOrEdit = false;
         }
+        this.getTableData()
+      }).catch(err=>{
+        console.error(err)
       });
     },
     search() {
@@ -218,6 +326,22 @@ export default {
       this.current = 1;
       this.getTableData();
     },
+    handleAvatarSuccess(res, file) {//图
+      this.loading=false
+      this.ruleForm.newsimg = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      let isRightSize = file.size / 1024 / 1024 < 2
+      if (!isRightSize) {
+        this.$message.error('文件大小超过 2MB')
+      }
+      let isAccept = new RegExp('image/*').test(file.type)
+      if (!isAccept) {
+        this.$message.error('应该选择image/*类型的文件')
+      }
+      this.loading=true
+      return isRightSize && isAccept
+    }
   },
   created() {
     this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 商品列表";
@@ -263,9 +387,12 @@ export default {
 }
 .describe {
   width: 100%;
-  overflow: hidden;
+  word-break: break-all;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .news {
   font-size: 17px;

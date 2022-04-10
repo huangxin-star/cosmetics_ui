@@ -28,8 +28,12 @@
 <!--      </el-table-column>-->
       <el-table-column prop="account" label="账号" align="center" />
       <el-table-column prop="sname" label="姓名" align="center" />
-      <el-table-column prop="sex" label="性别" align="center" />
-
+      <el-table-column label="性别" align="center" >
+        <template slot-scope="scope">
+          <span v-if="scope.row.sex ==0">男</span>
+          <span v-if="scope.row.sex ==1">女</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="地址" align="center" />
       <el-table-column label="生日" align="center">
         <template slot-scope="scope">

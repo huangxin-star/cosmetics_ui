@@ -15,16 +15,16 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row >
-        <el-col :span="12">
-          <el-form-item label="学制" prop="system">
-            <el-select v-model="formData.system" placeholder="请选择学制" clearable :style="{width: '100%'}">
-              <el-option v-for="(item, index) in systemOptions" :key="index" :label="item.label"
-                         :value="item.value" :disabled="item.disabled"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+<!--      <el-row >-->
+<!--        <el-col :span="12">-->
+<!--          <el-form-item label="学制" prop="system">-->
+<!--            <el-select v-model="formData.system" placeholder="请选择学制" clearable :style="{width: '100%'}">-->
+<!--              <el-option v-for="(item, index) in systemOptions" :key="index" :label="item.label"-->
+<!--                         :value="item.value" :disabled="item.disabled"></el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
       <el-row >
         <el-col :span="12">
           <el-form-item label="任课教师" prop="tid">
