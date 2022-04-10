@@ -64,7 +64,7 @@
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
           <el-button size="mini"  @click="modifyNews(scope.row)">修改</el-button>
-          <el-button size="mini" type="primary" v-if="scope.row.nstatus!='以发布'" @click="releaseNews(scope.row)">发布</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.nstatus!='已发布'" @click="releaseNews(scope.row)">发布</el-button>
           <el-button size="mini" type="primary" v-if="scope.row.nstatus=='已发布'" @click="withdraw(scope.row)">撤回</el-button>
           <el-button size="mini" type="danger" @click="deleteNews(scope.row)">删除</el-button>
         </template>

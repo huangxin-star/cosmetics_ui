@@ -11,7 +11,6 @@
             :index="item.path"
             v-for="item in leftMenu"
             :key="item.id"
-            @click.native="refresh"
           >
             <i :class="item.icon"></i>{{ item.title }}</el-menu-item
           >
@@ -117,20 +116,24 @@ export default {
       leftMenu: [
         {
           title: "新闻动态",
-          path: "/homeuser/news/content?type=1",
+          path: "/homeuser/news/content",
           icon: "el-icon-goods",
         },
         {
           title: "作品展示",
-          path: "/homeuser/news/detail?type=2",
+          path: "/homeuser/news/content1",
           icon: "el-icon-present",
         },
-        // {
-        //   title: "通知公告",
-        // },
-        // {
-        //   title: "学习资料",
-        // },
+        {
+          title: "通知公告",
+          path: "/homeuser/news/content2",
+          icon: "el-icon-present",
+        },
+        {
+          title: "学习资料",
+          path: "/homeuser/news/content3",
+          icon: "el-icon-present",
+        },
       ],
     };
   },

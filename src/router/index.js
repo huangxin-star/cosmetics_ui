@@ -38,6 +38,11 @@ const routes = [
       { path: "/homeuser/home", component: homeuser },
       { path: "/homeuser/course", name: 'coursecenter', component: () => import('../views/user/course/coursecenter.vue') },
       {
+        path:"/homeuser/news/detail",
+        name:'newsDetailPage',
+        component: () => import('../views/user/news/newsDetailPage.vue')
+      },
+      {
         path: "/homeuser/news",
         name:'newsList',
         component: () => import('../views/user/news/newsList.vue'),
@@ -48,11 +53,23 @@ const routes = [
         name:'newsContent',
         component: () => import('../views/user/news/newsContent.vue')
         },
+
         {
-          path:"/homeuser/news/detail",
-          name:'newsDetailPage',
-          component: () => import('../views/user/news/newsDetailPage.vue')
-        }
+          path:"/homeuser/news/content1",
+          name:'newsContent1',
+          component: () => import('../views/user/news/newsContent1.vue')
+        },
+          {
+            path:"/homeuser/news/content2",
+            name:'newsContent2',
+            component: () => import('../views/user/news/newsContent2.vue')
+          },
+          {
+            path:"/homeuser/news/content3",
+            name:'newsContent3',
+            component: () => import('../views/user/news/newsContent3.vue')
+          }
+
       ]
 
       },

@@ -1,6 +1,23 @@
 <template>
   <div>
-    <h1>{{type }}</h1>
+
+    <div style="margin-left: auto;">
+      <h1>新闻动态</h1>
+      <el-input
+          style="width: 200px;display: inline-block;"
+          size="small"
+          placeholder="请输入商品名"
+          prefix-icon="el-icon-search"
+          v-model="input1"
+      ></el-input>
+      <el-button
+          @click="search"
+          style="margin-left: 1rem;"
+          size="small"
+          type="primary"
+          icon="el-icon-search"
+      >搜索</el-button>
+    </div>
     <div
       class="main-box"
       v-for="item in newsList"
@@ -8,15 +25,15 @@
       v-loading="loading"
     >
       <div class="left-img">
-        <img src="../../../assets/newsImg/nathan-mcbride-229637.jpg" alt="" />
+        <img :src="item.newsimg" alt="" @click="goDetail(item)"/>
       </div>
       <div class="right-box">
         <div class="title">
           <a>{{ item.title }}</a>
         </div>
-        <div class="date"><a>Thomson Smith - April 18,2018</a></div>
+        <div class="date"><a>{{ new Date(+new Date(Number(item.ntime)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ")}}</a></div>
         <div class="content">
-          <p>{{ item.context }}</p>
+          <p v-html="item.content"></p>
         </div>
       </div>
     </div>
@@ -39,61 +56,44 @@ export default {
   name: "newsContent",
   data() {
     return {
+      input1: '',
       loading: false,
       type: "",
       queryInfo: {
         currentPage: 1,
         pageSize: 4,
         total: 0,
-        sensitiveWord: "",
       },
       newsList: [
-        {
-          title:
-            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-            "              ullamco.",
-          context:
-            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-          path: "/homeuser/news/detail",
-        },
-        {
-          title:
-            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-            "              ullamco.",
-          context:
-            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-        },
-        {
-          title:
-            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-            "              ullamco.",
-          context:
-            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-        },
-        {
-          title:
-            "Magna aliqua ut enim ad minim veniam quis nostrud quis xercitation\n" +
-            "              ullamco.",
-          context:
-            "Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n" +
-            "                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-        },
+
       ],
     };
   },
   created() {
+    this.getList()
     this.type = this.$route.query.type
     console.log(this.$route.query.type);
   },
   methods: {
     getList() {
+      this.nesLoading = true
+      this.$http
+          .get("admin/getPagingNews", {
+            params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
+          })
+          .then(res => {
+            console.log(res)
+            if (res.data != "err") {
+              this.newsList = res.data.list;
+              this.queryInfo.total = res.data.count;
+
+            }else {
+              this.$message.warning('找不到该新闻')
+            }
+            this.nesLoading = false
+          }).catch((err) => {
+        console.error(err)
+      });
       // let params = {
       //   current: this.queryInfo.currentPage,
       //   size: this.queryInfo.pageSize,
@@ -110,6 +110,16 @@ export default {
       this.queryInfo.currentPage = val;
       this.getList();
     },
+    search() {
+
+      this.queryInfo.currentPage = 1;
+      this.getList();
+    },
+    goDetail(item) {
+      console.log(item)
+      let routeData = this.$router.resolve({path:'/homeuser/news/detail',query: {id:item.nid}})
+      window.open(routeData.href, '_blank');
+    }
   },
 };
 </script>

@@ -12,7 +12,7 @@
           <router-link to="/homeuser/course">课程中心</router-link>
         </div>
         <div>
-          <router-link to="/homeuser/news?type=1">新闻中心</router-link>
+          <router-link to="/homeuser/news">新闻中心</router-link>
         </div>
         <div>
           <router-link to="/homeuser/wish">我的选课</router-link>
