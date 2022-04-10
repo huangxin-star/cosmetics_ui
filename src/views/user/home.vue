@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="lunbo">
-      <el-carousel :interval="6000" height="620px">
+      <el-carousel :interval="6000" height="450px">
         <el-carousel-item v-for="item in listimglbt" :key="item">
-          <img :src="item" style="width: 100%;" />
+          <img :src="item" style="width: 100%" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -121,9 +121,9 @@ export default {
   data() {
     return {
       listimglbt: [
-        require("../../assets/img/slide-homepage1.jpg"),
-        require("../../assets/img/slider-homepage2.jpg"),
-        require("../../assets/img/slider-homepage3.jpg")
+        require("../../assets/img/homecarousel1.jpg"),
+        require("../../assets/img/homecarousel2.png"),
+        require("../../assets/img/homecarousel3.jpg")
       ],
       listsupplier: [
         {
@@ -288,7 +288,7 @@ export default {
         limitMoveNum: 2,
         hoverStop: true,
         step:0.4,
-        
+
       };
     }
   }
