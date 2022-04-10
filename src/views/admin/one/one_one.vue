@@ -62,7 +62,7 @@
 <!--          </el-popconfirm>-->
           <el-button
             size="mini"
-            @click="update(scope.row.id,scope.$index)"
+            @click="update(scope.row)"
             type="primary"
           >修改</el-button>
         </template>
@@ -74,20 +74,20 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item  label="用户账号" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
+            <el-form-item  label="用户账号" prop="account">
+              <el-input v-model="form.account" placeholder="请输入用户账号" maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+            <el-form-item v-if="isadd==true " label="用户密码" prop="spassword">
+              <el-input v-model="form.spassword" placeholder="请输入用户密码" type="password" maxlength="20" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户姓名" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户姓名" maxlength="30" />
+            <el-form-item label="用户姓名" prop="sname">
+              <el-input v-model="form.sname" placeholder="请输入用户姓名" maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -105,35 +105,38 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item label="手机号码" prop="stel">
+              <el-input v-model="form.stel" placeholder="请输入手机号码" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="紧急电话" prop="phonenumber">
-              <el-input v-model="form.email" placeholder="请输入紧急联系电话" maxlength="50" />
+            <el-form-item label="紧急电话" prop="emergency_call">
+              <el-input v-model="form.emergency_call" placeholder="请输入紧急联系电话" maxlength="50" />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
+          <el-form-item label="出生日期">
+            <el-col :span="12">
+              <el-form-item prop="birthday" style="width: 220px;">
+                <el-date-picker
+                    value-format="yyyy-MM-dd"
+                    type="date"
+                    placeholder="选择日期"
+                    v-model="form.birthday"
+                    style="width: 100%;"
+                ></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-form-item>
 
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="状态">-->
-<!--              <el-radio-group v-model="form.status">-->
-<!--                <el-radio-->
-<!--                    v-for="dict in dict.type.sys_normal_disable"-->
-<!--                    :key="dict.value"-->
-<!--                    :label="dict.value"-->
-<!--                >{{dict.label}}</el-radio>-->
-<!--              </el-radio-group>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
+
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="地址">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+              <el-input v-model="form.address" type="textarea" placeholder="请输入内容"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -177,14 +180,8 @@ export default {
       }],
       // 弹出层标题
       title: "",
-      // 部门树选项
-      deptOptions: undefined,
       // 是否显示弹出层
       open: false,
-      // 部门名称
-      deptName: undefined,
-      // 默认密码
-      initPassword: undefined,
       // 日期范围
       dateRange: [],
       // 岗位选项
@@ -193,52 +190,70 @@ export default {
       roleOptions: [],
       // 表单参数
       form :{
-        userName: undefined,
-        nickName: undefined,
-        password: undefined,
-        phonenumber: undefined,
-        email: undefined,
-        sex: undefined,
-        status: "0",
-        remark: undefined,
+        sid:'',
+        account: '',
+        sname: '',
+        spassword: '',
+        stel: '',
+        sex: '',
+        type: 1,
+        address: '',
+        birthday:'',
+        emergency_call:'',
+        id_card:''
       },
+      isadd:true,
       // 表单校验
       rules: {
-        userName: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" },
-          { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间', trigger: 'blur' }
+        account: [
+          { required: true, message: "用户账号不能为空", trigger: "blur" },
+          { min: 2, max: 20, message: '用户账号长度必须介于 2 和 20 之间', trigger: 'blur' }
         ],
-        nickName: [
+        sname: [
           { required: true, message: "用户姓名不能为空", trigger: "blur" }
         ],
-        password: [
+        spassword: [
           { required: true, message: "用户密码不能为空", trigger: "blur" },
           { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
         ],
-        email: [
+        stel: [
+          { required: true, message: "电话号码不能为空", trigger: "blur" },
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ],
-        phonenumber: [
-          {
-            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/g,
             message: "请输入正确的手机号码",
             trigger: "blur"
           }
-        ]
+        ],
+        emergency_call: [
+          { required: true, message: "紧急联系电话不能为空", trigger: "blur" },
+          {
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/g,
+            message: "请输入正确的紧急联系电话",
+            trigger: "blur"
+          }
+        ],
+        birthday: [
+          {  required: true, message: '请选择日期', trigger: 'blur' }
+        ],
       },
     };
   },
   methods: {
     handleadd() {//新增
+      console.log(this.form)
+      if (this.$refs["form"]) {
+        console.log(this.$refs["form"])
+        this.reset()
+      }
+      this.isadd = true
       this.open = true
       this.title = '新增'
     },
-    update() {
-
+    update(row) {
+      this.isadd = false
+      // this.reset()
+      this.form = Object.assign({}, row)
+      console.log(this.form)
       this.open = true
       this.title = '修改'
     },
@@ -268,17 +283,6 @@ export default {
       this.current = current;
       this.getList();
     },
-    openModel(id, i) {
-      this.$http.get("admin/isUserState", { params: { id } }).then(res => {
-        if (res.data == "ok") {
-          this.tableData[i].state = 2;
-          this.$message.success({
-            message: "禁用成功！！！",
-            duration: 1500
-          });
-        }
-      });
-    },
     search() {
       this.current = 1
       this.getList()
@@ -291,38 +295,58 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        userId: undefined,
-        deptId: undefined,
-        userName: undefined,
-        nickName: undefined,
-        password: undefined,
-        phonenumber: undefined,
-        email: undefined,
-        sex: undefined,
-        status: "0",
-        remark: undefined,
-        postIds: [],
-        roleIds: []
-      };
+        sid:'',
+        account: '',
+        sname: '',
+        spassword: '',
+        stel: '',
+        sex: '',
+        type: 1,
+        address: '',
+        birthday:'',
+        emergency_call:'',
+        id_card:''
+      }
       this.$refs["form"].resetFields();
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          // if (this.form.userId != undefined) {
-          //   updateUser(this.form).then(response => {
-          //     this.$modal.msgSuccess("修改成功");
-          //     this.open = false;
-          //     this.getList();
-          //   });
-          // } else {
-          //   addUser(this.form).then(response => {
-          //     this.$modal.msgSuccess("新增成功");
-          //     this.open = false;
-          //     this.getList();
-          //   });
-          // }
+          console.log(valid)
+          console.log(this.isadd)
+          if (!this.isadd) {
+            this.$http.post("admin/upUserRoTeacher", this.form).then(res => {
+              console.log(this.form)
+              console.log(res)
+              if (res.status == 200) {
+                this.$message.success({
+                  message: "修改用户成功！！！",
+                  duration: 1500
+                });
+                this.open = false
+              }
+              this.reset()
+              this.getList()
+            }).catch(err => {
+              console.error(err)
+            });
+          } else { //新增
+            this.$http.post("admin/setUserRoTeacher", this.form).then(res => {
+              console.log(res)
+              if (res.status == 200) {
+                this.$message.success({
+                  message: "新增用户成功！！！",
+                  duration: 1500
+                });
+                this.open = false
+              }
+              this.reset()
+              this.getList()
+            }).catch(err => {
+              console.error(err)
+            });
+          }
         }
       });
     },

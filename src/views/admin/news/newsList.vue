@@ -3,13 +3,6 @@
     <div class="title">新闻列表</div>
     <div class="operation-container">
       <el-button size="small" type="primary" icon="el-icon-plus" @click="toDetail">新增</el-button>
-      <el-button
-          icon="el-icon-delete"
-          plain
-          size="small"
-          type="primary"
-          @click="releaseNews"
-      >发布</el-button>
       <div style="margin-left: auto;">
         <el-input
             style="width: 200px;display: inline-block;"
@@ -31,14 +24,8 @@
         border
         :data="tableData"
         style="width: 100%;cursor: pointer;"
-        @selection-change="handleSelectionChange"
         v-loading="nesLoading"
     >
-      <el-table-column
-          type="selection"
-          width="55"
-          align="center"
-      />
       <el-table-column label="图片" align="center" width="80" >
         <template slot-scope="scope">
           <img :src="scope.row.newsimg" style="width:50px" />
@@ -53,7 +40,6 @@
           <span v-if="scope.row.ntype==4">学习资料</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ntype" label="类别" align="center" width="80" />
       <el-table-column label="内容" align="center" style="width:20%">
         <template slot-scope="scope">
           <div class="describe" v-html="scope.row.content"></div>
@@ -62,9 +48,10 @@
 <!--      <el-table-column prop="video" label="视频" align="center" width="60" />-->
       <el-table-column label="状态" >
         <template slot-scope="scope">
-          <span v-if="scope.row.nstatus==0">未发布</span>
-          <span v-if="scope.row.nstatus==1">已发布</span>
-          <span v-if="scope.row.nstatus==2">已撤回</span>
+          <span >{{ scope.row.nstatus }}</span>
+<!--          <span v-if="scope.row.nstatus==0">未发布</span>-->
+<!--          <span v-if="scope.row.nstatus==1">已发布</span>-->
+<!--          <span v-if="scope.row.nstatus==2">已撤回</span>-->
         </template>
       </el-table-column>
 <!--      <el-table-column prop="nstatus" label="状态" align="center" width="120" />-->
@@ -76,9 +63,9 @@
 <!--      <el-table-column prop="ntime" label="时间" align="center" width="100" />-->
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
-          <el-button size="mini" v-if="scope.row.nstatus==0||scope.row.nstatus==2" @click="modifyNews(scope.row)">修改</el-button>
-          <el-button size="mini" type="primary" v-if="scope.row.nstatus==0" @click="releaseNews(scope.row)">发布</el-button>
-          <el-button size="mini" type="primary" v-if="scope.row.nstatus==1" @click="withdraw(scope.row)">撤回</el-button>
+          <el-button size="mini"  @click="modifyNews(scope.row)">修改</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.nstatus!='以发布'" @click="releaseNews(scope.row)">发布</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.nstatus=='已发布'" @click="withdraw(scope.row)">撤回</el-button>
           <el-button size="mini" type="danger" @click="deleteNews(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -94,8 +81,8 @@
         :page-sizes="[5]"
         layout="total, sizes, prev, pager, next, jumper"
     />
-    <el-dialog :visible.sync="addOrEdit" width="30%" style="padding:20px;">
-      <div style="font-weight: 600;" slot="title">修改价格</div>
+    <el-dialog :visible.sync="addOrEdit" width="600px" style="padding:20px;">
+      <div style="font-weight: 600;" slot="title">修改新闻</div>
       <el-form label-width="80px" size="medium">
         <el-form-item label="价格">
           <el-input style="width: 220px" v-model="price" />
@@ -152,16 +139,44 @@ export default {
     //修改
     modifyNews(row) {
       console.log(row)
+
     },
     //发布
     releaseNews(row){
-
+      let params = {nid:row.nid}
+      this.$http.post("admin/upNstatus", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "发布成功 ！！！",
+            duration: 1500
+          });
+        }
+        this.getTableData()
+      });
     },
     withdraw(row) { //撤回
-
+      let params = {nid:row.nid}
+      this.$http.post("admin/upWithdraw", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "撤回成功 ！！！",
+            duration: 1500
+          });
+        }
+        this.getTableData()
+      });
     },
     deleteNews(row) { //删除
-
+      let params = {nid:row.nid}
+      this.$http.post("admin/deleteNews", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "删除成功 ！！！",
+            duration: 1500
+          });
+        }
+        this.getTableData()
+      });
     },
     sizeChange(size) {
       this.size = size;
@@ -203,9 +218,6 @@ export default {
       this.current = 1;
       this.getTableData();
     },
-    handleSelectionChange(selection) {
-      this.ids = selection.map((item) => item.ID)
-    }
   },
   created() {
     this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 商品列表";

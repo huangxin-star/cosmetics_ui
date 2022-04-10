@@ -35,7 +35,7 @@
       <el-table-column prop="fees" label="费用" align="center" width="80" />
 <!--      <el-table-column prop="title" label="学制" align="center" width="80" />-->
       <el-table-column prop="sname" label="任课教师" align="center" width="80" />
-      <el-table-column prop="locationid" label="上课教室" align="center" width="80" />
+      <el-table-column prop="room_name" label="上课教室" align="center" width="80" />
       <el-table-column prop="school_time" label="上课时间" align="center" width="80" />
       <el-table-column prop="cdescription" label="课程描述" align="center" width="80" />
       <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />

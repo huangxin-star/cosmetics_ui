@@ -12,18 +12,6 @@
         <el-form-item label="标题" prop="title">
           <el-input style="width:400px" v-model="ruleForm.title"></el-input>
         </el-form-item>
-<!--        <el-row>-->
-<!--          <el-col :span="10">-->
-<!--            <el-form-item label="商品价格" prop="price">-->
-<!--              <el-input v-model.number="ruleForm.price"></el-input>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="10">-->
-<!--            <el-form-item label="商品库存" prop="stock">-->
-<!--              <el-input v-model.number="ruleForm.stock"></el-input>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
         <el-row>
           <el-col :span="10">
             <el-form-item label="新闻类别" prop="ntype" @change="change1">
@@ -83,14 +71,13 @@ export default {
   data() {
     return {
       loading:false,
-      value:1,
       ruleForm: {
         title: "", //标题
         ntype: '', //类别0未发布
 
         newsimg: "",
         content:'',
-        nstatus: "0",
+        nstatus: "未发布",
         ntime:new Date().getTime()
       },
       company: [],

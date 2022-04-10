@@ -27,18 +27,18 @@
       </el-row>
       <el-row >
         <el-col :span="12">
-          <el-form-item label="任课教师" prop="tname">
-            <el-select v-model="formData.tname" placeholder="请选择任课教师" clearable :style="{width: '100%'}">
-              <el-option v-for="(item, index) in tnameOptions" :key="index" :label="item.label"
-                         :value="item.value" :disabled="item.disabled"></el-option>
+          <el-form-item label="任课教师" prop="tid">
+            <el-select v-model="formData.tid" placeholder="请选择任课教师" clearable :style="{width: '100%'}">
+              <el-option v-for="(item, index) in tnameOptions" :key="index" :label="item.sname"
+                         :value="item.sid" :disabled="item.disabled"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="上课教室" prop="room_name">
-            <el-select v-model="formData.room_name" placeholder="请选择上课教室" clearable :style="{width: '100%'}">
-              <el-option v-for="(item, index) in room_nameOptions" :key="index" :label="item.label"
-                         :value="item.value" :disabled="item.disabled"></el-option>
+          <el-form-item label="上课教室" prop="locationid">
+            <el-select v-model="formData.locationid" placeholder="请选择上课教室" clearable :style="{width: '100%'}">
+              <el-option v-for="(item, index) in room_nameOptions" :key="index" :label="item.room_name"
+                         :value="item.id" :disabled="item.disabled"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -92,9 +92,9 @@
       </el-row>
       <el-row >
         <el-col :span="12">
-          <el-form-item label="上传图片" prop="field115" required>
-            <el-upload ref="field115" :file-list="field115fileList" :action="field115Action"
-                       :before-upload="field115BeforeUpload" list-type="picture" accept="image/*">
+          <el-form-item label="上传图片" prop="iamge" required>
+            <el-upload ref="iamge" :file-list="field115fileList" :action="field115Action" v-loading.fullscreen="loading"
+                       :before-upload="field115BeforeUpload" :on-success="handleAvatarSuccess" list-type="picture" accept="image/*">
               <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -114,19 +114,22 @@ export default {
   name:'coursedetail',
   data() {
     return {
+      loading:false,
       formData: {
         cname: '',
         fees: '',
         system: '',
         tname: '',
+        tid:'',
         room_name: '',
+        locationid:'',
         school_time: '',
         status: '',
         min_number: 5,
         max_number: 20,
         cdescription: '',
         examined_content: '',
-        field115: '',
+        iamge: '',
       },
       rules: {
         cname: [{
@@ -144,12 +147,12 @@ export default {
           message: '请至少选择一个学制',
           trigger: 'change'
         }],
-        tname: [{
+        tid: [{
           required: true,
           message: '请选择任课教师',
           trigger: 'change'
         }],
-        room_name: [{
+        locationid: [{
           required: true,
           message: '请选择上课教室',
           trigger: 'change'
@@ -185,7 +188,7 @@ export default {
           trigger: 'blur'
         }],
       },
-      field115Action: 'https://jsonplaceholder.typicode.com/posts/',
+      field115Action: 'http://localhost:9000/admin/productCourseIamge',
       field115fileList: [],
       systemOptions: [{
         "label": "一学年",
@@ -212,20 +215,8 @@ export default {
         //   "id": 104
         // }]
       }],
-      tnameOptions: [{
-        "label": "选项一",
-        "value": 1
-      }, {
-        "label": "选项二",
-        "value": 2
-      }],
-      room_nameOptions: [{
-        "label": "选项一",
-        "value": 1
-      }, {
-        "label": "选项二",
-        "value": 2
-      }],
+      tnameOptions: [],//教师
+      room_nameOptions: [],//教室
       school_timeOptions: [{
         "label": "周一上午",
         "value": 1
@@ -276,19 +267,57 @@ export default {
   watch: {},
   created() {
     this.$parent.$parent.$parent.$parent.titledata = "课程管理 / 新增课程";
+    // tnameOptions
+    this.$http.get("getTeacherAndClassroom" ).then(res => {
+      console.log(res)
+      this.tnameOptions = res.data[0]
+      this.room_nameOptions = res.data[1]
+          // if (res.data != "err") {
+          //   this.tableData = res.data.list;
+          //   this.count = res.data.count;
+          //
+          // }else {
+          //   this.$message.warning('找不到该新闻')
+          // }
 
+        }).catch((err) => {
+      console.error(err)
+    });
   },
   mounted() {},
   methods: {
     submitForm() {
       console.log(this.formData)
       this.$refs['elForm'].validate(valid => {
-        if (!valid) return
-        // TODO 提交表单
+        if (valid) {
+          this.$http.post("admin/setCourse", this.formData).then(res => {
+            if (res.data == "img") {
+              this.$message.info({
+                message: "请上传图片 谢谢！！！",
+                duration: 1500
+              });
+              return;
+            }else{
+              this.$message.success({
+                message: "新增新闻成功！！！",
+                duration: 1500
+              });
+            }
+            this.resetForm()
+            this.formData.iamge=false
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
       })
     },
     resetForm() {
       this.$refs['elForm'].resetFields()
+    },
+    handleAvatarSuccess(res, file) {
+      this.loading=false
+      this.formData.iamge = URL.createObjectURL(file.raw);
     },
     field115BeforeUpload(file) {
       let isRightSize = file.size / 1024 / 1024 < 2
@@ -299,6 +328,7 @@ export default {
       if (!isAccept) {
         this.$message.error('应该选择image/*类型的文件')
       }
+      this.loading=true
       return isRightSize && isAccept
     },
   }
