@@ -9,29 +9,38 @@
     <div class="bottom">
       <div class="bottom_text">
         <div>
-          <span>昵称：</span>
-          <span>{{userdata.username}}</span>
+          <span>账号：</span>
+          <span>{{userdata.account}}</span>
         </div>
         <div>
           <span>真实姓名：</span>
-          <span>{{userlist.pname}}</span>
+          <span>{{userdata.sname}}</span>
         </div>
         <div>
           <span>性别：</span>
-          <span>{{userlist.pgender}}</span>
+          <span v-if="userdata.sex =='0'">男</span>
+          <span v-if="userdata.sex =='1'">女</span>
         </div>
         <div>
           <span>生日：</span>
-          <span>{{userlist.pbirth}}</span>
+          <span>{{userdata.birthday}}</span>
         </div>
         <div>
-          <span>账号地区：</span>
-          <span>{{userlist.pregion}}</span>
+          <span>电话：</span>
+          <span>{{userdata.stel}}</span>
         </div>
         <div>
-          <span>个人邮箱：</span>
-          <span>{{userlist.mailbox}}</span>
+          <span>紧急联系电话：</span>
+          <span>{{userdata.emergency_call}}</span>
         </div>
+        <div>
+          <span>地址：</span>
+          <span>{{userdata.address}}</span>
+        </div>
+<!--        <div>-->
+<!--          <span>个人邮箱：</span>-->
+<!--          <span>{{userlist.mailbox}}</span>-->
+<!--        </div>-->
       </div>
     </div>
 
@@ -44,12 +53,12 @@
         <div class="kuan">
           <el-form :model="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="真实姓名" prop="pname">
-              <el-input style="width: 220px;" v-model="ruleForm.pname"></el-input>
+              <el-input style="width: 220px;" v-model="ruleForm.sname"></el-input>
             </el-form-item>
             <el-form-item label="性别" prop="pgender">
-              <el-radio-group v-model="ruleForm.pgender">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
+              <el-radio-group v-model="ruleForm.sex">
+                <el-radio label="0">男</el-radio>
+                <el-radio label="1">女</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="生日">
@@ -59,23 +68,20 @@
                     value-format="yyyy-MM-dd"
                     type="date"
                     placeholder="选择日期"
-                    v-model="ruleForm.pbirth"
+                    v-model="ruleForm.birthday"
                     style="width: 100%;"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
-            <el-form-item label="账号地区" prop="pregion">
-              <el-select v-model="ruleForm.pregion" placeholder="账号地区">
-                <el-option label="中国" value="中国"></el-option>
-                <el-option label="美国" value="美国"></el-option>
-                <el-option label="德国" value="德国"></el-option>
-                <el-option label="日本" value="日本"></el-option>
-              </el-select>
+            <el-form-item label="电话" prop="pregion">
+              <el-input style="width: 220px;" v-model="ruleForm.stel"></el-input>
             </el-form-item>
-
-            <el-form-item label="个人邮箱" prop="name">
-              <el-input style="width: 220px;" v-model="ruleForm.mailbox"></el-input>
+            <el-form-item label="紧急联系电话" prop="name">
+              <el-input style="width: 220px;" v-model="ruleForm.emergency_call"></el-input>
+            </el-form-item>
+            <el-form-item label="地址" prop="name">
+              <el-input style="width: 220px;" v-model="ruleForm.address" type="textarea" ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">修改</el-button>
@@ -98,38 +104,40 @@ export default {
       userdata: JSON.parse(localStorage.getItem("user")),
       isActive: false,
       ruleForm: {
-        pname: "",
-        pgender: "",
-        pbirth: "",
-        pregion: "",
-        mailbox: ""
+        sid:'',
+        account: '',
+        sname: '',
+        spassword: '',
+        stel: '',
+        sex: '',
+        type: 1,
+        address: '',
+        birthday:'',
+        emergency_call:'',
+        id_card:''
       }
     };
   },
   created() {
-    this.$http
-      .post("user/home/getUserPersonal", { id: this.userdata.id })
-      .then(res => {
-        this.userlist = res.data;
-        this.ruleForm= res.data;
-      });
+    this.ruleForm = this.userdata
+    console.log(this.ruleForm)
   },
- 
+
   methods: {
     toisActive() {
       this.isActive = !this.isActive;
     },
     onSubmit() {
-      this.ruleForm.uid=this.userdata.id
       this.$http
-      .post("user/home/upUserPersonal", this.ruleForm)
+      .post("admin/upUserRoTeacher", this.ruleForm)
       .then(res => {
-        this.userlist=res.data;
-        this.$message.success({
-            message: "个人信息修改成功 ！！！",
-            duration: 1500
-          });
-          this.toisActive()
+        console.log(res)
+        // this.userlist=res.data;
+        // this.$message.success({
+        //     message: "个人信息修改成功 ！！！",
+        //     duration: 1500
+        //   });
+        //   this.toisActive()
       });
     },
     resetForm() {
@@ -205,7 +213,7 @@ export default {
   border-radius: 10px;
   background-color: #fff;
   width: 31%;
-  height: 62%;
+  height: 75%;
   margin: 10em auto;
   color: #212529;
   position: relative;
@@ -228,6 +236,6 @@ export default {
   right: 15px;
   cursor: pointer;
   color: rgb(139, 139, 139);
-  
+
 }
 </style>

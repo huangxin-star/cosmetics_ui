@@ -177,17 +177,17 @@ export default {
       },
       company: [],
       category: [{
-        value: 1,
+        value: "1",
         label: '新闻动态'
       }, {
-        value: 2,
+        value: "2",
         label: '作品展示'
       },
         {
-          value: 3,
+          value: "3",
           label: '通知公告'
         }, {
-          value: 4,
+          value: "4",
           label: '学习资料'
         }],
       rules: {

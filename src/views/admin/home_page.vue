@@ -81,7 +81,7 @@
 <!--          </el-submenu>-->
           <el-submenu index="4">
             <template slot="title">
-              <i class="el-icon-goods"></i>
+              <i class="el-icon-s-order"></i>
               <span>新闻信息管理</span>
             </template>
             <el-menu-item index="/adminhome/newsdetail">新增新闻信息</el-menu-item>
@@ -89,7 +89,7 @@
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">
-              <i class="el-icon-goods"></i>
+              <i class="el-icon-date"></i>
               <span>课程管理</span>
             </template>
             <el-menu-item index="/adminhome/coursedetail">新增课程</el-menu-item>

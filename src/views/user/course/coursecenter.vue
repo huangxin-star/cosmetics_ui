@@ -4,145 +4,106 @@
     <div class="row">
       <div class="col-xl-12">
         <div class=" full-width">
-          <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="row" >
+
+            <div class="col-xl-3 col-lg-6 col-md-6" v-loading="loading"  v-for="item in tableData">
               <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
+                <div class="entry-thumb"  style="cursor: pointer;" @click="goDetail(item)">
+                  <img :src="item.iamge" alt="img" class="img-fluid full-width">
                   <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
+                    <a style="cursor: pointer;"><strong>{{item.cname}}</strong></a>
+                    <p>学费：<strong>{{item.fees}}元</strong></p>
                   </div>
                 </div>
                 <div class="causes-details-wrap">
                   <div class="causes-details">
-                    <h5><a href="story-details.html">More than One Life Changed</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
+<!--                    <h5><a href="story-details.html">More than One Life Changed</a></h5>-->
+                    <p>{{item.cdescription }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">Help for Children of the East</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">Help for Children of the East</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">More than One Life Changed</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">More than One Life Changed</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">Help for Children of the East</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Goal: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">More than One Life Changed</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="sa-causes-single sa-causes-single-2">
-                <div class="entry-thumb">
-                  <img src="../../../assets/img/course.jpg" alt="img" class="img-fluid full-width">
-                  <div class="dontaion-category story-meta">
-                    <p><strong>Michle Colen</strong></p>
-                    <p>Raised: <strong>$4585.00</strong></p>
-                  </div>
-                </div>
-                <div class="causes-details-wrap">
-                  <div class="causes-details">
-                    <h5><a href="story-details.html">More than One Life Changed</a></h5>
-                    <p>Many desktop publishing package and the web page editor now use lorem Ipsum the model text lorem.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
+
+        <el-dialog
+            title="选课"
+            :visible.sync="dialogVisible"
+            width="60%"
+            custom-class="bpmDialog"
+            >
+          <div style="display: flex">
+            <div style="padding-top: 5px">
+              <img :src="detail.iamge" alt="img" class="img-fluid full-width">
+            </div>
+            <div style="padding-left: 20px">
+              <el-descriptions class="margin-top" style="font-size: 16px" :title="detail.cname" :column="3"  border>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-user"></i>
+                    任课教师
+                  </template>
+                  {{detail.sname}}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-mobile-phone"></i>
+                    咨询电话
+                  </template>
+                  {{ detail.stel }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-location-outline"></i>
+                    教室
+                  </template>
+                  {{detail.room_name}}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-coin"></i>
+                    费用
+                  </template>
+                  <el-tag size="medium">{{ detail.fees }}元</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-time"></i>
+                    上课时间
+                  </template>
+                  {{detail.school_time}}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-tickets"></i>
+                    选课人数
+                  </template>
+                  <el-tag size="small">学校</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    课程描述
+                  </template>
+                  {{ detail.cdescription }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    考核内容
+                  </template>
+                  {{detail.examined_content}}
+                </el-descriptions-item>
+              </el-descriptions>
+            </div>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
+
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -174,29 +135,95 @@ export default {
     return {
       queryInfo: {
         currentPage: 1,
-        pageSize: 4,
+        pageSize: 6,
         total: 0,
         sensitiveWord: "",
       },
+      tableData:[],
+      input1:'',
+      detail:'',
+      dialogVisible:false,
+      loading:false
     }
   },
+  created() {
+    this.getTableData()
+  },
   methods: {
+    getTableData() { //列表
+      this.loading = true
+      this.$http
+          .get("admin/getPagingCourse", {
+            params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
+          })
+          .then(res => {
+            console.log(res)
+            if (res.data != "err") {
+              this.tableData = res.data.list;
+              this.queryInfo.total = res.data.count;
+            } else {
+              this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
+            }
+            this.loading = false
+          });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.queryInfo.pageSize = val;
+      this.getTableData();
 
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.queryInfo.currentPage = val;
-
+      this.getTableData();
     },
+    goDetail(item) {
+      console.log(item)
+      this.detail = item
+      this.dialogVisible = true
+    }
   }
 
 }
 </script>
 
-<style scoped>
+<style lang="less">
+.bpmDialog {
+  border-radius: 10px;
+  .el-dialog__header {
+    padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #666666 !important;
+    border-color: #dcdcdc !important;
+    background-color: #f1f1f1 !important;
+    border-radius: 10px 10px 0 0;
+    .el-dialog__title {
+      font-size: 14px;
+    }
+    .el-dialog__headerbtn {
+      top: 10px;
+      i {
+        font-size: 18px !important;
+        font-weight: bold !important;
+      }
+    }
+  }
+  .el-dialog__body {
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+    //box-shadow: 0 5px 5px #777;
+  }
+}
+</style>
+<style lang="less" scoped>
 .container-fluid {
   /*width: 100%;*/
   padding-top: 40px;
@@ -208,6 +235,12 @@ export default {
 .custom-container {
   padding-right: 8%;
   padding-left: 8%;
+}
+.dontaion-category {
+  a:hover {
+    text-decoration: underline;
+    color: #f5bc04;
+  }
 }
 .row {
   display: -ms-flexbox;
@@ -225,7 +258,8 @@ export default {
   flex: 0 0 30%;
 }
 .sa-causes-single {
-  box-shadow: 0 0 0 1px rgb(67 41 163 / 8%), 0 1px 5px 0 rgb(67 41 163 / 8%);
+  //box-shadow: 0 0 0 1px rgb(67 41 163 ), 0 1px 5px 0 rgb(67 41 163 );
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   margin-bottom: 30px;
   border-radius: 4px;
   transition: 0.3s;

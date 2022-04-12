@@ -15,16 +15,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-<!--      <el-row >-->
-<!--        <el-col :span="12">-->
-<!--          <el-form-item label="学制" prop="system">-->
-<!--            <el-select v-model="formData.system" placeholder="请选择学制" clearable :style="{width: '100%'}">-->
-<!--              <el-option v-for="(item, index) in systemOptions" :key="index" :label="item.label"-->
-<!--                         :value="item.value" :disabled="item.disabled"></el-option>-->
-<!--            </el-select>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
-<!--      </el-row>-->
       <el-row >
         <el-col :span="12">
           <el-form-item label="任课教师" prop="tid">
@@ -53,14 +43,14 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="课程状态" prop="status">
-            <el-select v-model="formData.status" placeholder="请输入课程状态" clearable :style="{width: '100%'}">
-              <el-option v-for="(item, index) in statusOptions" :key="index" :label="item.label"
-                         :value="item.value" :disabled="item.disabled"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+<!--        <el-col :span="12">-->
+<!--          <el-form-item label="课程状态" prop="cstatus">-->
+<!--            <el-select v-model="formData.cstatus" placeholder="请输入课程状态" clearable :style="{width: '100%'}">-->
+<!--              <el-option v-for="(item, index) in statusOptions" :key="index" :label="item.label"-->
+<!--                         :value="item.value" :disabled="item.disabled"></el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
       </el-row>
       <el-row >
         <el-col :span="12">
@@ -92,10 +82,23 @@
       </el-row>
       <el-row >
         <el-col :span="12">
-          <el-form-item label="上传图片" prop="iamge" required>
-            <el-upload ref="iamge" :file-list="field115fileList" :action="field115Action" v-loading.fullscreen="loading"
-                       :before-upload="field115BeforeUpload" :on-success="handleAvatarSuccess" list-type="picture" accept="image/*">
-              <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>
+<!--          <el-form-item label="上传图片" prop="iamge" required>-->
+<!--            <el-upload ref="iamge" :file-list="formData.iamge" :action="field115Action" v-loading.fullscreen="loading"-->
+<!--                       :before-upload="field115BeforeUpload" :on-success="handleAvatarSuccess" list-type="picture" accept="image/*">-->
+<!--              <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>-->
+<!--            </el-upload>-->
+<!--          </el-form-item>-->
+          <el-form-item label="上传图片"  prop="iamge" required>
+            <el-upload
+                v-loading.fullscreen="loading"
+                class="avatar-uploader"
+                action="http://localhost:9000/admin/productCourseIamge"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="field115BeforeUpload"
+            >
+              <img v-if="formData.iamge" :src="formData.iamge" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
         </el-col>
@@ -124,12 +127,13 @@ export default {
         room_name: '',
         locationid:'',
         school_time: '',
-        status: '',
+        cstatus: '1',
         min_number: 5,
         max_number: 20,
         cdescription: '',
         examined_content: '',
         iamge: '',
+        time:''
       },
       rules: {
         cname: [{
@@ -162,7 +166,7 @@ export default {
           message: '请选择上课时间',
           trigger: 'change'
         }],
-        status: [{
+        cstatus: [{
           required: true,
           message: '请输入课程状态',
           trigger: 'change'
@@ -189,7 +193,6 @@ export default {
         }],
       },
       field115Action: 'http://localhost:9000/admin/productCourseIamge',
-      field115fileList: [],
       systemOptions: [{
         "label": "一学年",
         "value": 1,
@@ -290,6 +293,7 @@ export default {
       console.log(this.formData)
       this.$refs['elForm'].validate(valid => {
         if (valid) {
+          this.formData.time = new Date().getTime()
           this.$http.post("admin/setCourse", this.formData).then(res => {
             if (res.data == "img") {
               this.$message.info({
@@ -313,6 +317,22 @@ export default {
       })
     },
     resetForm() {
+      this.formData = {
+        cname: '',
+        fees: '',
+        system: '',
+        tname: '',
+        tid:'',
+        room_name: '',
+        locationid:'',
+        school_time: '',
+        ctatus: '',
+        min_number: 5,
+        max_number: 20,
+        cdescription: '',
+        examined_content: '',
+        iamge: '',
+      }
       this.$refs['elForm'].resetFields()
     },
     handleAvatarSuccess(res, file) {

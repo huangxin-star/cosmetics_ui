@@ -24,17 +24,17 @@
           <div>
             <router-link to="/homeuser/personal/core">我的信息</router-link>
           </div>
-          <div>
-            <router-link to="/homeuser/personal/address">地址管理</router-link>
-          </div>
-          <div>
-            <router-link to="/homeuser/personal/iorder">我的订单</router-link>
-          </div>
+<!--          <div>-->
+<!--            <router-link to="/homeuser/personal/address">地址管理</router-link>-->
+<!--          </div>-->
           <div>
             <router-link to="/homeuser/personal/iorder">我的订单</router-link>
           </div>
-          <div @click="tofavorite">我的收藏</div>
-          <div @click="toshopping">购物车</div>
+          <div>
+            <router-link to="/homeuser/personal/iorder">我的选课</router-link>
+          </div>
+<!--          <div @click="tofavorite">我的收藏</div>-->
+<!--          <div @click="toshopping">购物车</div>-->
           <div>
             <router-link to="/homeuser/personal/password">修改密码</router-link>
           </div>

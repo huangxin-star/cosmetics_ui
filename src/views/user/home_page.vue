@@ -25,25 +25,25 @@
             <i slot="prefix" class="el-input__icon el-icon-search" style="line-height: 35px"></i>
           </el-input>
         </div>
-        <div class="shop-button-item">
-          <a class="shop-button" @click="tofavorite">
-            <i class="icon-aixin iconfont"></i>
-            <sup class="shop-count">{{liketotal}}</sup>
-            <!-- <router-link to="/homeuser/favorite">
-              <i class="icon-aixin iconfont"></i>
-              <sup class="shop-count">{{liketotal}}</sup>
-            </router-link>-->
-          </a>
-        </div>
-        <div class="shop-button-item">
-          <a class="shop-button" @click="toshopping">
-            <i class="el-icon-shopping-bag-1" style="font-size: 29px;"></i>
-            <sup class="shop-count">{{shoppingtotal}}</sup>
-          </a>
-        </div>
+<!--        <div class="shop-button-item">-->
+<!--          <a class="shop-button" @click="tofavorite">-->
+<!--            <i class="icon-aixin iconfont"></i>-->
+<!--            <sup class="shop-count">{{liketotal}}</sup>-->
+<!--            &lt;!&ndash; <router-link to="/homeuser/favorite">-->
+<!--              <i class="icon-aixin iconfont"></i>-->
+<!--              <sup class="shop-count">{{liketotal}}</sup>-->
+<!--            </router-link>&ndash;&gt;-->
+<!--          </a>-->
+<!--        </div>-->
+<!--        <div class="shop-button-item">-->
+<!--          <a class="shop-button" @click="toshopping">-->
+<!--            <i class="el-icon-shopping-bag-1" style="font-size: 29px;"></i>-->
+<!--            <sup class="shop-count">{{shoppingtotal}}</sup>-->
+<!--          </a>-->
+<!--        </div>-->
         <div class="toxiang">
           <el-dropdown>
-            <span class="el-dropdown-link">大师傅{{toxiangdata}}</span>
+            <span class="el-dropdown-link">{{toxiangdata}}</span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 @click.native="personal "
@@ -77,7 +77,7 @@ export default {
   },
   created() {
     let user = JSON.parse(localStorage.getItem("user"));    //获得user用户信息
-    this.toxiangdata = user.username;
+    this.toxiangdata = user.sname;
     this.$http.post("likecollectiontotal", user).then(res => {
       this.liketotal = res.data;
     });
@@ -100,12 +100,12 @@ export default {
       })
 
     },
-    tofavorite() {
-      this.$router.push({ path: "/homeuser/favorite" });
-    },
-    toshopping() {
-      this.$router.push({ path: "/homeuser/shopping" });
-    },
+    // tofavorite() {
+    //   this.$router.push({ path: "/homeuser/favorite" });
+    // },
+    // toshopping() {
+    //   this.$router.push({ path: "/homeuser/shopping" });
+    // },
     signout() {
       let is = confirm(
         JSON.parse(localStorage.getItem("user")).username +

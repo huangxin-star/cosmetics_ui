@@ -37,11 +37,11 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openModel(scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="openModel(scope.row)">编辑</el-button>
           <el-popconfirm
               title="确定删除吗？"
               style="margin-left: 1rem"
-              @confirm="deleteCategory(scope.row.id)"
+              @confirm="deleteCategory(scope.row.Id)"
           >
             <el-button size="mini" type="danger" slot="reference">删除</el-button>
           </el-popconfirm>
@@ -63,8 +63,8 @@
     <el-dialog :visible.sync="addOrEdit" width="30%">
       <div style="font-weight: 600;" slot="title" ref="tagTitle" />
       <el-form label-width="80px" size="medium" :model="tagForm">
-        <el-form-item label="类别名">
-          <el-input style="width: 220px" v-model="tagForm.type" />
+        <el-form-item label="教室名">
+          <el-input style="width: 220px" v-model="tagForm.room_name" />
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -85,16 +85,13 @@ export default {
       size: 5,
       count: 0,
       addOrEdit: false,
-      tableData: [{
-        time: '2016-05-02',
-        roomName: '615',
-
-      }],
+      tableData: [],
       tagForm: {
-        id: null,
-        type: "",
-        time: ""
-      }
+        Id: null,
+        room_name: "",
+        ctime: ""
+      },
+      isadd:false
     };
   },
   methods: {
@@ -131,58 +128,73 @@ export default {
       this.getTableData();
     },
     deleteCategory(id) {
-      this.$http.get("admin/deCategory", { params: { id } }).then(res => {
+      this.$http.post("admin/deleteClassRoom", { id:id } ).then(res => {
         if (res.data == "ok") {
           this.getTableData();
           this.$message.info({
-            message: "类别删除成功 ！！！",
+            message: "教室删除成功 ！！！",
             duration: 1500
           });
         } else {
           this.$message.error({
-            message: "类别删除失败 ！！！",
+            message: "教室删除失败 ！！！",
             duration: 1500
           });
         }
       });
     },
     openModel(tag) {
+      console.log(tag)
       if (tag != null) {
+        this.isadd = false
         this.tagForm = tag;
-        this.$refs.tagTitle.innerHTML = "修改标签";
+        this.$refs.tagTitle.innerHTML = "修改教室名";
       } else {
-        this.tagForm.id = -1;
-        this.tagForm.type = "";
-        this.tagForm.time = "";
-        this.$refs.tagTitle.innerHTML = "添加类别";
+        this.isadd = true
+        this.tagForm.room_name = "";
+        this.tagForm.ctime = "";
+        this.$refs.tagTitle.innerHTML = "添加教室";
       }
       this.addOrEdit = true;
     },
     addOrEditTag() {
-      if (this.tagForm.type.trim() == "") {
-        this.$message.error("请输入类别！！！");
+      if (this.tagForm.room_name.trim() == "") {
+        this.$message.error("请输入教室名！！！");
         return false;
       }
+      console.log(this.tagForm)
+      if (!this.isadd) {//修改
+        console.log('修改')
+        this.$http
+            .post("admin/upClassRoom", { id: this.tagForm.Id, room_name: this.tagForm.room_name })
+            .then(res => {
+              if (res.data == "ok") {
+                this.$message.success({
+                  message: "添加教室成功！！！",
+                  duration: 1500
+                });
+                this.getTableData();
+                this.addOrEdit = false;
+              }
+            });
 
-      this.$http
-          .get("admin/setCategoryData", {
-            params: { id: this.tagForm.id, type: this.tagForm.type }
-          })
-          .then(res => {
-            if (res.data == "ok") {
-              this.$message.success({
-                message: "添加成功 感谢支持！！！",
-                duration: 1500
-              });
-            } else {
-              this.$message.success({
-                message: "修改成功 感谢支持 ！！！",
-                duration: 1500
-              });
-            }
-          });
-      this.getTableData();
-      this.addOrEdit = false;
+      }else {
+        console.log('新增')
+        this.$http
+            .post("admin/addClassRoom", { id: this.tagForm.Id, room_name: this.tagForm.room_name,ctime:new Date().getTime() })
+            .then(res => {
+              if (res.data == "ok") {
+                this.$message.success({
+                  message: "修改教室成功！！！",
+                  duration: 1500
+                });
+                this.getTableData();
+                this.addOrEdit = false;
+              }
+            });
+
+      }
+
     }
   },
   created() {

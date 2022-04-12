@@ -13,48 +13,24 @@
         </div>
         <div class="tab-main-box">
           <div class="tab-main">
-
-
-
             <div class="wrap" style="display:block">
-
-<!--              <el-form ref="loginFormRef" :rules="rules" label-width="80px" :model="loging">-->
-<!--                <el-form-item label="账号" prop="username">-->
-<!--                  <el-input v-model="loging.username" placeholder="昵称"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="密码" prop="password">-->
-<!--                  <el-input type="password" v-model="loging.password" placeholder="密码"></el-input>-->
-<!--                </el-form-item>-->
-<!--                &lt;!&ndash; <div>-->
-<!--                    <span class="xzlb">选择类别：</span>-->
-<!--                    <el-radio v-model="loging.role" label="用户">用户</el-radio>-->
-<!--                    <el-radio v-model="loging.role" label="商家">商家</el-radio>-->
-<!--                </div> &ndash;&gt;-->
-
-<!--                <div class="button-group">-->
-<!--                  <button @click.prevent="login">登 录</button>-->
-<!--                  <button @click.prevent="post">注 册</button>-->
-<!--                </div>-->
-<!--              </el-form>-->
-              <!-- 个人登录 -->
               <el-form ref="loginFormRef" :rules="rules" label-width="80px" :model="loging">
               <div class="input-text">
                 <div class="tb ren"></div>
-                <el-form-item prop="username"  >
-                  <el-input   style="margin-top: 22px;margin-left: -73px;width:240px;border: none" v-model="loging.username" placeholder="请输入账号" class="name"></el-input>
+                <el-form-item prop="account"  >
+                  <el-input   style="margin-top: 22px;margin-left: -73px;width:240px;border: none" v-model="loging.account" placeholder="请输入账号" class="name"></el-input>
                 </el-form-item>
               </div>
               <div class="input-text">
                 <div class="tb suo"></div>
-                <el-form-item  prop="password">
-                  <el-input style="margin-top: 22px;margin-left: -73px;width:240px" type="password" v-model="loging.password" placeholder="请输入密码" class="name"></el-input>
+                <el-form-item  prop="spassword">
+                  <el-input style="margin-top: 22px;margin-left: -73px;width:240px" type="password" v-model="loging.spassword" placeholder="请输入密码" class="name" show-password></el-input>
                 </el-form-item>
               </div>
               <div class="flex">
-                <button class="btn" type="primary" @click.prevent="login" :loading="loading">登 录</button>
-                <button class="btn" @click.prevent="post">注 册</button>
-<!--                <div class="btn">登录</div>-->
-<!--                <div class="btn btn-qs">取消</div>-->
+                <el-button  class="btn" type="primary" @click.prevent="login" :loading="loading">登 录</el-button>
+                <el-button class="btn" @click.prevent="post">注 册</el-button>
+
               </div>
               </el-form>
 <!--              <a href="" class="forget">-->
@@ -76,18 +52,18 @@ export default {
   name: "userLogin",
   data() {
     return {
-      loading:'',
+      loading:false,
       loging: {
-        username: "",
-        password: "",
-        role: "用户"
+        account: "",
+        spassword: "",
+        type: "1"
       },
       rules: {
-        username: [
+        account: [
           { required: true, message: "请填写账号", trigger: "blur" },
-          { min: 2, max: 10, message: "长度在 3 ~ 10 个字符", trigger: "blur" }
+          { min: 2, max: 20, message: "长度在 3 ~ 20 个字符", trigger: "blur" }
         ],
-        password: [
+        spassword: [
           { required: true, message: "请填写密码", trigger: "blur" },
           { min: 6, max: 20, message: "长度在 6 个字符", trigger: "blur" }
         ]
@@ -103,25 +79,14 @@ export default {
         // 调用get请求
         this.loading = true
         const res = await this.$http.post("login", this.loging);
+        console.log(res)
+        if (res.data !== 'err') {
+          this.$message.success("登录成功！！！");
 
-        if (res.data.flag == "ok") {
-          if(res.data.user.state==0){
-            this.$message.success("登录成功！！！");
-          }else if(res.data.user.state==1){
-            this.$message.info("该账户已在其他地方上线！！！");
-            return;
-          }else{
-            this.$message.error("该账户已被管理员禁用了！！！");
-            return;
-          }
+          if (this.loging.type == "1") {
+            localStorage.setItem("user",JSON.stringify(res.data))
 
-
-          if (this.loging.role == "用户") {
-            localStorage.setItem("user",JSON.stringify(res.data.user))
-            this.$http.post("setTrueUserState",JSON.parse(localStorage.getItem("user")))
             this.$router.push({ path: "/homeuser" });
-          } else {
-            this.$router.push({ path: "/homebus" });
           }
         } else {
           this.$message.error("账号或密码错误！！！");
@@ -140,6 +105,7 @@ export default {
 .name>>>.el-input__inner {
   border: 0;
   height: 58px;
+  font-size: 20px;
 }
 .box{
   width: 100%;
@@ -282,7 +248,7 @@ input[type="checkbox" i] {
   width: 48%;
   background-color: #5a67d9;
   text-align: center;
-  line-height: 58px;
+  /*line-height: 58px;*/
   color: #fff;
   font-size: 24px;
   margin-top:30px;
@@ -294,9 +260,7 @@ input[type="checkbox" i] {
 .btn-qs{
   background-color: #bfbfbf;
 }
-.btn:hover{
-  background-color: #5361d6;
-}
+
 .btn-qs:hover{
   background-color: #b3b3b3;
 }

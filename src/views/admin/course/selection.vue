@@ -24,7 +24,15 @@
       <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
       <el-table-column prop="sname" label="学生姓名" align="center" width="80" />
       <el-table-column prop="cname" label="课程名" align="center" width="80" />
-      <el-table-column prop="grade" label="成绩" align="center" width="80" />
+<!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
+      <el-table-column label="成绩" align="center" width="80">
+        <template slot-scope="scope">
+          <span v-if="!isgradde">{{scope.row.grade}}</span>
+          <el-input type="text" placeholder="请输入成绩姓名" v-model="scope.row.grade" size="mini"
+                    v-if="isgradde">
+          </el-input>
+        </template>
+      </el-table-column>
       <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
       <el-table-column prop="gstatus" label="选课状态" align="center" width="80" />
       <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
@@ -36,8 +44,11 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openModel(scope.row)">修改成绩</el-button>
-          <el-button size="mini" @click="openModel(scope.row)">选课失败</el-button>
+          <el-button size="mini" v-show="!isgradde" @click="modifyGrade(scope.row)">修改成绩</el-button>
+
+          <el-button type="text" size="mini" v-show="isgradde" @click="saveUserInfo(scope.row)">
+            保存</el-button>
+          <el-button size="mini" v-show="!isgradde" @click="openModel(scope.row)">选课失败</el-button>
 <!--          <el-popconfirm-->
 <!--              title="确定删除吗？"-->
 <!--              style="margin-left: 1rem"-->
@@ -80,19 +91,13 @@ export default {
   name: "selection",
   data() {
     return {
+      isgradde:false,
       input1: "",
       current: 1,
       size: 5,
       count: 0,
       addOrEdit: false,
-      tableData: [{
-        time: '2016-05-02',
-        title: '王小虎',
-        type:"学习资料",
-        status:"选课中",
-        content: '上海市普陀区金沙江路 1518 弄安德鲁杰克森放假撒了点开发螺丝钉咖啡碱撒大',
-        grade:'60'
-      }],
+      tableData: [],
       tagForm: {
         id: null,
         type: "",
@@ -134,22 +139,51 @@ export default {
       this.current = current;
       this.getTableData();
     },
-    deleteCategory(id) {
-      this.$http.get("admin/deCategory", { params: { id } }).then(res => {
+    modifyGrade(row) { //修改成绩
+      this.isgradde = true
+      // this.$http.post("admin/upAchievement", {grade:row.grade}).then(res => {
+      //   if (res.data == "ok") {
+      //     this.$message.success({
+      //       message: "修改成功 ！！！",
+      //       duration: 1500
+      //     });
+      //     this.modifyEdit = false;
+      //     this.resetForm()
+      //   }
+      //   this.getTableData()
+      //
+      // });
+    },
+    saveUserInfo(row) {
+      this.$http.post("admin/upAchievement", {grade:row.grade,sid:row.sid,course_id:row.course_id}).then(res => {
         if (res.data == "ok") {
-          this.getTableData();
-          this.$message.info({
-            message: "类别删除成功 ！！！",
+          this.$message.success({
+            message: "修改成功 ！！！",
             duration: 1500
           });
-        } else {
-          this.$message.error({
-            message: "类别删除失败 ！！！",
-            duration: 1500
-          });
+          this.modifyEdit = false;
+          this.isgradde = false
         }
+
+        this.getTableData()
       });
     },
+    // deleteCategory(id) {
+    //   this.$http.get("admin/deCategory", { params: { id } }).then(res => {
+    //     if (res.data == "ok") {
+    //       this.getTableData();
+    //       this.$message.info({
+    //         message: "类别删除成功 ！！！",
+    //         duration: 1500
+    //       });
+    //     } else {
+    //       this.$message.error({
+    //         message: "类别删除失败 ！！！",
+    //         duration: 1500
+    //       });
+    //     }
+    //   });
+    // },
     // listCategories() {
     //   this.$http
     //       .get("admin/category", {
