@@ -2,22 +2,29 @@
   <div>
 
     <div style="margin-left: auto;">
-      <h1>新闻动态</h1>
-      <el-input
-          style="width: 200px;display: inline-block;"
-          size="small"
-          placeholder="请输入商品名"
-          prefix-icon="el-icon-search"
-          v-model="input1"
-      ></el-input>
-      <el-button
-          @click="search"
-          style="margin-left: 1rem;"
-          size="small"
-          type="primary"
-          icon="el-icon-search"
-      >搜索</el-button>
-    </div>
+      <div>
+        <h1>新闻动态</h1>
+      </div>
+
+      <div style="float: right">
+        <el-input
+            style="width: 200px;display: inline-block;font-size: 17px"
+            size="small"
+            class="iname"
+            placeholder="请输入新闻内容"
+            prefix-icon="el-icon-search"
+            v-model="input1"
+        ></el-input>
+        <el-button
+            @click="search"
+            style="margin-left: 1rem;font-size: 17px"
+            size="small"
+            type="primary"
+            icon="el-icon-search"
+        >搜索</el-button>
+      </div>
+      </div>
+
     <div
       class="main-box"
       v-for="item in newsList"
@@ -123,15 +130,20 @@ export default {
   },
 };
 </script>
-
+<style scoped>
+.iname>>>.el-input__inner {
+  height: 40px;
+}
+</style>
 <style lang="less" scoped>
 .main-box {
   display: flex;
+  margin-top: 10px;
 }
 .main-box .left-img {
   padding-bottom: 2rem;
-  height: 300px;
-  width: 400px;
+  height: 200px;
+  width: 300px;
 }
 
 .right-box {
@@ -173,14 +185,14 @@ export default {
 
 .left-img {
   padding-right: 20px;
-  width: 400px;
-  height: 300px;
+  width: 300px;
+  height: 200px;
 }
 
 .left-img img {
   display: block;
-  width: 400px;
-  height: 300px;
+  width: 300px;
+  height: 200px;
 }
 .pagination-container {
   float: right;

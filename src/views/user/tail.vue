@@ -1,7 +1,9 @@
 <template>
   <div class="wei">
-    <img src="" alt="" style="display: block" />
-    <p id="title">社区老年大学网站</p>
+    <div style="display: flex;margin-top: 10px">
+      <img src="../../assets/img/laonian.jpg" alt="" style="display: block;width: 100px;border-radius: 10px;margin-left: 15px" />
+      <p id="title">社区老年大学网站</p>
+    </div>
     <p>2022，18软件工程,地址：宁波大学科学技术学院 联系电话：1238971247</p>
   </div>
 </template>

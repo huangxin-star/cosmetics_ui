@@ -22,8 +22,8 @@
 
     <el-table border :data="tableData" style="width: 100%">
       <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
-      <el-table-column prop="sname" label="学生姓名" align="center" width="80" />
-      <el-table-column prop="cname" label="课程名" align="center" width="80" />
+      <el-table-column prop="sname" label="学生姓名" align="center" width="120" />
+      <el-table-column prop="cname" label="课程名" align="center" width="160" />
 <!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
       <el-table-column label="成绩" align="center" width="80">
         <template slot-scope="scope">
@@ -34,21 +34,21 @@
         </template>
       </el-table-column>
       <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
-      <el-table-column prop="gstatus" label="选课状态" align="center" width="80" />
+      <el-table-column prop="gstatus" label="选课状态" align="center" width="180" />
       <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
       <el-table-column label="选课日期" style="width: 30%" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+
           <span style="margin-left: 10px">{{ scope.row.gtime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" v-show="!isgradde" @click="modifyGrade(scope.row)">修改成绩</el-button>
+          <el-button size="mini" v-show="!isgradde" type="primary" @click="modifyGrade(scope.row)">修改成绩</el-button>
 
           <el-button type="text" size="mini" v-show="isgradde" @click="saveUserInfo(scope.row)">
             保存</el-button>
-          <el-button size="mini" v-show="!isgradde" @click="openModel(scope.row)">选课失败</el-button>
+          <el-button size="mini" v-show="!isgradde" type="primary" @click="openModel(scope.row)">选课失败</el-button>
 <!--          <el-popconfirm-->
 <!--              title="确定删除吗？"-->
 <!--              style="margin-left: 1rem"-->

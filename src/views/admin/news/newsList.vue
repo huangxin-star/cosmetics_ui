@@ -32,7 +32,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题" align="center" width="180" />
-      <el-table-column label="类别" >
+      <el-table-column label="类别" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.ntype==1">新闻动态</span>
           <span v-if="scope.row.ntype==2">作品展示</span>
@@ -46,7 +46,7 @@
         </template>
       </el-table-column>
 <!--      <el-table-column prop="video" label="视频" align="center" width="60" />-->
-      <el-table-column label="状态" >
+      <el-table-column label="状态" align="center" width="80">
         <template slot-scope="scope">
           <span >{{ scope.row.nstatus }}</span>
 <!--          <span v-if="scope.row.nstatus==0">未发布</span>-->
@@ -55,18 +55,18 @@
         </template>
       </el-table-column>
 <!--      <el-table-column prop="nstatus" label="状态" align="center" width="120" />-->
-      <el-table-column label="创建时间" >
+      <el-table-column label="创建时间" align="center" width="160">
         <template slot-scope="scope">
           <span>{{new Date(+new Date(Number(scope.row.ntime)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ")}}</span>
         </template>
       </el-table-column>
 <!--      <el-table-column prop="ntime" label="时间" align="center" width="100" />-->
-      <el-table-column label="操作" align="center" width="170">
+      <el-table-column label="操作" align="center" width="270">
         <template slot-scope="scope">
-          <el-button size="mini"  @click="modifyNews(scope.row)">修改</el-button>
+          <el-button size="mini"  type="primary" v-if="scope.row.nstatus=='未发布'" @click="modifyNews(scope.row)">修改</el-button>
           <el-button size="mini" type="primary" v-if="scope.row.nstatus!='已发布'" @click="releaseNews(scope.row)">发布</el-button>
           <el-button size="mini" type="primary" v-if="scope.row.nstatus=='已发布'" @click="withdraw(scope.row)">撤回</el-button>
-          <el-button size="mini" type="danger" @click="deleteNews(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" v-if="scope.row.nstatus=='未发布'" @click="deleteNews(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

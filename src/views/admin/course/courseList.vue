@@ -24,6 +24,7 @@
         border
         :data="tableData"
         style="width: 100%;cursor: pointer;"
+        v-loading="tableloading"
     >
       <el-table-column label="编号" type="index" width="60" align="center"></el-table-column>
       <el-table-column label="图片" align="center" width="80">
@@ -51,20 +52,19 @@
 <!--          <span >{{ scope.row.cstatus }}</span>-->
                     <span v-if="scope.row.cstatus==1">未发布</span>
                     <span v-if="scope.row.cstatus==2">已发布</span>
-                    <span v-if="scope.row.cstatus==3">已撤回</span>
-                    <span v-if="scope.row.cstatus==4">已开课</span>
+                    <span v-if="scope.row.cstatus==3">已开课</span>
         </template>
       </el-table-column>
       <el-table-column prop="ctime" label="时间" align="center" width="100" />
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
-          <el-button size="mini" @click="modifyNews(scope.row)">修改</el-button>
-          <el-button size="mini" type="primary" v-show="scope.row.cstatus ==1||scope.row.cstatus ==3" @click="releaseNews(scope.row)">发布</el-button>
+          <el-button size="mini" type="text" v-show="scope.row.cstatus ==1" @click="modifyNews(scope.row)">修改</el-button>
+          <el-button size="mini" type="text" v-show="scope.row.cstatus ==1" @click="releaseNews(scope.row)">发布</el-button>
 
-          <el-button size="mini" type="primary" v-show="scope.row.cstatus ==2" @click="withdraw(scope.row)">撤回</el-button>
-          <el-button size="mini" type="primary" @click="withdraw(scope.row)">开课</el-button>
-          <el-button size="mini" type="primary" @click="withdraw(scope.row)">选课详情</el-button>
-          <el-button size="mini" type="danger" @click="deleteNews(scope.row)">删除</el-button>
+          <el-button size="mini" type="text" v-show="scope.row.cstatus ==2" @click="withdraw(scope.row)">撤回</el-button>
+          <el-button size="mini" type="text" v-show="scope.row.cstatus ==2" @click="opencourse(scope.row)">开课</el-button>
+          <el-button size="mini" type="text" @click="goCourseDetail(scope.row)">选课详情</el-button>
+          <el-button size="mini" type="danger" v-show="scope.row.cstatus ==1" @click="deleteNews(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -194,6 +194,7 @@ export default {
   data() {
     return {
       loading:false,
+      tableloading:false,
       formData: {
         cname: '',
         fees: '',
@@ -356,6 +357,7 @@ export default {
   },
   methods: {
     getTableData() { //列表
+      this.tableloading = true
       this.$http
           .get("admin/getPagingCourse", {
             params: { input: this.input1, current: this.current, size: this.size }
@@ -368,6 +370,7 @@ export default {
             } else {
               this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
             }
+            this.tableloading = false
           });
     },
     resetForm() {
@@ -427,15 +430,41 @@ export default {
       });
     },
     withdraw(row) { //撤回
-      let params = {course_id:row.course_id,cstatus:'3'}
+      //如果有人已经选课，需要把选课的人踢掉才能选课
+      let params = {course_id:row.course_id,cstatus:'1'}
       this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
         if (res.data == "ok") {
           this.$message.success({
-            message: "发布成功 ！！！",
+            message: "撤回成功 ！！！",
             duration: 1500
           });
         }
         this.getTableData()
+      });
+    },
+    opencourse(row) {
+      //判断人数是否符合要求
+      let params = {course_id:row.course_id,cstatus:'3'}
+      this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "开课成功 ！！！",
+            duration: 1500
+          });
+        }
+        this.getTableData()
+      });
+    },
+    goCourseDetail(row) { //选课详情
+      this.$http.post("admin/getSelectionDetails", {course_id:row.course_id}).then(res => {
+        console.log(res)
+        if (res.data.length>0) {
+          // this.$message.success({
+          //   message: "发布成功 ！！！",
+          //   duration: 1500
+          // });
+        }
+        // this.getTableData()
       });
     },
     deleteNews(row) { //删除

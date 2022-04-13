@@ -4,9 +4,26 @@
     <div class="row">
       <div class="col-xl-12">
         <div class=" full-width">
+          <div style="margin-bottom: 40px;text-align: center;">
+            <el-input
+                style="width: 300px;display: inline-block;font-size: 17px"
+                size="small"
+                class="iname"
+                placeholder="请输入课程名称"
+                prefix-icon="el-icon-search"
+                v-model="input1"
+            ></el-input>
+            <el-button
+                @click="search"
+                style="margin-left: 1rem;font-size: 17px"
+                size="small"
+                type="primary"
+                icon="el-icon-search"
+            >搜索</el-button>
+          </div>
           <div class="row" >
 
-            <div class="col-xl-3 col-lg-6 col-md-6" v-loading="loading"  v-for="item in tableData">
+            <div class="col-xl-3 col-lg-6 col-md-6"   v-for="item in tableData">
               <div class="sa-causes-single sa-causes-single-2">
                 <div class="entry-thumb"  style="cursor: pointer;" @click="goDetail(item)">
                   <img :src="item.iamge" alt="img" class="img-fluid full-width">
@@ -18,7 +35,7 @@
                 <div class="causes-details-wrap">
                   <div class="causes-details">
 <!--                    <h5><a href="story-details.html">More than One Life Changed</a></h5>-->
-                    <p>{{item.cdescription }}</p>
+                    <p>描述：{{item.cdescription }}</p>
                   </div>
                 </div>
               </div>
@@ -28,14 +45,15 @@
         </div>
 
         <el-dialog
-            title="选课"
+            title="课程信息"
             :visible.sync="dialogVisible"
-            width="60%"
+            width="65%"
             custom-class="bpmDialog"
+            center
             >
           <div style="display: flex">
-            <div style="padding-top: 5px">
-              <img :src="detail.iamge" alt="img" class="img-fluid full-width">
+            <div style="padding-top: 5px;max-width: 300px">
+              <img :src="detail.iamge" alt="img" class="img-fluid full-width" style="width: 100%">
             </div>
             <div style="padding-left: 20px">
               <el-descriptions class="margin-top" style="font-size: 16px" :title="detail.cname" :column="3"  border>
@@ -72,14 +90,23 @@
                     <i class="el-icon-time"></i>
                     上课时间
                   </template>
-                  {{detail.school_time}}
+                  <p v-if="detail.school_time==1">周一上午</p>
+                  <p v-if="detail.school_time==2">周一下午</p>
+                  <p v-if="detail.school_time==3">周二上午</p>
+                  <p v-if="detail.school_time==4">周二下午</p>
+                  <p v-if="detail.school_time==5">周三上午</p>
+                  <p v-if="detail.school_time==6">周三下午</p>
+                  <p v-if="detail.school_time==7">周四上午</p>
+                  <p v-if="detail.school_time==8">周四下午</p>
+                  <p v-if="detail.school_time==9">周五上午</p>
+                  <p v-if="detail.school_time==10">周五下午</p>
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template slot="label">
                     <i class="el-icon-tickets"></i>
                     选课人数
                   </template>
-                  <el-tag size="small">学校</el-tag>
+                  <el-tag size="small">0</el-tag>
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template slot="label">
@@ -99,8 +126,8 @@
             </div>
           </div>
           <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="getCourse">选课</el-button>
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
           </span>
         </el-dialog>
 
@@ -167,6 +194,11 @@ export default {
             this.loading = false
           });
     },
+    search() {
+
+      this.queryInfo.currentPage = 1;
+      this.getTableData();
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.queryInfo.pageSize = val;
@@ -182,6 +214,9 @@ export default {
       console.log(item)
       this.detail = item
       this.dialogVisible = true
+    },
+    getCourse() { //选课
+
     }
   }
 
@@ -198,15 +233,15 @@ export default {
     border-bottom: 1px solid #eee;
     font-size: 14px;
     overflow: hidden;
-    border-radius: 2px 2px 0 0;
+    //border-radius: 2px 2px 0 0;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #666666 !important;
-    border-color: #dcdcdc !important;
+    //border-color: #dcdcdc !important;
     background-color: #f1f1f1 !important;
     border-radius: 10px 10px 0 0;
     .el-dialog__title {
-      font-size: 14px;
+      font-size: 18px;
     }
     .el-dialog__headerbtn {
       top: 10px;
@@ -223,7 +258,21 @@ export default {
   }
 }
 </style>
+<style scoped>
+.iname>>>.el-input__inner {
+  height: 40px;
+}
+</style>
 <style lang="less" scoped>
+
+.causes-details p{
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 .container-fluid {
   /*width: 100%;*/
   padding-top: 40px;

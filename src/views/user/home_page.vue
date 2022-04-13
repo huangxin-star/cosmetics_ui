@@ -2,7 +2,7 @@
   <div>
     <div class="to">
       <div class="log">
-        <img src="../../assets/img/log.png" alt />
+        <img src="../../assets/img/laonian.jpg" alt />
       </div>
       <div class="to_shoye">
         <div>
@@ -21,9 +21,9 @@
       <div class="to_ssk">
         <div>
           <!-- v-model="input" @keyup.enter.native="inputclick" -->
-          <el-input v-model="input" @keyup.enter.native="inputclick" placeholder="请输入内容">
-            <i slot="prefix" class="el-input__icon el-icon-search" style="line-height: 35px"></i>
-          </el-input>
+<!--          <el-input v-model="input" @keyup.enter.native="inputclick" placeholder="请输入内容">-->
+<!--            <i slot="prefix" class="el-input__icon el-icon-search" style="line-height: 35px"></i>-->
+<!--          </el-input>-->
         </div>
 <!--        <div class="shop-button-item">-->
 <!--          <a class="shop-button" @click="tofavorite">-->
@@ -43,7 +43,7 @@
 <!--        </div>-->
         <div class="toxiang">
           <el-dropdown>
-            <span class="el-dropdown-link">{{toxiangdata}}</span>
+            <span class="el-dropdown-link">{{toxiangdata}}<i class="el-icon-arrow-down el-icon--right"></i></span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 @click.native="personal "
@@ -167,7 +167,7 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: -200px;
+  margin-left: -40%;
 }
 .to_shoye div a {
   font-size: 19px;

@@ -8,12 +8,12 @@
       </el-carousel>
     </div>
     <div class="commodity">
-      <h3>商品推荐</h3>
+      <h3>新闻</h3>
       <ul class="product_carousel_tabs">
-        <li :class="{libkd:changebkd == '0'}" @click="leftChange('0')">超值推荐</li>
-        <li :class="{libkd:changebkd == '1'}" @click="leftChange('1')">大众喜爱</li>
-        <li :class="{libkd:changebkd == '2'}" @click="leftChange('2')">大牌精华</li>
-        <li :class="{libkd:changebkd == '3'}" @click="leftChange('3')">物美价廉</li>
+        <li :class="{libkd:changebkd == '0'}" @click="leftChange('0')">新闻动态</li>
+        <li :class="{libkd:changebkd == '1'}" @click="leftChange('1')">作品展示</li>
+        <li :class="{libkd:changebkd == '2'}" @click="leftChange('2')">通知公告</li>
+        <li :class="{libkd:changebkd == '3'}" @click="leftChange('3')">学习资料</li>
       </ul>
       <div style="display: flex;justify-content: center;">
         <div class="commodity_block">
