@@ -135,26 +135,26 @@ const router = new VueRouter({
   routes,
   mode:'history'
 })
-router.beforeEach((to, from, next) => {
-  // console.log(to);
-
-  let isLogin = JSON.parse(localStorage.getItem("user"))
-  // //我在这里模仿了一个获取用户信息的方法
-  // let isLogin = window.sessionStorage.getItem('userInfo');
-  if (isLogin) {
-    //如果用户信息存在则往下执行。
-
-    next()
-  } else {
-    //如果用户token不存在则跳转到login页面
-    // console.log(to);
-
-    if (to.path === '/login' || to.path === '/post' || to.path === '/adminhome/home' || to.path === '/adminhome/one_one' || to.path === '/adminhome/one_two' || to.path === '/adminhome/two_three') {
-      next()
-    } else {
-      next('/login')
-    }
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   // console.log(to);
+//
+//   let isLogin = JSON.parse(localStorage.getItem("user"))
+//   // //我在这里模仿了一个获取用户信息的方法
+//   // let isLogin = window.sessionStorage.getItem('userInfo');
+//   if (isLogin) {
+//     //如果用户信息存在则往下执行。
+//
+//     next()
+//   } else {
+//     //如果用户token不存在则跳转到login页面
+//     // console.log(to);
+//
+//     if (to.path === '/login' || to.path === '/post' || to.path === '/adminhome/home' || to.path === '/adminhome/one_one' || to.path === '/adminhome/one_two' || to.path === '/adminhome/two_three') {
+//       next()
+//     } else {
+//       next('/login')
+//     }
+//   }
+//   next()
+// })
 export default router
