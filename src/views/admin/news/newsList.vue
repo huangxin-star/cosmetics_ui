@@ -344,7 +344,7 @@ export default {
     }
   },
   created() {
-    this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 商品列表";
+    this.$parent.$parent.$parent.$parent.titledata = "新闻管理 / 新闻列表";
     this.getTableData();
   }
 };

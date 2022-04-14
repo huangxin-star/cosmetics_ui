@@ -4,38 +4,87 @@
     <div class="login-wrap">
       <div class="login-wrap-left">
         <img class="logo" src="../assets/img/loginlogo1.png">
-<!--        <img class="go" src="img/go.png">-->
+        <!--        <img class="go" src="img/go.png">-->
 
       </div>
       <div class="main-wrap">
         <div class="tab-nav">
-          登录<span>LOGIN</span>
+          注册<span>REGISTER</span>
         </div>
         <div class="tab-main-box">
           <div class="tab-main">
             <div class="wrap" style="display:block">
-              <el-form ref="loginFormRef" :rules="rules" label-width="80px" :model="loging">
-              <div class="input-text">
-                <div class="tb ren"></div>
-                <el-form-item prop="account"  >
-                  <el-input   style="margin-top: 22px;margin-left: -73px;width:240px;border: none" v-model="loging.account" placeholder="请输入账号" class="name"></el-input>
-                </el-form-item>
-              </div>
-              <div class="input-text">
-                <div class="tb suo"></div>
-                <el-form-item  prop="spassword">
-                  <el-input style="margin-top: 22px;margin-left: -73px;width:240px" type="password" v-model="loging.spassword" placeholder="请输入密码" class="name" show-password></el-input>
-                </el-form-item>
-              </div>
-              <div class="flex">
-                <el-button  class="btn" type="primary" @click.prevent="login" :loading="loading">登 录</el-button>
-                <el-button class="btn" @click.prevent="post">去注册</el-button>
+              <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item  label="用户账号" prop="account">
+                      <el-input v-model="form.account" placeholder="请输入用户账号" maxlength="30" />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item v-if="isadd==true " label="用户密码" prop="spassword">
+                      <el-input v-model="form.spassword" placeholder="请输入用户密码" type="password" maxlength="20" />
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item label="用户姓名" prop="sname">
+                      <el-input v-model="form.sname" placeholder="请输入用户姓名" maxlength="30" />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="用户性别">
+                      <el-select v-model="form.sex" placeholder="请选择性别">
+                        <el-option
+                            v-for="item in sexoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        ></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item label="手机号码" prop="stel">
+                      <el-input v-model="form.stel" placeholder="请输入手机号码" maxlength="11" />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="紧急电话" prop="emergency_call">
+                      <el-input v-model="form.emergency_call" placeholder="请输入紧急联系电话" maxlength="50" />
+                    </el-form-item>
+                  </el-col>
+                </el-row>
 
-              </div>
+                <el-row>
+                  <el-form-item label="出生日期">
+                    <el-col :span="12">
+                      <el-form-item prop="birthday" style="width: 220px;">
+                        <el-date-picker
+                            value-format="yyyy-MM-dd"
+                            type="date"
+                            placeholder="选择日期"
+                            v-model="form.birthday"
+                            style="width: 100%;"
+                        ></el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                  </el-form-item>
+
+
+                </el-row>
+                <el-row>
+                  <el-col :span="24">
+                    <el-form-item label="地址">
+                      <el-input v-model="form.address" type="textarea" placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
               </el-form>
-<!--              <a href="" class="forget">-->
-<!--                忘记密码？-->
-<!--              </a>-->
+
             </div>
 
           </div>
@@ -49,7 +98,7 @@
 
 <script>
 export default {
-  name: "userLogin",
+  name: "register",
   data() {
     return {
       loading:false,
@@ -95,7 +144,10 @@ export default {
       });
     },
     post(){
-      this.$router.push({path:"register"})
+      this.$router.push({path:"post"})
+    },
+    goLogin() {
+      this.$router.push({path:"userLogin"})
     }
   }
 }
@@ -275,3 +327,4 @@ input[type="checkbox" i] {
   color: #5a67d9;
 }
 </style>
+

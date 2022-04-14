@@ -295,20 +295,28 @@ export default {
         if (valid) {
           this.formData.time = new Date().getTime()
           this.$http.post("admin/setCourse", this.formData).then(res => {
+            console.log(res)
             if (res.data == "img") {
               this.$message.info({
                 message: "请上传图片 谢谢！！！",
                 duration: 1500
               });
               return;
-            }else{
+            }else if(res.data =='任课教师或上课教室在时间上冲突了') {
+              this.$message.warning({
+                message: "任课教师或上课教室在时间上冲突了！！！",
+                duration: 2500
+              });
+            }
+        else{
               this.$message.success({
                 message: "新增新闻成功！！！",
                 duration: 1500
               });
+              this.resetForm()
+              this.formData.iamge=false
             }
-            this.resetForm()
-            this.formData.iamge=false
+
           });
         } else {
           console.log("error submit!!");

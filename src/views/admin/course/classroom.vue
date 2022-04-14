@@ -32,7 +32,7 @@
       </el-table-column>
       <el-table-column label="创建日期" style="width: 30%" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.ctime }}</span>
+          <span style="margin-left: 10px">{{scope.row.ctime?new Date(+new Date(Number(scope.row.ctime)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " "):'无' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
@@ -41,7 +41,7 @@
           <el-popconfirm
               title="确定删除吗？"
               style="margin-left: 1rem"
-              @confirm="deleteCategory(scope.row.Id)"
+              @confirm="deleteCategory(scope.row.id)"
           >
             <el-button size="mini" type="danger" slot="reference">删除</el-button>
           </el-popconfirm>
@@ -131,7 +131,7 @@ export default {
       this.$http.post("admin/deleteClassRoom", { id:id } ).then(res => {
         if (res.data == "ok") {
           this.getTableData();
-          this.$message.info({
+          this.$message.success({
             message: "教室删除成功 ！！！",
             duration: 1500
           });
@@ -166,7 +166,7 @@ export default {
       if (!this.isadd) {//修改
         console.log('修改')
         this.$http
-            .post("admin/upClassRoom", { id: this.tagForm.Id, room_name: this.tagForm.room_name })
+            .post("admin/upClassRoom", { id: this.tagForm.id, room_name: this.tagForm.room_name })
             .then(res => {
               if (res.data == "ok") {
                 this.$message.success({
@@ -181,7 +181,7 @@ export default {
       }else {
         console.log('新增')
         this.$http
-            .post("admin/addClassRoom", { id: this.tagForm.Id, room_name: this.tagForm.room_name,ctime:new Date().getTime() })
+            .post("admin/addClassRoom", { id: this.tagForm.id, room_name: this.tagForm.room_name,ctime:new Date().getTime() })
             .then(res => {
               if (res.data == "ok") {
                 this.$message.success({

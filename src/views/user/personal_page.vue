@@ -27,11 +27,11 @@
 <!--          <div>-->
 <!--            <router-link to="/homeuser/personal/address">地址管理</router-link>-->
 <!--          </div>-->
+<!--          <div>-->
+<!--            <router-link to="/homeuser/personal/iorder">我的订单</router-link>-->
+<!--          </div>-->
           <div>
-            <router-link to="/homeuser/personal/iorder">我的订单</router-link>
-          </div>
-          <div>
-            <router-link to="/homeuser/personal/iorder">我的选课</router-link>
+            <router-link to="/homeuser/personal/mycourse">我的选课</router-link>
           </div>
 <!--          <div @click="tofavorite">我的收藏</div>-->
 <!--          <div @click="toshopping">购物车</div>-->

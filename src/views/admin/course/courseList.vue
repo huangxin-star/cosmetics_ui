@@ -37,10 +37,24 @@
 <!--      <el-table-column prop="title" label="学制" align="center" width="80" />-->
       <el-table-column prop="sname" label="任课教师" align="center" width="80" />
       <el-table-column prop="room_name" label="上课教室" align="center" width="80" />
-      <el-table-column prop="school_time" label="上课时间" align="center" width="80" />
+<!--      <el-table-column prop="school_time" label="上课时间" align="center" width="80" />-->
+      <el-table-column label="上课时间" align="center" width="80">
+        <template slot-scope="scope">
+          <p v-if="scope.row.school_time==1">周一上午</p>
+          <p v-if="scope.row.school_time==2">周一下午</p>
+          <p v-if="scope.row.school_time==3">周二上午</p>
+          <p v-if="scope.row.school_time==4">周二下午</p>
+          <p v-if="scope.row.school_time==5">周三上午</p>
+          <p v-if="scope.row.school_time==6">周三下午</p>
+          <p v-if="scope.row.school_time==7">周四上午</p>
+          <p v-if="scope.row.school_time==8">周四下午</p>
+          <p v-if="scope.row.school_time==9">周五上午</p>
+          <p v-if="scope.row.school_time==10">周五下午</p>
+        </template>
+      </el-table-column>
       <el-table-column prop="cdescription" label="课程描述" align="center" width="80" />
       <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
-      <el-table-column prop="title" label="选课人数" align="center" width="80" />
+      <el-table-column prop="z_number" label="选课人数" align="center" width="80" />
 <!--      <el-table-column label="内容" align="center" style="width:20%">-->
 <!--        <template slot-scope="scope">-->
 <!--          <div class="describe">{{scope.row.content}}</div>-->
@@ -55,7 +69,11 @@
                     <span v-if="scope.row.cstatus==3">已开课</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ctime" label="时间" align="center" width="100" />
+      <el-table-column label="时间" align="center" width="100">
+        <template slot-scope="scope">
+                    <span >{{scope.row.time?new Date(+new Date(Number(scope.row.time)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " "):'无'  }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
           <el-button size="mini" type="text" v-show="scope.row.cstatus ==1" @click="modifyNews(scope.row)">修改</el-button>
@@ -185,6 +203,58 @@
         <el-button type="primary" @click="modifyForm">确 定</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+        :title="'选择'+courseTitle+'课程的人员信息'"
+        :visible.sync="dialogVisible"
+        width="75%"
+        custom-class="xuankeDialog"
+        center
+    >
+      <el-table border :data="xuankelist" style="width: 100%">
+        <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
+        <el-table-column prop="sname" label="学生姓名" align="center" width="120" />
+        <el-table-column prop="cname" label="课程名" align="center" width="160" />
+        <!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
+        <el-table-column label="成绩" align="center" width="80">
+          <template slot-scope="scope">
+            <span v-if="!isgradde">{{scope.row.grade}}</span>
+            <el-input type="text" placeholder="请输入成绩姓名" v-model="scope.row.grade" size="mini"
+                      v-if="isgradde">
+            </el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
+        <el-table-column prop="gstatus" label="选课状态" align="center" width="180" />
+<!--        <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />-->
+        <el-table-column label="选课日期" style="width: 30%" align="center">
+          <template slot-scope="scope">
+
+            <span style="margin-left: 10px">{{ scope.row.gtime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="200" align="center">
+          <!--      <template slot-scope="scope">-->
+          <!--        <el-button size="mini" v-show="!isgradde" type="primary" @click="modifyGrade(scope.row)">修改成绩</el-button>-->
+
+          <!--        <el-button type="text" size="mini" v-show="isgradde" @click="saveUserInfo(scope.row)">-->
+          <!--          保存</el-button>-->
+          <!--        <el-button size="mini" v-show="!isgradde" type="primary" @click="openModel(scope.row)">选课失败</el-button>-->
+          <!--        &lt;!&ndash;          <el-popconfirm&ndash;&gt;-->
+          <!--        &lt;!&ndash;              title="确定删除吗？"&ndash;&gt;-->
+          <!--        &lt;!&ndash;              style="margin-left: 1rem"&ndash;&gt;-->
+          <!--        &lt;!&ndash;              @confirm="deleteCategory(scope.row.id)"&ndash;&gt;-->
+          <!--        &lt;!&ndash;          >&ndash;&gt;-->
+          <!--        &lt;!&ndash;            <el-button size="mini" type="danger" slot="reference">删除</el-button>&ndash;&gt;-->
+          <!--        &lt;!&ndash;          </el-popconfirm>&ndash;&gt;-->
+          <!--      </template>-->
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+<!--            <el-button type="primary" @click="getCourse">选课</el-button>-->
+<!--            <el-button @click="dialogVisible = false">取 消</el-button>-->
+          </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -193,6 +263,10 @@ export default {
   name: "courseList",
   data() {
     return {
+      courseTitle:'',
+      isgradde:false,
+      xuankelist:[],
+      dialogVisible:false,
       loading:false,
       tableloading:false,
       formData: {
@@ -410,6 +484,11 @@ export default {
           });
           this.modifyEdit = false;
           this.resetForm()
+        }else if(res.data == '任课教师或上课教室在时间上冲突了'){
+          this.$message.success({
+            message: "任课教师或上课教室在时间上冲突了,请修改 ！！！",
+            duration: 2500
+          });
         }
         this.getTableData()
 
@@ -456,13 +535,21 @@ export default {
       });
     },
     goCourseDetail(row) { //选课详情
+      this.courseTitle =row.cname
+      this.dialogVisible = true
+      console.log('Jinlai')
+      // this.$router.push({path:'/adminhome/courseList/xuankedetail',query: {course_id:row.course_id}})
+
       this.$http.post("admin/getSelectionDetails", {course_id:row.course_id}).then(res => {
         console.log(res)
         if (res.data.length>0) {
+          this.xuankelist = res.data
           // this.$message.success({
           //   message: "发布成功 ！！！",
           //   duration: 1500
           // });
+        }else{
+          this.xuankelist = []
         }
         // this.getTableData()
       });
@@ -542,7 +629,41 @@ export default {
   }
 };
 </script>
-
+<style lang="less">
+.xuankeDialog {
+  border-radius: 10px;
+  .el-dialog__header {
+    padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    overflow: hidden;
+    //border-radius: 2px 2px 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #666666 !important;
+    //border-color: #dcdcdc !important;
+    background-color: #f1f1f1 !important;
+    border-radius: 10px 10px 0 0;
+    .el-dialog__title {
+      font-size: 18px;
+    }
+    .el-dialog__headerbtn {
+      top: 10px;
+      i {
+        font-size: 18px !important;
+        font-weight: bold !important;
+      }
+    }
+  }
+  .el-dialog__body {
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+    //box-shadow: 0 5px 5px #777;
+  }
+}
+</style>
 <style scoped>
 .outside {
   border-radius: 5px;

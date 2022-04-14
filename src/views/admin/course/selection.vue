@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <el-table border :data="tableData" style="width: 100%">
+    <el-table border :data="tableData" style="width: 100%" v-loading="nesLoading">
       <el-table-column label="编号" type="index" width="100" align="center"></el-table-column>
       <el-table-column prop="sname" label="学生姓名" align="center" width="120" />
       <el-table-column prop="cname" label="课程名" align="center" width="160" />
@@ -48,7 +48,8 @@
 
           <el-button type="text" size="mini" v-show="isgradde" @click="saveUserInfo(scope.row)">
             保存</el-button>
-          <el-button size="mini" v-show="!isgradde" type="primary" @click="openModel(scope.row)">选课失败</el-button>
+          <el-button size="mini" v-show="!isgradde" type="primary" @click="tuike(scope.row)">选课失败</el-button>
+<!--          <el-button size="mini" v-show="!isgradde" type="primary" @click="tuike(scope.row)">同意退课</el-button>-->
 <!--          <el-popconfirm-->
 <!--              title="确定删除吗？"-->
 <!--              style="margin-left: 1rem"-->
@@ -71,18 +72,18 @@
         :page-sizes="[5, 7]"
         layout="total, sizes, prev, pager, next, jumper"
     />
-    <el-dialog :visible.sync="addOrEdit" width="30%">
-      <div style="font-weight: 600;" slot="title" ref="tagTitle" />
-      <el-form label-width="80px" size="medium" :model="tagForm">
-        <el-form-item label="类别名">
-          <el-input style="width: 220px" v-model="tagForm.type" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="addOrEdit = false">取 消</el-button>
-        <el-button type="primary" @click="addOrEditTag">确 定</el-button>
-      </div>
-    </el-dialog>
+<!--    <el-dialog :visible.sync="addOrEdit" width="30%">-->
+<!--      <div style="font-weight: 600;" slot="title" ref="tagTitle" />-->
+<!--      <el-form label-width="80px" size="medium" :model="tagForm">-->
+<!--        <el-form-item label="类别名">-->
+<!--          <el-input style="width: 220px" v-model="tagForm.type" />-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      <div slot="footer">-->
+<!--        <el-button @click="addOrEdit = false">取 消</el-button>-->
+<!--        <el-button type="primary" @click="addOrEditTag">确 定</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -98,11 +99,11 @@ export default {
       count: 0,
       addOrEdit: false,
       tableData: [],
-      tagForm: {
-        id: null,
-        type: "",
-        time: ""
-      },
+      // tagForm: {
+      //   id: null,
+      //   type: "",
+      //   time: ""
+      // },
       nesLoading:false
     };
   },
@@ -120,7 +121,7 @@ export default {
               this.count = res.data.count;
 
             }else {
-              this.$message.warning('找不到该新闻')
+              this.$message.warning('找不到该选课信息')
             }
             this.nesLoading = false
           }).catch((err) => {
@@ -168,57 +169,17 @@ export default {
         this.getTableData()
       });
     },
-    // deleteCategory(id) {
-    //   this.$http.get("admin/deCategory", { params: { id } }).then(res => {
-    //     if (res.data == "ok") {
-    //       this.getTableData();
-    //       this.$message.info({
-    //         message: "类别删除成功 ！！！",
-    //         duration: 1500
-    //       });
-    //     } else {
-    //       this.$message.error({
-    //         message: "类别删除失败 ！！！",
-    //         duration: 1500
-    //       });
-    //     }
-    //   });
-    // },
-    // listCategories() {
-    //   this.$http
-    //       .get("admin/category", {
-    //         params: { current: this.current, size: this.size }
-    //       })
-    //       .then(res => {
-    //         this.tableData = res.data.list;
-    //         this.count = res.data.count;
-    //       });
-    // },
-    addOrEditTag() {
-      if (this.tagForm.type.trim() == "") {
-        this.$message.error("请输入类别！！！");
-        return false;
-      }
-
-      this.$http
-          .get("admin/setCategoryData", {
-            params: { id: this.tagForm.id, type: this.tagForm.type }
-          })
-          .then(res => {
-            if (res.data == "ok") {
-              this.$message.success({
-                message: "添加成功 感谢支持！！！",
-                duration: 1500
-              });
-            } else {
-              this.$message.success({
-                message: "修改成功 感谢支持 ！！！",
-                duration: 1500
-              });
-            }
+    tuike(row) {
+      let params = {sid:this.sid,gstatus:'退课中'}
+      this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "发布成功 ！！！",
+            duration: 1500
           });
-      this.getTableData();
-      this.addOrEdit = false;
+        }
+        this.getTableData()
+      });
     }
   },
   created() {

@@ -27,6 +27,7 @@ const routes = [
     component: Login
   },
   { path: "/userLogin", name: 'userLogin', component: () => import('../views/userLogin.vue') },
+  { path: "/register", name: 'register', component: () => import('../views/register.vue') },
   {
     path: "/post",
     name: 'post', component: () => import('../views/user/post.vue')
@@ -86,6 +87,7 @@ const routes = [
       {
         path: "/homeuser/personal", name: 'personal_page', component: () => import('../views/user/personal_page'), redirect: "/homeuser/personal/core",
         children: [
+          { path: "/homeuser/personal/mycourse", name: 'maycourse', component: () => import('../views/user/personal/mycourse.vue') },
           { path: "/homeuser/personal/core", name: 'personal_core', component: () => import('../views/user/personal/core.vue') },
           { path: "/homeuser/personal/address", name: 'personal_address', component: () => import('../views/user/personal/address.vue') },
           { path: "/homeuser/personal/password", name: 'password', component: () => import('../views/user/personal/password.vue') },
@@ -124,7 +126,23 @@ const routes = [
 
 
       { path: "/adminhome/coursedetail", name: 'coursedetail', component: () => import('../views/admin/course/coursedetail.vue') },
-      { path: "/adminhome/courseList", name: 'courseList', component: () => import('../views/admin/course/courseList.vue') },
+      {
+        path: "/adminhome/courseList",
+        name: 'courseList',
+        component: () => import('../views/admin/course/courseList.vue'),
+        // children: [
+        //   {
+        //     path:"/adminhome/courseList/xuankedetail",
+        //     name:'newsContent',
+        //     component: () => import('../views/admin/course/xuankedetail')
+        //   }
+        // ]
+      },
+      {
+        path:"/adminhome/courseList/xuankedetail",
+        name:'newsContent',
+        component: () => import('../views/admin/course/xuankedetail')
+      },
       { path: "/adminhome/selection", name: 'selection', component: () => import('../views/admin/course/selection.vue') },
       { path: "/adminhome/classroom", name: 'classroom', component: () => import('../views/admin/course/classroom.vue') },
     ]

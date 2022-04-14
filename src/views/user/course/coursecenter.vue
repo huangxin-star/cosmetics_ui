@@ -179,20 +179,34 @@ export default {
   methods: {
     getTableData() { //列表
       this.loading = true
+      // this.$http
+      //     .get("admin/getPagingCourse", {
+      //       params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
+      //     })
+      //     .then(res => {
+      //       console.log(res)
+      //       if (res.data != "err") {
+      //         this.tableData = res.data.list;
+      //         this.queryInfo.total = res.data.count;
+      //       } else {
+      //         this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
+      //       }
+      //       this.loading = false
+      //     });
       this.$http
-          .get("admin/getPagingCourse", {
-            params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
+          .get("user/getUserPagingCourse", {
+            params: {input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
           })
           .then(res => {
             console.log(res)
             if (res.data != "err") {
               this.tableData = res.data.list;
               this.queryInfo.total = res.data.count;
-            } else {
-              this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
             }
-            this.loading = false
-          });
+
+          }).catch((err) => {
+        console.error(err)
+      });
     },
     search() {
 
@@ -216,6 +230,46 @@ export default {
       this.dialogVisible = true
     },
     getCourse() { //选课
+      //user/userCourseSelection
+      this.$confirm('确认选择 '+this.detail.cname+' 这门课吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+
+        this.$http
+            .get("user/userCourseSelection", {
+              params: { course_id: this.detail.course_id, sid: JSON.parse(localStorage.getItem("user")).sid }
+            })
+            .then(res => {
+              console.log(res)
+              if (res.data =='ok') {
+                this.$message({
+                  type: 'success',
+                  message: '选课成功!',
+                  duration: 2000
+                });
+              }else if (res.data == '这个课已经有了') {
+                this.$message({
+                  type: 'warning',
+                  message: '您已经选过该门课，请勿重复点击!',
+                  duration: 2000
+                });
+              }
+              // if (res.data != "err") {
+              //   this.tableData = res.data.list;
+              //   this.queryInfo.total = res.data.count;
+              // } else {
+              //   this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
+              // }
+            });
+      }).catch(() => {
+        // this.$message({
+        //   type: 'info',
+        //   message: '已取消删除'
+        // });
+      });
+
 
     }
   }
@@ -296,14 +350,14 @@ export default {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px
+  margin-right: -12px;
+
 }
 .col-xl-3{
   position: relative;
   width: 100%;
   padding-right: 22px;
-  padding-left: 22px;
+  padding-left: 21px;
   flex: 0 0 30%;
 }
 .sa-causes-single {

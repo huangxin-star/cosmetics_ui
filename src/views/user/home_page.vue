@@ -78,12 +78,12 @@ export default {
   created() {
     let user = JSON.parse(localStorage.getItem("user"));    //获得user用户信息
     this.toxiangdata = user.sname;
-    this.$http.post("likecollectiontotal", user).then(res => {
-      this.liketotal = res.data;
-    });
-    this.$http.post("user/home/shoppingcarttotal", user).then(res => {
-      this.shoppingtotal=res.data;
-    });
+  //   this.$http.post("likecollectiontotal", user).then(res => {
+  //     this.liketotal = res.data;
+  //   });
+  //   this.$http.post("user/home/shoppingcarttotal", user).then(res => {
+  //     this.shoppingtotal=res.data;
+  //   });
   },
   methods: {
     inputclick(){
@@ -108,20 +108,20 @@ export default {
     // },
     signout() {
       let is = confirm(
-        JSON.parse(localStorage.getItem("user")).username +
+        JSON.parse(localStorage.getItem("user")).account +
           "  用户确认要退出吗！！！！"
       );
       if (is) {
-        this.$http.post(
-          "setFalseUserState",
-          JSON.parse(localStorage.getItem("user"))
-        );
+        // this.$http.post(
+        //   "setFalseUserState",
+        //   JSON.parse(localStorage.getItem("user"))
+        // );
         localStorage.removeItem("user");
         this.$message.success({
           message: "退出成功",
           duration: 1000
         });
-        this.$router.push({ path: "/login" });
+        this.$router.push({ path: "/userlogin" });
       }
     },
     personal() {

@@ -178,7 +178,7 @@ export default {
     }
   },
   created() {
-    this.$parent.$parent.$parent.$parent.titledata = "护肤品 / 发布新商品";
+    this.$parent.$parent.$parent.$parent.titledata = "新闻管理 / 新增新闻";
   }
 };
 </script>
