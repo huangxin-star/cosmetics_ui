@@ -239,7 +239,7 @@ export default {
 
         this.$http
             .get("user/userCourseSelection", {
-              params: { course_id: this.detail.course_id, sid: JSON.parse(localStorage.getItem("user")).sid }
+              params: { course_id: this.detail.course_id, sid: JSON.parse(localStorage.getItem("user")).sid,gstatus:'1' }
             })
             .then(res => {
               console.log(res)

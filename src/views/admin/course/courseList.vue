@@ -100,7 +100,7 @@
 <!--    修改课程弹框-->
     <el-dialog :visible.sync="modifyEdit" width="50%" style="padding:20px;">
       <div style="font-weight: 600;" slot="title">修改课程</div>
-      <el-form ref="elForm" :model="formData" :rules="rules" class="form" size="medium" label-width="100px" >
+      <el-form ref="elForm" :model="formData" :rules="rules" class="form" size="medium"  label-width="100px" >
         <el-row >
           <el-col :span="12">
             <el-form-item label="课程名" prop="cname">

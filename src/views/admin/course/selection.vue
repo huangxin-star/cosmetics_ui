@@ -2,6 +2,16 @@
   <div class="outside">
     <div class="title">选课管理</div>
     <div class="operation-container">
+<!--      <div>-->
+<!--        <el-select v-model="value" placeholder="请选择">-->
+<!--          <el-option-->
+<!--              v-for="item in options"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--      </div>-->
       <div style="margin-left: auto;">
         <el-input
             style="width: 200px;display: inline-block;"
@@ -27,10 +37,7 @@
 <!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
       <el-table-column label="成绩" align="center" width="80">
         <template slot-scope="scope">
-          <span v-if="!isgradde">{{scope.row.grade}}</span>
-          <el-input type="text" placeholder="请输入成绩姓名" v-model="scope.row.grade" size="mini"
-                    v-if="isgradde">
-          </el-input>
+          <span >{{scope.row.grade}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
@@ -44,11 +51,8 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" v-show="!isgradde" type="primary" @click="modifyGrade(scope.row)">修改成绩</el-button>
-
-          <el-button type="text" size="mini" v-show="isgradde" @click="saveUserInfo(scope.row)">
-            保存</el-button>
-          <el-button size="mini" v-show="!isgradde" type="primary" @click="tuike(scope.row)">选课失败</el-button>
+          <el-button size="mini" type="primary" @click="modifyGrade(scope.row)">修改成绩</el-button>
+          <el-button size="mini" type="primary" @click="tuike(scope.row)">选课失败</el-button>
 <!--          <el-button size="mini" v-show="!isgradde" type="primary" @click="tuike(scope.row)">同意退课</el-button>-->
 <!--          <el-popconfirm-->
 <!--              title="确定删除吗？"-->
@@ -72,18 +76,18 @@
         :page-sizes="[5, 7]"
         layout="total, sizes, prev, pager, next, jumper"
     />
-<!--    <el-dialog :visible.sync="addOrEdit" width="30%">-->
-<!--      <div style="font-weight: 600;" slot="title" ref="tagTitle" />-->
-<!--      <el-form label-width="80px" size="medium" :model="tagForm">-->
-<!--        <el-form-item label="类别名">-->
-<!--          <el-input style="width: 220px" v-model="tagForm.type" />-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <div slot="footer">-->
-<!--        <el-button @click="addOrEdit = false">取 消</el-button>-->
-<!--        <el-button type="primary" @click="addOrEditTag">确 定</el-button>-->
-<!--      </div>-->
-<!--    </el-dialog>-->
+    <el-dialog :visible.sync="addOrEdit" width="30%" title="成绩">
+      <div style="font-weight: 600;" slot="title" ref="tagTitle" />
+      <el-form label-width="80px" size="medium" :rules="rules" :model="tagForm">
+        <el-form-item label="成绩" prop="grade">
+          <el-input style="width: 220px" v-model="tagForm.grade" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="addOrEdit = false">取 消</el-button>
+        <el-button type="primary" @click="saveUserInfo">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -91,19 +95,45 @@
 export default {
   name: "selection",
   data() {
+    var examRule = function(rule, value, callback) {  //手机号 通用正则
+      if(value != '' && value != null){
+        let examScore = parseInt(value);
+        if(examScore < 0 || examScore > 100){
+          callback(new Error('请输入正确的考试成绩'));
+        }else{
+          callback();
+        }
+      }else{
+        callback();
+      }
+    };
     return {
-      isgradde:false,
+      options: [{
+        value: '1',
+        label: '未开课'
+      }, {
+        value: '2',
+        label: '已开课'
+      }],
+      value: '1',
+      rules: {
+        grade: [
+          { required: true, message: "请输入成绩", trigger: "blur" },
+          { validator: examRule, trigger: 'blur'},
+
+        ]
+      },
       input1: "",
       current: 1,
       size: 5,
       count: 0,
       addOrEdit: false,
       tableData: [],
-      // tagForm: {
-      //   id: null,
-      //   type: "",
-      //   time: ""
-      // },
+      tagForm: {
+        grade: "",
+        course_id:'',
+        sid:''
+      },
       nesLoading:false
     };
   },
@@ -141,29 +171,21 @@ export default {
       this.getTableData();
     },
     modifyGrade(row) { //修改成绩
-      this.isgradde = true
-      // this.$http.post("admin/upAchievement", {grade:row.grade}).then(res => {
-      //   if (res.data == "ok") {
-      //     this.$message.success({
-      //       message: "修改成功 ！！！",
-      //       duration: 1500
-      //     });
-      //     this.modifyEdit = false;
-      //     this.resetForm()
-      //   }
-      //   this.getTableData()
-      //
-      // });
+      this.addOrEdit = true
+      this.tagForm.grade = row.grade
+      this.tagForm.course_id = row.course_id
+      this.tagForm.sid = row.sid
+      console.log(this.tagForm)
+
     },
-    saveUserInfo(row) {
-      this.$http.post("admin/upAchievement", {grade:row.grade,sid:row.sid,course_id:row.course_id}).then(res => {
+    saveUserInfo() {
+      this.$http.post("admin/upAchievement", this.tagForm).then(res => {
         if (res.data == "ok") {
           this.$message.success({
             message: "修改成功 ！！！",
             duration: 1500
           });
-          this.modifyEdit = false;
-          this.isgradde = false
+          this.addOrEdit = false
         }
 
         this.getTableData()

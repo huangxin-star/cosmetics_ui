@@ -33,7 +33,7 @@
           <div class="cai">
             <el-dropdown>
               <span class="el-dropdown-link" style="cursor: pointer;">
-                管理员
+                {{sname}}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -94,7 +94,8 @@
             </template>
             <el-menu-item index="/adminhome/coursedetail">新增课程</el-menu-item>
             <el-menu-item index="/adminhome/courseList">课程列表</el-menu-item>
-            <el-menu-item index="/adminhome/selection">选课管理</el-menu-item>
+            <el-menu-item index="/adminhome/classmanage">选课管理</el-menu-item>
+            <el-menu-item index="/adminhome/selection">选课管理1</el-menu-item>
             <el-menu-item index="/adminhome/classroom">教室管理</el-menu-item>
           </el-submenu>
 <!--          <el-menu-item index="present_page">-->
@@ -119,6 +120,7 @@
 export default {
   data() {
     return {
+      sname:JSON.parse(localStorage.getItem("admin")).sname,
       admin: JSON.parse(localStorage.getItem("admin")),
       imageUrl: "",
       imgaction: "",
@@ -139,20 +141,20 @@ export default {
   methods: {
     signout() {
       let is = confirm(
-        JSON.parse(localStorage.getItem("admin")).username +
+        JSON.parse(localStorage.getItem("admin")).account +
           "  管理员确认要退出吗！！！！"
       );
       if (is) {
-        this.$http.post(
-          "setFalseUserState",
-          JSON.parse(localStorage.getItem("admin"))
-        );
+        // this.$http.post(
+        //   "setFalseUserState",
+        //   JSON.parse(localStorage.getItem("admin"))
+        // );
         localStorage.removeItem("admin");
         this.$message.success({
           message: "退出成功",
           duration: 1000
         });
-        this.$router.push({ path: "/loginadmin" });
+        this.$router.push({ path: "/adminlogin" });
       }
     },
     handleAvatarSuccess(res, file) {

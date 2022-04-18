@@ -126,127 +126,127 @@ export default {
         require("../../assets/img/homecarousel3.jpg")
       ],
       listsupplier: [
-        {
-          head: require("../../assets/img/tox1.jpg"),
-          name: "The ordinary",
-          introduce:
-            "  The Ordinary是加拿大Deciem [1]  旗下的一个护肤平价品牌，优点是性价比较高。The Ordinary总部和运营中心位于加拿大，坐落于加拿大安大略省多伦多市里士满东大街517号。以守护肌肤健康为核心，The Ordinary拥有管理、设计、生产、销售等系统协调能力，围绕护肤消费场景，展开多元化产品服务"
-        },
-        {
-          head: require("../../assets/img/tox2.jpg"),
-          name: "ELEMIS",
-          introduce:
-            "Elemis，1989年诞生的英国水疗及护肤品牌，是英国专业水疗护理的先锋。Elemis全线采用有机提取物、香薰油等天然活性成分，通过先进的护肤技术及其独特专利配方，针对不同皮肤及身体状况有效治疗皮肤。深受国内外明星名媛界如贝嫂、杨千嬅等等青。Elemis针对不同肤质和护肤功效有严格划分的产品线，比如Pro-Collagen骨胶原、Tri-enzyme三重酵素、Pro-Radiance亮采系列等等。基本熟悉elemis都人手必备骨胶原卸妆膏。"
-        },
-        {
-          head: require("../../assets/img/tox3.jpg"),
-          name: "NIOD",
-          introduce:
-            "NIOD是来自加拿大新兴个护品牌公司DECIEM旗下的品牌，玩转生物黑科技，主打各种功效的面部精华。功效可媲美医美微整形，不用动刀就可以深层修复肌肤，恢复肌肤年轻态。它的“高精尖”配方中都是一些创新、高效成分，比如明星成分蓝铜胜肽、玻尿酸等等，都是公认的猛药级好物。这个品牌的系列产品简直可以用4个词形容：快速、高效、惊艳、换肤，在界内也有“微整形”品牌之称。"
-        },
-        {
-          head: require("../../assets/img/tox4.jpg"),
-          name: "Eucerin",
-          introduce:
-            "Eucerin (优色林) 的故事始于一个多世纪前的1900年，德国皮肤科专家Lifschütz博士研制出一种新型皮肤保湿乳化剂并获得专利。与早先的护肤产品不同，Lifschütz博士研发的这种药膏的质地滑润，功效稳定无刺激，能为皮肤提供卓越的保护和调理功效。很快这个产品就被改成Eucerin “优色林”（希腊文中“美丽的蜡”的意思）。第一批在德国上市的产品还包括：治疗伤痛的优色林搽粉，优色林碘膏和优色林肥皂。"
-        }
+        // {
+        //   head: require("../../assets/img/tox1.jpg"),
+        //   name: "The ordinary",
+        //   introduce:
+        //     "  The Ordinary是加拿大Deciem [1]  旗下的一个护肤平价品牌，优点是性价比较高。The Ordinary总部和运营中心位于加拿大，坐落于加拿大安大略省多伦多市里士满东大街517号。以守护肌肤健康为核心，The Ordinary拥有管理、设计、生产、销售等系统协调能力，围绕护肤消费场景，展开多元化产品服务"
+        // },
+        // {
+        //   head: require("../../assets/img/tox2.jpg"),
+        //   name: "ELEMIS",
+        //   introduce:
+        //     "Elemis，1989年诞生的英国水疗及护肤品牌，是英国专业水疗护理的先锋。Elemis全线采用有机提取物、香薰油等天然活性成分，通过先进的护肤技术及其独特专利配方，针对不同皮肤及身体状况有效治疗皮肤。深受国内外明星名媛界如贝嫂、杨千嬅等等青。Elemis针对不同肤质和护肤功效有严格划分的产品线，比如Pro-Collagen骨胶原、Tri-enzyme三重酵素、Pro-Radiance亮采系列等等。基本熟悉elemis都人手必备骨胶原卸妆膏。"
+        // },
+        // {
+        //   head: require("../../assets/img/tox3.jpg"),
+        //   name: "NIOD",
+        //   introduce:
+        //     "NIOD是来自加拿大新兴个护品牌公司DECIEM旗下的品牌，玩转生物黑科技，主打各种功效的面部精华。功效可媲美医美微整形，不用动刀就可以深层修复肌肤，恢复肌肤年轻态。它的“高精尖”配方中都是一些创新、高效成分，比如明星成分蓝铜胜肽、玻尿酸等等，都是公认的猛药级好物。这个品牌的系列产品简直可以用4个词形容：快速、高效、惊艳、换肤，在界内也有“微整形”品牌之称。"
+        // },
+        // {
+        //   head: require("../../assets/img/tox4.jpg"),
+        //   name: "Eucerin",
+        //   introduce:
+        //     "Eucerin (优色林) 的故事始于一个多世纪前的1900年，德国皮肤科专家Lifschütz博士研制出一种新型皮肤保湿乳化剂并获得专利。与早先的护肤产品不同，Lifschütz博士研发的这种药膏的质地滑润，功效稳定无刺激，能为皮肤提供卓越的保护和调理功效。很快这个产品就被改成Eucerin “优色林”（希腊文中“美丽的蜡”的意思）。第一批在德国上市的产品还包括：治疗伤痛的优色林搽粉，优色林碘膏和优色林肥皂。"
+        // }
       ],
       listcommodity: [],
       changebkd: "0",
       isActive: false,
       commoditydata: {},
       newsList: [
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        },
-        {
-          name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
-          price: "43",
-          picture:
-            "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
-          brand: "The ordinary"
-        }
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // },
+        // {
+        //   name: "10%烟酰胺 + 1%锌精华 30ml 收敛毛孔",
+        //   price: "43",
+        //   picture:
+        //     "https://source-feelunique.azoyacdn.com/media/catalog/product/t/h/The_Ordinary_Niacinamide_10____Zinc_1__30ml_1521119013.png?imageMogr2/thumbnail/800x800/extent/800x800/background/d2hpdGU=",
+        //   brand: "The ordinary"
+        // }
       ]
     };
   },

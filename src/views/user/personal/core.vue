@@ -14,28 +14,28 @@
         </div>
         <div>
           <span>真实姓名：</span>
-          <span>{{userdata.sname}}</span>
+          <span>{{userlist.sname}}</span>
         </div>
         <div>
           <span>性别：</span>
-          <span v-if="userdata.sex =='0'">男</span>
-          <span v-if="userdata.sex =='1'">女</span>
+          <span v-if="userlist.sex =='0'">男</span>
+          <span v-if="userlist.sex =='1'">女</span>
         </div>
         <div>
           <span>生日：</span>
-          <span>{{userdata.birthday}}</span>
+          <span>{{userlist.birthday}}</span>
         </div>
         <div>
           <span>电话：</span>
-          <span>{{userdata.stel}}</span>
+          <span>{{userlist.stel}}</span>
         </div>
         <div>
           <span>紧急联系电话：</span>
-          <span>{{userdata.emergency_call}}</span>
+          <span>{{userlist.emergency_call}}</span>
         </div>
         <div>
           <span>地址：</span>
-          <span>{{userdata.address}}</span>
+          <span>{{userlist.address}}</span>
         </div>
 <!--        <div>-->
 <!--          <span>个人邮箱：</span>-->
@@ -119,25 +119,41 @@ export default {
     };
   },
   created() {
-    this.ruleForm = this.userdata
+
     console.log(this.ruleForm)
+    this.getList()
   },
 
   methods: {
     toisActive() {
       this.isActive = !this.isActive;
     },
+    getList() {
+      this.$http
+          .post("user/getUserID",{ sid:this.userdata.sid })
+          .then(res => {
+            console.log(res)
+            this.userlist=res.data;
+            this.ruleForm = res.data
+            // this.$message.success({
+            //     message: "个人信息修改成功 ！！！",
+            //     duration: 1500
+            //   });
+            //   this.toisActive()
+          });
+    },
     onSubmit() {
       this.$http
       .post("admin/upUserRoTeacher", this.ruleForm)
       .then(res => {
         console.log(res)
+        this.getList()
         // this.userlist=res.data;
-        // this.$message.success({
-        //     message: "个人信息修改成功 ！！！",
-        //     duration: 1500
-        //   });
-        //   this.toisActive()
+        this.$message.success({
+            message: "个人信息修改成功 ！！！",
+            duration: 1500
+          });
+          this.toisActive()
       });
     },
     resetForm() {

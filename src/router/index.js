@@ -26,6 +26,7 @@ const routes = [
     path: "/login",
     component: Login
   },
+  { path: "/adminlogin", name: 'adminlogin', component: () => import('../views/adminlogin.vue') },
   { path: "/userLogin", name: 'userLogin', component: () => import('../views/userLogin.vue') },
   { path: "/register", name: 'register', component: () => import('../views/register.vue') },
   {
@@ -123,8 +124,7 @@ const routes = [
 
       { path: "/adminhome/newsList", name: 'newsList', component: () => import('../views/admin/news/newsList.vue') },
       { path: "/adminhome/newsdetail", name: 'newsdetail', component: () => import('../views/admin/news/newsdetail.vue') },
-
-
+      { path: "/adminhome/classmanage", name: 'classmanage', component: () => import('../views/admin/course/classmanage.vue') },
       { path: "/adminhome/coursedetail", name: 'coursedetail', component: () => import('../views/admin/course/coursedetail.vue') },
       {
         path: "/adminhome/courseList",
