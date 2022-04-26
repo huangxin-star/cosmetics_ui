@@ -4,7 +4,7 @@
     <div class="operation-container">
 <!--      <el-button size="small" type="primary" icon="el-icon-plus" @click="toDetail">新增</el-button>-->
       <div>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="value" placeholder="请选择" @change="change">
           <el-option
               v-for="item in options"
               :key="item.value"
@@ -76,14 +76,16 @@
           <!--          <span >{{ scope.row.cstatus }}</span>-->
           <span v-if="scope.row.cstatus==1">未发布</span>
           <span v-if="scope.row.cstatus==2">已发布</span>
-          <span v-if="scope.row.cstatus==3">已开课</span>
+          <span v-if="scope.row.cstatus==3">开课中</span>
+          <span v-if="scope.row.cstatus==4&&userdata.type==2">成绩已录入，等待审核</span>
+          <span v-if="scope.row.cstatus==4&&userdata.type==0">请审核发布成绩</span>
         </template>
       </el-table-column>
-      <el-table-column label="时间" align="center" width="160">
-        <template slot-scope="scope">
-          <span >{{scope.row.time?new Date(+new Date(Number(scope.row.time)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " "):'无'  }}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="时间" align="center" width="160">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span >{{scope.row.time?new Date(+new Date(Number(scope.row.time)) + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " "):'无'  }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" width="170">
         <template slot-scope="scope">
 <!--          <el-button size="mini" type="text" v-show="scope.row.cstatus ==1" @click="modifyNews(scope.row)">修改</el-button>-->
@@ -225,9 +227,9 @@
       <div class="operation">
         <!--      <el-button size="small" type="primary" icon="el-icon-plus" @click="toDetail">新增</el-button>-->
         <div>
-          <el-button size="small" type="primary" v-if="userdata.type==0" @click="gradeshenhe">成绩审核</el-button>
-          <el-button size="small" type="primary" v-if="userdata.type==0" @click="gradeshenhe">结课</el-button>
-          <el-button size="small" type="primary" v-if="userdata.type==2" @click="gradeshenhe">通知管理员审核</el-button>
+          <el-button size="small" type="primary" v-if="userdata.type==0&&value==2" @click="gradeshenhe">成绩审核发布</el-button>
+          <el-button size="small" type="primary" v-if="userdata.type==0&&value==2" @click="gradeshenhe">结课</el-button>
+          <el-button size="small" type="primary" v-if="userdata.type==2" @click="notificationAudit">通知管理员审核</el-button>
         </div>
 <!--        <div style="margin-left: auto;">-->
 <!--          <el-input-->
@@ -257,7 +259,16 @@
           </template>
         </el-table-column>
         <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
-        <el-table-column prop="gstatus" label="选课状态" align="center" width="180" />
+        <el-table-column prop="gstatus" label="选课状态" align="center" width="40" />
+        <el-table-column label="选课状态" align="center" width="180">
+          <template slot-scope="scope">
+            <span v-if="scope.row.gstatus==1">选课成功，等待开课</span>
+            <span v-if="scope.row.gstatus==2" style="color: red">申请退课中，请处理</span>
+            <span v-if="scope.row.gstatus==3" >已同意退课</span>
+            <span v-if="scope.row.gstatus==4" >不同意退课</span>
+            <span v-if="scope.row.gstatus==5" >开课成功</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="examined_content" label="考核内容" align="center" width="80" />
         <el-table-column label="选课日期" style="width: 30%" align="center">
           <template slot-scope="scope">
@@ -268,7 +279,7 @@
         <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button size="mini" type="text" v-if="userdata.type==2" @click="modifyGrade(scope.row)">成绩录入</el-button>
-            <el-button size="mini" type="text" v-if="userdata.type==0" @click="withdrawal(scope.row)">退课审核</el-button>
+            <el-button size="mini" type="text" v-if="userdata.type==0&&scope.row.gstatus==2" @click="withdrawal(scope.row)">退课审核</el-button>
             <!--          <el-button size="mini" v-show="!isgradde" type="primary" @click="tuike(scope.row)">同意退课</el-button>-->
             <!--          <el-popconfirm-->
             <!--              title="确定删除吗？"-->
@@ -298,6 +309,19 @@
         <el-button type="primary" @click="saveUserInfo">确 定</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+        title="退课原因"
+        :visible.sync="centerDialogVisible"
+        width="40%"
+        center>
+      <el-input  v-model="reason" type="textarea" placeholder="请输入退课原因"
+                 :autosize="{minRows: 4, maxRows: 4}" disabled></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dropOut">同意退课</el-button>
+        <el-button @click="disagree">不同意</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -318,6 +342,8 @@ export default {
       }
     };
     return {
+      centerDialogVisible:false,
+      reason:'',
       rules: {
         grade: [
           { required: true, message: "请输入成绩", trigger: "blur" },
@@ -325,14 +351,8 @@ export default {
 
         ]
       },
-      options: [{
-        value: '1',
-        label: '未开课'
-      }, {
-        value: '2',
-        label: '已开课'
-      }],
-      value: '1',
+      options: [],
+      value: 1,
       userdata: JSON.parse(localStorage.getItem("admin")),
       courseTitle:'',
       isgradde:false,
@@ -384,26 +404,50 @@ export default {
         course_id:'',
         sid:''
       },
-      addOrEdit:false
+      addOrEdit:false,
+      courserow:''
     };
   },
   methods: {
+    change() {
+      console.log(this.value)
+      this.getTableData()
+    },
     getTableData() { //列表
       this.tableloading = true
-      this.$http
-          .get("admin/getPagingCourse", {
-            params: { input: this.input1, current: this.current, size: this.size }
-          })
-          .then(res => {
-            console.log(res)
-            if (res.data != "err") {
-              this.tableData = res.data.list;
-              this.count = res.data.count;
-            } else {
-              this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
-            }
-            this.tableloading = false
-          });
+      let type = this.userdata.type
+      if(type ==0) {
+        this.$http
+            .get("admin/noCourseList", {
+              params: { input: this.input1, current: this.current, size: this.size,value: this.value }
+            })
+            .then(res => {
+              console.log(res)
+              if (res.data != "err") {
+                this.tableData = res.data.list;
+                this.count = res.data.count;
+              } else {
+                this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
+              }
+              this.tableloading = false
+            });
+      }else if(type == 2){//教师已开课的课程
+        this.$http
+            .get("admin/teacherCourseList", {
+              params: { input: this.input1, current: this.current, size: this.size,sid:this.userdata.sid }
+            })
+            .then(res => {
+              console.log(res)
+              if (res.data != "err") {
+                this.tableData = res.data.list;
+                this.count = res.data.count;
+              } else {
+                this.$message.warning("找不到“" + this.input1 + "”名字的课程！！！");
+              }
+              this.tableloading = false
+            });
+      }
+
     },
     resetForm() {
       this.formData = {
@@ -421,44 +465,96 @@ export default {
         cdescription: '',
         examined_content: '',
         iamge: '',
+        rowdetail:''
       }
       this.$refs['elForm'].resetFields()
     },
-    opencourse(row) { //开课
-      //判断人数是否符合要求
-      let params = {course_id:row.course_id,cstatus:'3'}
-      this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+    // opencourse(row) { //开课
+    //   //判断人数是否符合要求
+    //   let params = {course_id:row.course_id,cstatus:'3'}
+    //   this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+    //     if (res.data == "ok") {
+    //       this.$message.success({
+    //         message: "开课成功 ！！！",
+    //         duration: 1500
+    //       });
+    //     }
+    //     this.getTableData()
+    //   });
+    // },
+    withdrawal(row) { //退课审核
+      this.centerDialogVisible = true
+      this.reason = row.reason
+      this.rowdetail = row
+    },
+    dropOut() {//同意退课
+      let params = {sid:this.rowdetail.sid,gstatus:'3',course_id:this.rowdetail.course_id}
+      this.$http.post("/admin/agreeDropOut", params).then(res => {
         if (res.data == "ok") {
           this.$message.success({
-            message: "开课成功 ！！！",
+            message: "同意退课 ！！！",
             duration: 1500
           });
         }
+        this.centerDialogVisible = false
+        this.courseDeatil()
         this.getTableData()
       });
     },
-    withdrawal() { //退课审核
-
+    disagree() { //不同意退课
+      let params = {sid:this.rowdetail.sid,gstatus:'4',course_id:this.rowdetail.course_id}
+      this.$http.post("/admin/disagreeDropOut", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "不同意退课 ！！！",
+            duration: 1500
+          });
+        }
+        this.centerDialogVisible = false
+        this.courseDeatil()
+        this.getTableData()
+      });
     },
     goCourseDetail(row) { //选课详情
+      this.courserow = row;
+      console.log(this.courserow)
       this.courseTitle =row.cname
       this.dialogVisible = true
-      console.log('Jinlai')
       // this.$router.push({path:'/adminhome/courseList/xuankedetail',query: {course_id:row.course_id}})
 
-      this.$http.post("admin/getSelectionDetails", {course_id:row.course_id}).then(res => {
-        console.log(res)
-        if (res.data.length>0) {
-          this.xuankelist = res.data
-          // this.$message.success({
-          //   message: "发布成功 ！！！",
-          //   duration: 1500
-          // });
-        }else{
-          this.xuankelist = []
-        }
-        // this.getTableData()
-      });
+      this.courseDeatil()
+    },
+    courseDeatil() {
+      if (this.value ==1) {//显示所有状态的选课记录
+        this.$http.post("admin/getSelectionDetails", {course_id:this.courserow.course_id}).then(res => {
+          console.log(res)
+          if (res.data.length>0) {
+            this.xuankelist = res.data
+            // this.$message.success({
+            //   message: "发布成功 ！！！",
+            //   duration: 1500
+            // });
+          }else{
+            this.xuankelist = []
+          }
+          // this.getTableData()
+        });
+      }else if (this.value==2) {
+        this.$http.post("/admin/getOpenSelectionDetails", {course_id:this.courserow.course_id}).then(res => {
+          console.log(res)
+          if (res.data.length>0) {
+            this.xuankelist = res.data
+            // this.$message.success({
+            //   message: "发布成功 ！！！",
+            //   duration: 1500
+            // });
+          }else{
+            this.xuankelist = []
+          }
+          // this.getTableData()
+        });
+      }
+
     },
     modifyGrade(row) { //修改成绩
       this.addOrEdit = true
@@ -477,12 +573,51 @@ export default {
           });
           this.addOrEdit = false
         }
-
+        this.courseDeatil()
         this.getTableData()
       });
     },
     gradeshenhe() { //对班级,审核通过学生才能看到成绩
+      if (this.courserow.cstatus!=4) {
+        this.$message.info('请等待通知，才能审核')
+      }else {
+        this.$confirm('请确认成绩正确，再发布，若有问题请联系任课教师修改即可', '提示', {
+          confirmButtonText: '发布',
+          cancelButtonText: '取消',
+        }).then(() => {
+          let params = {course_id:this.courserow.course_id,cstatus:'5'}
+          this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+            if (res.data == "ok") {
+              this.$message.success({
+                message: "通知成功 ！！！",
+                duration: 2500
+              });
+            }
+            this.getTableData()
+          });
+        }).catch(() => {
 
+        });
+      }
+    },
+    notificationAudit() {//通知管理员审核，改变课程状态，达到知道该课程需要审核的目的
+      this.$confirm('请确认成绩全部录入，是否通知管理员审核?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(() => {
+        let params = {course_id:this.courserow.course_id,cstatus:'4'}
+        this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
+          if (res.data == "ok") {
+            this.$message.success({
+              message: "通知成功 ！！！",
+              duration: 2500
+            });
+          }
+          this.getTableData()
+        });
+      }).catch(() => {
+
+      });
     },
     sizeChange(size) {
       this.size = size;
@@ -510,6 +645,23 @@ export default {
     }
   },
   created() {
+    let type = JSON.parse(localStorage.getItem("admin")).type
+    if (type == 0) {
+      this.options = [{
+        value: 1,
+        label: '未开课'
+      }, {
+        value: 2,
+        label: '已开课'
+      }]
+    }else {
+      this.value = 2
+      this.options = [{
+          value: 2,
+          label: '已开课'
+      }]
+
+    }
     this.$parent.$parent.$parent.$parent.titledata = "课程管理 / 班级列表";
     this.getTableData();
     // this.$http.get("getTeacherAndClassroom" ).then(res => {

@@ -170,7 +170,8 @@ export default {
       input1:'',
       detail:'',
       dialogVisible:false,
-      loading:false
+      loading:false,
+      gstatus:'1'
     }
   },
   created() {
@@ -239,7 +240,7 @@ export default {
 
         this.$http
             .get("user/userCourseSelection", {
-              params: { course_id: this.detail.course_id, sid: JSON.parse(localStorage.getItem("user")).sid,gstatus:'1' }
+              params: { course_id: this.detail.course_id, sid: JSON.parse(localStorage.getItem("user")).sid,gstatus:this.gstatus }
             })
             .then(res => {
               console.log(res)

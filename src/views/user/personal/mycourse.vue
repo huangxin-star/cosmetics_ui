@@ -12,7 +12,8 @@
         <!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
         <el-table-column label="成绩" align="center" >
           <template slot-scope="scope">
-            <span >{{scope.row.grade}}</span>
+            <span v-if="scope.row.gstatus<6">暂无成绩</span>
+            <span v-if="scope.row.gstatus==6">{{scope.row.grade}}</span>
           </template>
         </el-table-column>
 <!--        <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />-->
@@ -34,6 +35,15 @@
         </el-table-column>
         <el-table-column prop="room_name" label="上课教室" align="center" />
         <el-table-column prop="gstatus" label="选课状态" align="center" />
+        <el-table-column label="选课状态" align="center" width="180">
+          <template slot-scope="scope">
+            <span v-if="scope.row.gstatus==1">选课成功，等待开课</span>
+            <span v-if="scope.row.gstatus==2" style="color: red">申请退课中，请等待</span>
+            <span v-if="scope.row.gstatus==3" >退课成功</span>
+            <span v-if="scope.row.gstatus==4" >退课失败</span>
+            <span v-if="scope.row.gstatus==5" >开课成功</span>
+          </template>
+        </el-table-column>
 <!--        <el-table-column label="选课日期" style="width: 30%" align="center">-->
 <!--          <template slot-scope="scope">-->
 
@@ -42,7 +52,7 @@
 <!--        </el-table-column>-->
         <el-table-column label="操作"  align="center" fixed="right">
                 <template slot-scope="scope">
-                  <el-button size="mini" type="primary" @click="tuike(scope.row)">退课</el-button>
+                  <el-button size="mini" type="primary" v-if="scope.row.gstatus==1" @click="tuike(scope.row)">退课</el-button>
 
                 </template>
         </el-table-column>
@@ -67,11 +77,9 @@
         <el-input  v-model="reason" type="textarea" placeholder="请输入退课原因"
                   :autosize="{minRows: 4, maxRows: 4}"></el-input>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="centerDialogVisible = false">确定退课</el-button>
+          <el-button type="primary" @click="dropOut">确定退课</el-button>
           <el-button @click="centerDialogVisible = false">取 消</el-button>
-
-
-  </span>
+        </span>
       </el-dialog>
     </div>
   </div>
@@ -90,7 +98,8 @@ export default {
       nesLoading:false,
       sid:JSON.parse(localStorage.getItem("user")).sid,
       reason:'',
-      centerDialogVisible:false
+      centerDialogVisible:false,
+      row:''
 
     }
   },
@@ -100,24 +109,25 @@ export default {
   methods:{
     getTableData() { //列表
       this.nesLoading = true
-      // this.$http
-      //     .get("user/getUserPagingCourse", {
-      //       params: {sid:this.sid, input: this.input1, current: this.current, size: this.size }
-      //     })
-      //     .then(res => {
-      //       console.log(res)
-      //       if (res.data != "err") {
-      //         this.tableData = res.data.list;
-      //         this.count = res.data.count;
-      //
-      //       }
-      //       this.nesLoading = false
-      //     }).catch((err) => {
-      //   console.error(err)
-      // });
+      this.$http.post("admin/getMySelectionDetails", {sid:this.sid}).then(res => {
+        console.log(res)
+        if (res.data.length>0) {
+          this.tableData = res.data
+          // this.$message.success({
+          //   message: "发布成功 ！！！",
+          //   duration: 1500
+          // });
+        }else{
+          this.tableData = []
+        }
+        this.nesLoading = false
+        // this.getTableData()
+      });
     },
     tuike(row) { //退课
       this.centerDialogVisible = true
+      console.log(row)
+      this.row = row
       // let params = {sid:this.sid,gstatus:'退课中'}
       // this.$http.post("admin/upWithdrawAndRelease", params).then(res => {
       //   if (res.data == "ok") {
@@ -128,6 +138,19 @@ export default {
       //   }
       //   this.getTableData()
       // });
+    },
+    dropOut() { //退课
+      let params = {sid:this.sid,gstatus:'2',reason:this.reason,course_id:this.row.course_id}
+      this.$http.post("admin/upDropOut", params).then(res => {
+        if (res.data == "ok") {
+          this.$message.success({
+            message: "退课成功 ！！！",
+            duration: 1500
+          });
+        }
+        this.centerDialogVisible = false
+        this.getTableData()
+      });
     },
     search() {
       this.current = 1;

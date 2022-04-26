@@ -66,7 +66,7 @@
 <!--          <span >{{ scope.row.cstatus }}</span>-->
                     <span v-if="scope.row.cstatus==1">未发布</span>
                     <span v-if="scope.row.cstatus==2">已发布</span>
-                    <span v-if="scope.row.cstatus==3">已开课</span>
+                    <span v-if="scope.row.cstatus>=3">已开课</span>
         </template>
       </el-table-column>
       <el-table-column label="时间" align="center" width="100">
@@ -98,9 +98,9 @@
         layout="total, sizes, prev, pager, next, jumper"
     />
 <!--    修改课程弹框-->
-    <el-dialog :visible.sync="modifyEdit" width="50%" style="padding:20px;">
+    <el-dialog :visible.sync="modifyEdit" style="padding:20px" width="50%">
       <div style="font-weight: 600;" slot="title">修改课程</div>
-      <el-form ref="elForm" :model="formData" :rules="rules" class="form" size="medium"  label-width="100px" >
+      <el-form ref="elForm" :model="formData" :rules="rules"  size="medium"  label-width="100px" >
         <el-row >
           <el-col :span="12">
             <el-form-item label="课程名" prop="cname">
@@ -218,10 +218,7 @@
         <!--      <el-table-column prop="grade" label="成绩" align="center" width="80" />-->
         <el-table-column label="成绩" align="center" width="80">
           <template slot-scope="scope">
-            <span v-if="!isgradde">{{scope.row.grade}}</span>
-            <el-input type="text" placeholder="请输入成绩姓名" v-model="scope.row.grade" size="mini"
-                      v-if="isgradde">
-            </el-input>
+            <span>{{scope.row.grade}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="is_pass" label="是否通过" align="center" width="80" />
@@ -264,7 +261,6 @@ export default {
   data() {
     return {
       courseTitle:'',
-      isgradde:false,
       xuankelist:[],
       dialogVisible:false,
       loading:false,
@@ -530,6 +526,8 @@ export default {
             message: "开课成功 ！！！",
             duration: 1500
           });
+        }else if(res.data =='请先处理退课中的选课信息'){
+          this.$message.warning('有用户申请退课，请先处理，才能开课')
         }
         this.getTableData()
       });

@@ -1,11 +1,9 @@
 <template>
   <div>
-
     <div style="margin-left: auto;">
       <div>
         <h1>新闻动态</h1>
       </div>
-
       <div style="float: right">
         <el-input
             style="width: 200px;display: inline-block;font-size: 17px"
@@ -23,7 +21,7 @@
             icon="el-icon-search"
         >搜索</el-button>
       </div>
-      </div>
+    </div>
 
     <div
       class="main-box"
@@ -65,7 +63,7 @@ export default {
     return {
       input1: '',
       loading: false,
-      type: "",
+      type: "1",
       queryInfo: {
         currentPage: 1,
         pageSize: 4,
@@ -78,15 +76,13 @@ export default {
   },
   created() {
     this.getList()
-    this.type = this.$route.query.type
-    console.log(this.$route.query.type);
   },
   methods: {
     getList() {
       this.nesLoading = true
       this.$http
-          .get("admin/getPagingNews", {
-            params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize }
+          .get("user/getPagingNews", {
+            params: { input: this.input1, current: this.queryInfo.currentPage, size: this.queryInfo.pageSize ,ntype:this.type}
           })
           .then(res => {
             console.log(res)
